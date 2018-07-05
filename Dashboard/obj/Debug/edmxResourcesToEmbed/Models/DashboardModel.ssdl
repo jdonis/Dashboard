@@ -1,0 +1,443 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DashboardFMPModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="checklist">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="code" Type="varchar" MaxLength="1" />
+  </EntityType>
+  <EntityType Name="checklist_question_info">
+    <Key>
+      <PropertyRef Name="checklistquestion_id" />
+      <PropertyRef Name="language_id" />
+    </Key>
+    <Property Name="checklistquestion_id" Type="int" Nullable="false" />
+    <Property Name="language_id" Type="int" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="1" />
+    <Property Name="description" Type="text" />
+  </EntityType>
+  <EntityType Name="checklistquestion">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="checklist_id" Type="int" Nullable="false" />
+    <Property Name="code" Type="varchar" MaxLength="1" />
+  </EntityType>
+  <EntityType Name="country">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="code" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="country_indicator">
+    <Key>
+      <PropertyRef Name="indicator_id" />
+      <PropertyRef Name="country_id" />
+    </Key>
+    <Property Name="indicator_id" Type="int" Nullable="false" />
+    <Property Name="country_id" Type="int" Nullable="false" />
+    <Property Name="value" Type="int" Nullable="false" />
+    <Property Name="inputtype" Type="varchar" MaxLength="6" Nullable="false" />
+    <Property Name="quarter" Type="int" Nullable="false" />
+    <Property Name="target" Type="int" />
+    <Property Name="inputyear" Type="date" />
+  </EntityType>
+  <EntityType Name="country_info">
+    <Key>
+      <PropertyRef Name="country_id" />
+      <PropertyRef Name="language_id" />
+    </Key>
+    <Property Name="country_id" Type="int" Nullable="false" />
+    <Property Name="language_id" Type="int" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="1" Nullable="false" />
+    <Property Name="description" Type="text" />
+  </EntityType>
+  <EntityType Name="indicator">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="checklist_id" Type="int" Nullable="false" />
+    <Property Name="objective_id" Type="int" Nullable="false" />
+    <Property Name="indicatorgroup_id" Type="int" Nullable="false" />
+    <Property Name="code" Type="varchar" MaxLength="10" />
+    <Property Name="mode" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="frequency" Type="varchar" MaxLength="2" Nullable="false" />
+    <Property Name="responsible" Type="int" />
+    <Property Name="contact" Type="int" />
+    <Property Name="inputtype" Type="varchar" MaxLength="6" Nullable="false" />
+  </EntityType>
+  <EntityType Name="indicator_group_info">
+    <Key>
+      <PropertyRef Name="indicatorgroup_id" />
+      <PropertyRef Name="language_id" />
+    </Key>
+    <Property Name="indicatorgroup_id" Type="int" Nullable="false" />
+    <Property Name="language_id" Type="int" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="1" />
+    <Property Name="description" Type="text" />
+  </EntityType>
+  <EntityType Name="indicator_info">
+    <Key>
+      <PropertyRef Name="language_id" />
+      <PropertyRef Name="indicator_id" />
+    </Key>
+    <Property Name="language_id" Type="int" Nullable="false" />
+    <Property Name="indicator_id" Type="int" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="code" Type="varchar" MaxLength="1" />
+  </EntityType>
+  <EntityType Name="indicatorgroup">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="code" Type="varchar" MaxLength="1" />
+  </EntityType>
+  <EntityType Name="language">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="100" />
+    <Property Name="code" Type="varchar" MaxLength="3" />
+  </EntityType>
+  <EntityType Name="objective">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="code" Type="varchar" MaxLength="1" />
+  </EntityType>
+  <EntityType Name="objective_info">
+    <Key>
+      <PropertyRef Name="objective_id" />
+      <PropertyRef Name="language_id" />
+    </Key>
+    <Property Name="objective_id" Type="int" Nullable="false" />
+    <Property Name="language_id" Type="int" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="1" />
+    <Property Name="text" Type="text" />
+  </EntityType>
+  <EntityType Name="question_value">
+    <Key>
+      <PropertyRef Name="country_indicator_country_id" />
+      <PropertyRef Name="country_indicator_indicator_id" />
+      <PropertyRef Name="checklistquestion_id" />
+    </Key>
+    <Property Name="country_indicator_country_id" Type="int" Nullable="false" />
+    <Property Name="country_indicator_indicator_id" Type="int" Nullable="false" />
+    <Property Name="checklistquestion_id" Type="int" Nullable="false" />
+    <Property Name="value" Type="int" />
+    <Property Name="target" Type="int" />
+  </EntityType>
+  <Association Name="FK__checklist__check__29572725">
+    <End Role="checklistquestion" Type="Self.checklistquestion" Multiplicity="1" />
+    <End Role="checklist_question_info" Type="Self.checklist_question_info" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="checklistquestion">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="checklist_question_info">
+        <PropertyRef Name="checklistquestion_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__checklist__check__2B3F6F97">
+    <End Role="checklist" Type="Self.checklist" Multiplicity="1" />
+    <End Role="checklistquestion" Type="Self.checklistquestion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="checklist">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="checklistquestion">
+        <PropertyRef Name="checklist_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__checklist__langu__2A4B4B5E">
+    <End Role="language" Type="Self.language" Multiplicity="1" />
+    <End Role="checklist_question_info" Type="Self.checklist_question_info" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="language">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="checklist_question_info">
+        <PropertyRef Name="language_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__country_i__count__2C3393D0">
+    <End Role="country" Type="Self.country" Multiplicity="1" />
+    <End Role="country_indicator" Type="Self.country_indicator" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="country">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="country_indicator">
+        <PropertyRef Name="country_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__country_i__count__2E1BDC42">
+    <End Role="country" Type="Self.country" Multiplicity="1" />
+    <End Role="country_info" Type="Self.country_info" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="country">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="country_info">
+        <PropertyRef Name="country_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__country_i__indic__2D27B809">
+    <End Role="indicator" Type="Self.indicator" Multiplicity="1" />
+    <End Role="country_indicator" Type="Self.country_indicator" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="indicator">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="country_indicator">
+        <PropertyRef Name="indicator_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__country_i__langu__2F10007B">
+    <End Role="language" Type="Self.language" Multiplicity="1" />
+    <End Role="country_info" Type="Self.country_info" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="language">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="country_info">
+        <PropertyRef Name="language_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__indicator__check__300424B4">
+    <End Role="checklist" Type="Self.checklist" Multiplicity="1" />
+    <End Role="indicator" Type="Self.indicator" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="checklist">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="indicator">
+        <PropertyRef Name="checklist_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__indicator__indic__30F848ED">
+    <End Role="indicatorgroup" Type="Self.indicatorgroup" Multiplicity="1" />
+    <End Role="indicator" Type="Self.indicator" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="indicatorgroup">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="indicator">
+        <PropertyRef Name="indicatorgroup_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__indicator__indic__32E0915F">
+    <End Role="indicatorgroup" Type="Self.indicatorgroup" Multiplicity="1" />
+    <End Role="indicator_group_info" Type="Self.indicator_group_info" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="indicatorgroup">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="indicator_group_info">
+        <PropertyRef Name="indicatorgroup_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__indicator__indic__34C8D9D1">
+    <End Role="indicator" Type="Self.indicator" Multiplicity="1" />
+    <End Role="indicator_info" Type="Self.indicator_info" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="indicator">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="indicator_info">
+        <PropertyRef Name="indicator_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__indicator__langu__33D4B598">
+    <End Role="language" Type="Self.language" Multiplicity="1" />
+    <End Role="indicator_group_info" Type="Self.indicator_group_info" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="language">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="indicator_group_info">
+        <PropertyRef Name="language_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__indicator__langu__35BCFE0A">
+    <End Role="language" Type="Self.language" Multiplicity="1" />
+    <End Role="indicator_info" Type="Self.indicator_info" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="language">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="indicator_info">
+        <PropertyRef Name="language_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__indicator__objec__31EC6D26">
+    <End Role="objective" Type="Self.objective" Multiplicity="1" />
+    <End Role="indicator" Type="Self.indicator" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="objective">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="indicator">
+        <PropertyRef Name="objective_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__objective__langu__36B12243">
+    <End Role="language" Type="Self.language" Multiplicity="1" />
+    <End Role="objective_info" Type="Self.objective_info" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="language">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="objective_info">
+        <PropertyRef Name="language_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__objective__objec__37A5467C">
+    <End Role="objective" Type="Self.objective" Multiplicity="1" />
+    <End Role="objective_info" Type="Self.objective_info" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="objective">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="objective_info">
+        <PropertyRef Name="objective_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__question___check__38996AB5">
+    <End Role="checklistquestion" Type="Self.checklistquestion" Multiplicity="1" />
+    <End Role="question_value" Type="Self.question_value" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="checklistquestion">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="question_value">
+        <PropertyRef Name="checklistquestion_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__question_value__398D8EEE">
+    <End Role="country_indicator" Type="Self.country_indicator" Multiplicity="1" />
+    <End Role="question_value" Type="Self.question_value" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="country_indicator">
+        <PropertyRef Name="indicator_id" />
+        <PropertyRef Name="country_id" />
+      </Principal>
+      <Dependent Role="question_value">
+        <PropertyRef Name="country_indicator_indicator_id" />
+        <PropertyRef Name="country_indicator_country_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DashboardFMPModelStoreContainer">
+    <EntitySet Name="checklist" EntityType="Self.checklist" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="checklist_question_info" EntityType="Self.checklist_question_info" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="checklistquestion" EntityType="Self.checklistquestion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="country" EntityType="Self.country" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="country_indicator" EntityType="Self.country_indicator" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="country_info" EntityType="Self.country_info" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="indicator" EntityType="Self.indicator" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="indicator_group_info" EntityType="Self.indicator_group_info" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="indicator_info" EntityType="Self.indicator_info" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="indicatorgroup" EntityType="Self.indicatorgroup" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="language" EntityType="Self.language" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="objective" EntityType="Self.objective" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="objective_info" EntityType="Self.objective_info" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="question_value" EntityType="Self.question_value" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__checklist__check__29572725" Association="Self.FK__checklist__check__29572725">
+      <End Role="checklistquestion" EntitySet="checklistquestion" />
+      <End Role="checklist_question_info" EntitySet="checklist_question_info" />
+    </AssociationSet>
+    <AssociationSet Name="FK__checklist__check__2B3F6F97" Association="Self.FK__checklist__check__2B3F6F97">
+      <End Role="checklist" EntitySet="checklist" />
+      <End Role="checklistquestion" EntitySet="checklistquestion" />
+    </AssociationSet>
+    <AssociationSet Name="FK__checklist__langu__2A4B4B5E" Association="Self.FK__checklist__langu__2A4B4B5E">
+      <End Role="language" EntitySet="language" />
+      <End Role="checklist_question_info" EntitySet="checklist_question_info" />
+    </AssociationSet>
+    <AssociationSet Name="FK__country_i__count__2C3393D0" Association="Self.FK__country_i__count__2C3393D0">
+      <End Role="country" EntitySet="country" />
+      <End Role="country_indicator" EntitySet="country_indicator" />
+    </AssociationSet>
+    <AssociationSet Name="FK__country_i__count__2E1BDC42" Association="Self.FK__country_i__count__2E1BDC42">
+      <End Role="country" EntitySet="country" />
+      <End Role="country_info" EntitySet="country_info" />
+    </AssociationSet>
+    <AssociationSet Name="FK__country_i__indic__2D27B809" Association="Self.FK__country_i__indic__2D27B809">
+      <End Role="indicator" EntitySet="indicator" />
+      <End Role="country_indicator" EntitySet="country_indicator" />
+    </AssociationSet>
+    <AssociationSet Name="FK__country_i__langu__2F10007B" Association="Self.FK__country_i__langu__2F10007B">
+      <End Role="language" EntitySet="language" />
+      <End Role="country_info" EntitySet="country_info" />
+    </AssociationSet>
+    <AssociationSet Name="FK__indicator__check__300424B4" Association="Self.FK__indicator__check__300424B4">
+      <End Role="checklist" EntitySet="checklist" />
+      <End Role="indicator" EntitySet="indicator" />
+    </AssociationSet>
+    <AssociationSet Name="FK__indicator__indic__30F848ED" Association="Self.FK__indicator__indic__30F848ED">
+      <End Role="indicatorgroup" EntitySet="indicatorgroup" />
+      <End Role="indicator" EntitySet="indicator" />
+    </AssociationSet>
+    <AssociationSet Name="FK__indicator__indic__32E0915F" Association="Self.FK__indicator__indic__32E0915F">
+      <End Role="indicatorgroup" EntitySet="indicatorgroup" />
+      <End Role="indicator_group_info" EntitySet="indicator_group_info" />
+    </AssociationSet>
+    <AssociationSet Name="FK__indicator__indic__34C8D9D1" Association="Self.FK__indicator__indic__34C8D9D1">
+      <End Role="indicator" EntitySet="indicator" />
+      <End Role="indicator_info" EntitySet="indicator_info" />
+    </AssociationSet>
+    <AssociationSet Name="FK__indicator__langu__33D4B598" Association="Self.FK__indicator__langu__33D4B598">
+      <End Role="language" EntitySet="language" />
+      <End Role="indicator_group_info" EntitySet="indicator_group_info" />
+    </AssociationSet>
+    <AssociationSet Name="FK__indicator__langu__35BCFE0A" Association="Self.FK__indicator__langu__35BCFE0A">
+      <End Role="language" EntitySet="language" />
+      <End Role="indicator_info" EntitySet="indicator_info" />
+    </AssociationSet>
+    <AssociationSet Name="FK__indicator__objec__31EC6D26" Association="Self.FK__indicator__objec__31EC6D26">
+      <End Role="objective" EntitySet="objective" />
+      <End Role="indicator" EntitySet="indicator" />
+    </AssociationSet>
+    <AssociationSet Name="FK__objective__langu__36B12243" Association="Self.FK__objective__langu__36B12243">
+      <End Role="language" EntitySet="language" />
+      <End Role="objective_info" EntitySet="objective_info" />
+    </AssociationSet>
+    <AssociationSet Name="FK__objective__objec__37A5467C" Association="Self.FK__objective__objec__37A5467C">
+      <End Role="objective" EntitySet="objective" />
+      <End Role="objective_info" EntitySet="objective_info" />
+    </AssociationSet>
+    <AssociationSet Name="FK__question___check__38996AB5" Association="Self.FK__question___check__38996AB5">
+      <End Role="checklistquestion" EntitySet="checklistquestion" />
+      <End Role="question_value" EntitySet="question_value" />
+    </AssociationSet>
+    <AssociationSet Name="FK__question_value__398D8EEE" Association="Self.FK__question_value__398D8EEE">
+      <End Role="country_indicator" EntitySet="country_indicator" />
+      <End Role="question_value" EntitySet="question_value" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

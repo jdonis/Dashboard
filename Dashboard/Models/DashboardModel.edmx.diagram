@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="acc86719808b432082fdf8fa736cc82d" Name="Diagram1">
+        <EntityTypeShape EntityType="DashboardFMPModel.checklist" Width="1.5" PointX="1.5" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DashboardFMPModel.checklist_question_info" Width="1.5" PointX="3" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DashboardFMPModel.checklistquestion" Width="1.5" PointX="0.75" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DashboardFMPModel.country" Width="1.5" PointX="0.75" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DashboardFMPModel.country_indicator" Width="1.5" PointX="6" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DashboardFMPModel.country_info" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DashboardFMPModel.indicator" Width="1.5" PointX="3.75" PointY="17.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DashboardFMPModel.indicator_group_info" Width="1.5" PointX="3" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DashboardFMPModel.indicator_info" Width="1.5" PointX="6" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DashboardFMPModel.indicatorgroup" Width="1.5" PointX="1.5" PointY="18.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DashboardFMPModel.language" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DashboardFMPModel.objective" Width="1.5" PointX="3.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DashboardFMPModel.objective_info" Width="1.5" PointX="6" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DashboardFMPModel.question_value" Width="1.5" PointX="8.25" PointY="11.75" IsExpanded="true" />
+        <AssociationConnector Association="DashboardFMPModel.FK__checklist__check__2B3F6F97" ManuallyRouted="false" />
+        <AssociationConnector Association="DashboardFMPModel.FK__indicator__check__300424B4" ManuallyRouted="false" />
+        <AssociationConnector Association="DashboardFMPModel.FK__checklist__check__29572725" ManuallyRouted="false" />
+        <AssociationConnector Association="DashboardFMPModel.FK__checklist__langu__2A4B4B5E" ManuallyRouted="false" />
+        <AssociationConnector Association="DashboardFMPModel.FK__question___check__38996AB5" ManuallyRouted="false" />
+        <AssociationConnector Association="DashboardFMPModel.FK__country_i__count__2C3393D0" ManuallyRouted="false" />
+        <AssociationConnector Association="DashboardFMPModel.FK__country_i__count__2E1BDC42" ManuallyRouted="false" />
+        <AssociationConnector Association="DashboardFMPModel.FK__country_i__indic__2D27B809" ManuallyRouted="false" />
+        <AssociationConnector Association="DashboardFMPModel.FK__question_value__398D8EEE" ManuallyRouted="false" />
+        <AssociationConnector Association="DashboardFMPModel.FK__country_i__langu__2F10007B" ManuallyRouted="false" />
+        <AssociationConnector Association="DashboardFMPModel.FK__indicator__indic__30F848ED" ManuallyRouted="false" />
+        <AssociationConnector Association="DashboardFMPModel.FK__indicator__indic__34C8D9D1" ManuallyRouted="false" />
+        <AssociationConnector Association="DashboardFMPModel.FK__indicator__objec__31EC6D26" ManuallyRouted="false" />
+        <AssociationConnector Association="DashboardFMPModel.FK__indicator__indic__32E0915F" ManuallyRouted="false" />
+        <AssociationConnector Association="DashboardFMPModel.FK__indicator__langu__33D4B598" ManuallyRouted="false" />
+        <AssociationConnector Association="DashboardFMPModel.FK__indicator__langu__35BCFE0A" ManuallyRouted="false" />
+        <AssociationConnector Association="DashboardFMPModel.FK__objective__langu__36B12243" ManuallyRouted="false" />
+        <AssociationConnector Association="DashboardFMPModel.FK__objective__objec__37A5467C" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

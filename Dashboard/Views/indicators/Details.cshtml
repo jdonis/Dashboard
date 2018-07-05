@@ -1,0 +1,90 @@
+﻿@model Dashboard.Models.indicator
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>indicator</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.frequency)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.frequency)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.responsible)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.responsible)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.contact)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.contact)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.inputtype)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.inputtype)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.checklist.code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.checklist.code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.indicatorgroup.code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.indicatorgroup.code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.objective.code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.objective.code)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
