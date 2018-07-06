@@ -1,0 +1,126 @@
+var Config = {
+
+	"app":{
+
+		//"countries_list":["global","can","car","cbr","cbo","cbl","cpn","ccr","cdr","ces","cid","cgu","cha","cho","cme","cni","csc"],//"promedio",
+		"countries_list":["global",/*"fmp","hq",*/"can","cbo","cco","cec","cpe","cve","ccb","cba",
+		"cbh","cgy","cja","csu","ctt","cid","cbl","cpn","ccr","cdr","ces","cgu","cha","cho","cme","cni","csc","car","cbr"],//"promedio",
+
+		"countries":{
+
+			//"promedio":{"name":"Global"},
+			"global":{"name":" Global","group":true,"code":"Global"},
+			"can":{"name":"Grupo Andino","group":true,"code":"AN"},
+			"cbo":{"name":"Bolivia","code":"BO"},
+			"cco":{"name":"Colombia","code":"CO"},
+			"cec":{"name":"Ecuador","code":"EC"},
+			"cpe":{"name":"Perú","code":"PE"},
+			"cve":{"name":"Venezuela","code":"VE"},
+			"ccb":{"name":"Caribe","group":true,"code":"CB"},
+			"cba":{"name":"Barbados","code":"BA"},
+			"cbh":{"name":"Bahamas","code":"BH"},
+			"cgy":{"name":"Guyana","code":"GY"},
+			"cja":{"name":"Jamaica","code":"JA"},
+			"csu":{"name":"Surinam","code":"SU"},
+			"ctt":{"name":"Trinidad y Tobago","code":"TT"},
+			"cid":{"name":"Centro América","group":true,"code":"ID"},
+			"cbl":{"name":"Belize","code":"BL"},
+			"cpn":{"name":"Panamá","code":"PN"},
+			"ccr":{"name":"Costa Rica","code":"CR"},
+			"cdr":{"name":"Rep. Dominicana","code":"DR"},
+			"ces":{"name":"El Salvador","code":"ES"},
+			"cgu":{"name":"Guatemala","code":"GU"},
+			"cha":{"name":"Haití","code":"HA"},
+			"cho":{"name":"Honduras","code":"HO"},
+			"cme":{"name":"México","code":"ME"},
+			"cni":{"name":"Nicaragua","code":"NI"},
+			"csc":{"name":"Cono Sur","group":true,"code":"SC"},
+			"car":{"name":"Argentina","code":"AR"},
+			"cbr":{"name":"Brazil","code":"BR"}
+		}
+
+	},
+
+	"labels":{
+
+		"groups_list":["A01","A02","A03","A05","A06","A04","B01","B02","B03","B04"],
+
+		"groups":{
+
+			"A01":"Gestión de Clientes y Donantes",
+
+			"A02":"Estrategia & Programación",
+
+			"A03":"Desarrollo de Conocimiento",
+
+			"A05":"Preparación",
+
+			"A06":"Supervision",
+
+			"A04":"Originación",
+
+			"B01":"Aprendizaje y Conocimiento Colaborativo",
+
+			"B02":"Gestión de Mejoras de Capital",
+
+			"B03":"Governanza Corporativa",
+
+			"B04":"Servicios Corporativos"
+
+		},
+
+		"objectives":{
+
+			"obj1":{ 
+
+				"short":"Operaciones","name":"Operaciones",
+
+				"groups":["A01","A02","A03","A05","A06"]
+
+			},
+
+			"obj2":{
+
+				"short":"Consolidación Grupo BID","name":"Consolidación Grupo BID",
+
+				"groups":["A04"]
+
+			},
+
+			"obj3":{
+
+				"short":"Innovación y Conocimiento","name":"Innovación y Conocimiento",
+
+				"groups":["B01"]
+
+			},
+
+			"obj4":{
+
+				"short":"Eficiencia en el uso de Recursos","name":"Eficiencia en el uso de Recursos",
+
+				"groups":["B02","B03","B04"]
+
+			}
+
+		},
+
+		"objectives_list":["obj1","obj2","obj3","obj4"],
+
+		"objectives_short":{
+
+			"obj1":"Obj. 1",
+
+			"obj2":"Obj. 2",
+
+			"obj3":"Obj. 3",
+
+			"obj4":"Obj. 4"
+
+		}
+
+	}
+
+
+
+}

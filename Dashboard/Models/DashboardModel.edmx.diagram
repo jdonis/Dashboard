@@ -16,7 +16,7 @@
         <EntityTypeShape EntityType="DashboardFMPModel.indicator_info" Width="1.5" PointX="6" PointY="7.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DashboardFMPModel.indicatorgroup" Width="1.5" PointX="1.5" PointY="18.5" IsExpanded="true" />
         <EntityTypeShape EntityType="DashboardFMPModel.language" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="DashboardFMPModel.objective" Width="1.5" PointX="3.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DashboardFMPModel.objective" Width="1.5" PointX="1.875" PointY="0.5" IsExpanded="true" />
         <EntityTypeShape EntityType="DashboardFMPModel.objective_info" Width="1.5" PointX="6" PointY="4.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DashboardFMPModel.question_value" Width="1.5" PointX="8.25" PointY="11.75" IsExpanded="true" />
         <AssociationConnector Association="DashboardFMPModel.FK__checklist__check__2B3F6F97" ManuallyRouted="false" />

@@ -1,0 +1,381 @@
+var VariablesIds = ["32ca4344fd300051749722c549cfc762","827d42b140a8d3b3c232d84931ca1f95","c3da412d2ef5aceba2047af884afbf93","07261507d387f6270674191f1c02b308","311c01c40b253869cec27e89d0c8e30a","1e2a88b6ee7111a6d4c7ed688d7e1161","b37a7cbd882ddddd7e62ed9bfb5c2157","17a684e2f438ad21b111b43c7714e00d","e4f5eefec84243dff58b6f86a9792cb1","814e4cb8e8774e2f6ea19bb0b627c7a4","ecf93ad3f3074e3f9ae040a1834fb1a1","b82e0dad1c76b4f40a565913e063fb63","2c618a9f1690e52bef9cd9afc5c16c9f","a8d237d10b5f9f748eef2b70707af0c5","7c4ae0ffc70f0671d12cbac0e5952037","1a2a88b1a3f23f784a056ea6aa08b86c","3936c58f7439e98c0bb3f77e4011721d","d9b688ab149f0366cc3c000276e75cf6","c3056b82e4a652669486a4c66d4bdc0c","3774c0f345cc77b88d067349aa8a0133","8eaab5dfdc65fa6c96baaba3305978d8","a9bbbaee36ce6a38ec073f85494cee82","8b55739c388121da660aa9c06e42583c","822c5e91c234fa884735e2cc8c8e9a48","63ec433b0424bd89bbbf59549ee7a458","f46382af8b51cd7c0634157774ee3755","687d8f571c1605573ca7def27d04d2ef","82d58e58d3cab826324e242875fd66ab","b87129b4501b70a9f368bdbecc4de0c9","5fb0cebababa2b9ea872ce12c0374d6e","9e5edd098c998cb2c85eb09c8adbf53c","c4274d337a94af9921e2935ae85e802c","6caa19198aa5b02f11f1bee23861ac60","33f7c4f9d3598c40622e3d09db61dfc7","0dec50d4120a063dbee1b7b993d9646d","5d5c5db1f39719837a0428d8a207d080","7437b47be2ff51e4e4599c01b08776ba","38894054a017f63ce54e47c89808a821","3a251bc4fe8db902fa00f17b7e2fae55","89a7d05e038c90d064d646c47c60c134","56c755bd2364333a9016278ef9b56f25","7bf8c7043ba1bcd1b24450682feb040b","34e15c93aaaf5b7e9a8538d48bdefa78","b717c8b0b4bb545bd04b4adac8f0d30b","a4abe829669a8bf9262915080c1050f5","02592e3d2c3a8616457bcdaf94be9aa6","6781ff2d56d423d957ad9fcb25aaac74","cd752a7104df41a228fc79e456a21967","845abacf1890d887d0a9e5eff3ce8899","25ac4ce9b770ab95783007dd43721e56","28a550715acdc783b97888a71d7fa519","26fdf6202c6896b3a25c6bbfb4c1fbb1","518ff4032d21a2ad45238c82c2d7a077","b5e66c63b8b91909ff478eb4fc96529b"];
+var VariablesNames = {
+    "32ca4344fd300051749722c549cfc762": {
+        "name": "Satisfacci\u00f3n con el tiempo de respuesta para dar no objeci\u00f3n PRM (%)",
+        "shortname": "% Satisf.EFS: No Obj PRM",
+        "objective": "I",
+        "group": "A01",
+        "type": "percent"
+    },
+    "827d42b140a8d3b3c232d84931ca1f95": {
+        "name": "Satisfacci\u00f3n con el tiempo de respuesta para procesar desembolsos FM (%)",
+        "shortname": "% Satisf.EFS: Proces Desemb. FM",
+        "objective": "I",
+        "group": "A01",
+        "type": "percent"
+    },
+    "c3da412d2ef5aceba2047af884afbf93": {
+        "name": "# de Proyectos donde el Banco lidera la gesti\u00f3n financiera en nombre de los co-financiadores",
+        "shortname": "# Projectos en nombre de co-financiadores",
+        "objective": "I",
+        "group": "A01",
+        "type": "value"
+    },
+    "07261507d387f6270674191f1c02b308": {
+        "name": "# Eventos de armonizaci\u00f3n de FMP",
+        "shortname": "# Eventos de armonizaci\u00f3n de FMP",
+        "objective": "I",
+        "group": "A01",
+        "type": "value"
+    },
+    "311c01c40b253869cec27e89d0c8e30a": {
+        "name": "# de participaciones en estudios e investigaciones de VPS",
+        "shortname": "# de participaciones en estudios VPS",
+        "objective": "I",
+        "group": "A01",
+        "type": "value"
+    },
+    "1e2a88b6ee7111a6d4c7ed688d7e1161": {
+        "name": "% de Calidad en insumos a la EBP",
+        "shortname": "% de Calidad en insumos a la EBP",
+        "objective": "I",
+        "group": "A02",
+        "type": "percent"
+    },
+    "b37a7cbd882ddddd7e62ed9bfb5c2157": {
+        "name": "% de Calidad en insumos a los CPD",
+        "shortname": "% de Calidad en insumos a los CPD",
+        "objective": "I",
+        "group": "A02",
+        "type": "percent"
+    },
+    "17a684e2f438ad21b111b43c7714e00d": {
+        "name": "# de iniciativas innovadoras en progreso",
+        "shortname": "# iniciativas innovadoras progreso",
+        "objective": "I",
+        "group": "A03",
+        "type": "value"
+    },
+    "e4f5eefec84243dff58b6f86a9792cb1": {
+        "name": "# de capacitaciones t\u00e9cnicas de FMP a las AE en temas fiduciarios",
+        "shortname": "# capacitaciones t\u00e9cnicas a las AE",
+        "objective": "I",
+        "group": "A03",
+        "type": "value"
+    },
+    "814e4cb8e8774e2f6ea19bb0b627c7a4": {
+        "name": "% de dise\u00f1o de calidad reflejado en los Anexos III",
+        "shortname": "% dise\u00f1o de calidad en Anexos III",
+        "objective": "I",
+        "group": "A05",
+        "type": "percent"
+    },
+    "ecf93ad3f3074e3f9ae040a1834fb1a1": {
+        "name": "# de Anexos III",
+        "shortname": "# de Annex III",
+        "objective": "I",
+        "group": "A05",
+        "type": "value"
+    },
+    "b82e0dad1c76b4f40a565913e063fb63": {
+        "name": "% Reportes Financieros auditados en tiempo",
+        "shortname": "% Reportes Fcieros audit en tiempo",
+        "objective": "I",
+        "group": "A06",
+        "type": "percent"
+    },
+    "2c618a9f1690e52bef9cd9afc5c16c9f": {
+        "name": "% de calidad de los procesos de licitaci\u00f3n p\u00fablica internacional (LPI)",
+        "shortname": "% calidad procesos LPI",
+        "objective": "I",
+        "group": "A06",
+        "type": "percent"
+    },
+    "a8d237d10b5f9f748eef2b70707af0c5": {
+        "name": "# de procesos de licitaci\u00f3n p\u00fablica internacional (LPI)",
+        "shortname": "# de procesos LPI",
+        "objective": "I",
+        "group": "A06",
+        "type": "value"
+    },
+    "7c4ae0ffc70f0671d12cbac0e5952037": {
+        "name": "# d\u00edas promedio de duraci\u00f3n de procesos >200K (ICB, SBCC)",
+        "shortname": "# d\u00edas prom >200K (ICB,SBCC)",
+        "objective": "I",
+        "group": "A06",
+        "type": "value"
+    },
+    "1a2a88b1a3f23f784a056ea6aa08b86c": {
+        "name": "% de planes financieros con antig\u00fcedad > 180 d\u00edas o planificada",
+        "shortname": "% de Planes Financieros >180",
+        "objective": "I",
+        "group": "A06",
+        "type": "percent"
+    },
+    "3936c58f7439e98c0bb3f77e4011721d": {
+        "name": "% ex ante v. ex post y sistema nacionales",
+        "shortname": "% ex ante v. ex post y sist nac",
+        "objective": "I",
+        "group": "A06",
+        "type": "percent"
+    },
+    "d9b688ab149f0366cc3c000276e75cf6": {
+        "name": "# de personal certificado (Staff o DTC)",
+        "shortname": "# personal certif (Staff o DTC)",
+        "objective": "I",
+        "group": "A06",
+        "type": "value"
+    },
+    "c3056b82e4a652669486a4c66d4bdc0c": {
+        "name": "% de opiniones expertas de nivel 1 emitidas por personal certificado",
+        "shortname": "% opiniones expertas nivel 1 certif",
+        "objective": "I",
+        "group": "A06",
+        "type": "percent"
+    },
+    "3774c0f345cc77b88d067349aa8a0133": {
+        "name": "# de operaciones en alerta",
+        "shortname": "# operaciones en alerta",
+        "objective": "I",
+        "group": "A06",
+        "type": "value"
+    },
+    "8eaab5dfdc65fa6c96baaba3305978d8": {
+        "name": "% de actualizaci\u00f3n de plan de adquisiciones",
+        "shortname": "% actualizaci\u00f3n plan adquisiciones",
+        "objective": "I",
+        "group": "A06",
+        "type": "percent"
+    },
+    "a9bbbaee36ce6a38ec073f85494cee82": {
+        "name": "# de revisiones de firmas de auditor\u00eda de nivel 1",
+        "shortname": "# revisiones firmas auditoria de nivel 1",
+        "objective": "I",
+        "group": "A06",
+        "type": "value"
+    },
+    "8b55739c388121da660aa9c06e42583c": {
+        "name": "% de pr\u00e9stamos utilizando e-Disbursement",
+        "shortname": "% prestamos usan e-disbursment",
+        "objective": "I",
+        "group": "A06",
+        "type": "percent"
+    },
+    "822c5e91c234fa884735e2cc8c8e9a48": {
+        "name": "% de pr\u00e9stamos usando SEPA",
+        "shortname": "% de prestamos usando SEPA",
+        "objective": "I",
+        "group": "A06",
+        "type": "percent"
+    },
+    "63ec433b0424bd89bbbf59549ee7a458": {
+        "name": "% de operaciones que el Banco financia que se gestionan por sistemas nacionales fiduciarios",
+        "shortname": "% ops por sistemas nacionales",
+        "objective": "I",
+        "group": "A06",
+        "type": "percent"
+    },
+    "f46382af8b51cd7c0634157774ee3755": {
+        "name": "% de pa\u00edses de usan sistemas fiduciarios nacionales en operaciones financiadas por el Banco",
+        "shortname": "% pa\u00edses usan sistemas nacionales",
+        "objective": "I",
+        "group": "A06",
+        "type": "percent"
+    },
+    "687d8f571c1605573ca7def27d04d2ef": {
+        "name": "# de pa\u00edses que han adoptado o est\u00e1n en proceso de adopci\u00f3n de est\u00e1ndares internacionales",
+        "shortname": "# paises adoptando est\u00e1nds intern.",
+        "objective": "I",
+        "group": "A06",
+        "type": "value"
+    },
+    "82d58e58d3cab826324e242875fd66ab": {
+        "name": "# de evaluaciones de diagn\u00f3sticos de sistemas fiduciarios",
+        "shortname": "# evaluaciones diagn\u00f3sticos sist fiduciars",
+        "objective": "I",
+        "group": "A06",
+        "type": "value"
+    },
+    "b87129b4501b70a9f368bdbecc4de0c9": {
+        "name": "# de sistemas fiduciarios validados para uso",
+        "shortname": "# validaciones sistemas fiduciarios",
+        "objective": "I",
+        "group": "A06",
+        "type": "value"
+    },
+    "5fb0cebababa2b9ea872ce12c0374d6e": {
+        "name": "# de intervenciones de fortalecimiento para el uso de sistemas nacionales",
+        "shortname": "# de intervenciones de fortalecimiento",
+        "objective": "I",
+        "group": "A06",
+        "type": "value"
+    },
+    "9e5edd098c998cb2c85eb09c8adbf53c": {
+        "name": "% de cumplimiento del plan de KNL",
+        "shortname": "% de cumplimiento del plan de KNL",
+        "objective": "III",
+        "group": "B01",
+        "type": "percent"
+    },
+    "c4274d337a94af9921e2935ae85e802c": {
+        "name": "# de talleres t\u00e9cnicos",
+        "shortname": "# de talleres t\u00e9cnicos",
+        "objective": "III",
+        "group": "B01",
+        "type": "value"
+    },
+    "6caa19198aa5b02f11f1bee23861ac60": {
+        "name": "% de HQ & COFs que presentan planes de acci\u00f3n de D&I",
+        "shortname": "% HQ & COFs presentan PA de D&I",
+        "objective": "III",
+        "group": "B01",
+        "type": "percent"
+    },
+    "33f7c4f9d3598c40622e3d09db61dfc7": {
+        "name": "% del tiempo dedicado a compartir conocimiento",
+        "shortname": "% tiempo compartir conocimiento",
+        "objective": "III",
+        "group": "B01",
+        "type": "percent"
+    },
+    "0dec50d4120a063dbee1b7b993d9646d": {
+        "name": "% de staff en SAP, BI & Convergencia & activa participaci\u00f3n de los Dep de Pa\u00edses o representantes designados",
+        "shortname": "% staff en SAP, BI & Convergencia",
+        "objective": "IV",
+        "group": "B02",
+        "type": "percent"
+    },
+    "5d5c5db1f39719837a0428d8a207d080": {
+        "name": "# de m\u00f3dulos de IT dise\u00f1ados para apoyar y agilizar la funci\u00f3n fiduciaria",
+        "shortname": "# m\u00f3dulos IT dise\u00f1ados",
+        "objective": "IV",
+        "group": "B02",
+        "type": "value"
+    },
+    "7437b47be2ff51e4e4599c01b08776ba": {
+        "name": "# de iniciativas innovadoras en el \u00e1rea corporativa",
+        "shortname": "# iniciativas innovadoras corporativas",
+        "objective": "IV",
+        "group": "B03",
+        "type": "value"
+    },
+    "38894054a017f63ce54e47c89808a821": {
+        "name": "# de ex\u00e1menes de certificaci\u00f3n realizados",
+        "shortname": "# examenes certificacion realizados",
+        "objective": "IV",
+        "group": "B03",
+        "type": "value"
+    },
+    "3a251bc4fe8db902fa00f17b7e2fae55": {
+        "name": "# de outlines para la actualizaci\u00f3n de la estrategia de UCS",
+        "shortname": "# outlines actualizaci\u00f3n estrategia UCS",
+        "objective": "IV",
+        "group": "B03",
+        "type": "value"
+    },
+    "89a7d05e038c90d064d646c47c60c134": {
+        "name": "# de herramientas on-line de BI implementadas",
+        "shortname": "# herramientas on-line BI",
+        "objective": "IV",
+        "group": "B03",
+        "type": "value"
+    },
+    "56c755bd2364333a9016278ef9b56f25": {
+        "name": "# de Tablero on-line implementado",
+        "shortname": "# de Tablero on-line implementado",
+        "objective": "IV",
+        "group": "B03",
+        "type": "value"
+    },
+    "7bf8c7043ba1bcd1b24450682feb040b": {
+        "name": "# de acuerdos \/negociaciones con donantes",
+        "shortname": "# negociaciones con donantes",
+        "objective": "IV",
+        "group": "B03",
+        "type": "value"
+    },
+    "34e15c93aaaf5b7e9a8538d48bdefa78": {
+        "name": "# de Gu\u00edas y Toolkits de FMP actualizados",
+        "shortname": "# Gu\u00edas y Toolkits FMP actualizados",
+        "objective": "IV",
+        "group": "B03",
+        "type": "value"
+    },
+    "b717c8b0b4bb545bd04b4adac8f0d30b": {
+        "name": "% del tiempo del staff en acuerdos de horarios flexibles",
+        "shortname": "% tiempo staff en horarios flexibles",
+        "objective": "IV",
+        "group": "B04",
+        "type": "percent"
+    },
+    "a4abe829669a8bf9262915080c1050f5": {
+        "name": "% de mujeres grado 4 o mayor",
+        "shortname": "% de mujeres grado 4 o mayor",
+        "objective": "IV",
+        "group": "B04",
+        "type": "percent"
+    },
+    "02592e3d2c3a8616457bcdaf94be9aa6": {
+        "name": "# de Programa de Asociado Se\u00f1or de FMP dise\u00f1ado e implementado",
+        "shortname": "# Programa Asociado Se\u00f1or de FMP",
+        "objective": "IV",
+        "group": "B04",
+        "type": "value"
+    },
+    "6781ff2d56d423d957ad9fcb25aaac74": {
+        "name": "# de asignaciones temporales (WA)",
+        "shortname": "# de asignaciones temporales (WA)",
+        "objective": "IV",
+        "group": "B04",
+        "type": "value"
+    },
+    "cd752a7104df41a228fc79e456a21967": {
+        "name": "# de capacitaciones gerenciales y \"core\"",
+        "shortname": "# de capacitaciones gerenciales y \"core\"",
+        "objective": "IV",
+        "group": "B04",
+        "type": "value"
+    },
+    "845abacf1890d887d0a9e5eff3ce8899": {
+        "name": "% de ejecuci\u00f3n del presupuesto NPC",
+        "shortname": "% de ejecucion del presupuesto NPC",
+        "objective": "IV",
+        "group": "B04",
+        "type": "percent"
+    },
+    "25ac4ce9b770ab95783007dd43721e56": {
+        "name": "% de cumplimiento del T&L & mejora en la calidad del reporte",
+        "shortname": "% cumplimiento T&L & calidad reporte",
+        "objective": "IV",
+        "group": "B04",
+        "type": "percent"
+    },
+    "28a550715acdc783b97888a71d7fa519": {
+        "name": "% del tiempo dedicado a las actividades administrativas",
+        "shortname": "% tiempo actividades administrativas",
+        "objective": "IV",
+        "group": "B04",
+        "type": "percent"
+    },
+    "26fdf6202c6896b3a25c6bbfb4c1fbb1": {
+        "name": "# de iniciativas que fomentan la comunicaci\u00f3n",
+        "shortname": "# iniciativas fomentan comunicaci\u00f3n",
+        "objective": "IV",
+        "group": "B04",
+        "type": "value"
+    },
+    "518ff4032d21a2ad45238c82c2d7a077": {
+        "name": "% de satisfacci\u00f3n en general por la reuni\u00f3n anual de FMP 2017",
+        "shortname": "% de satisfacci\u00f3n retiro FMP 2017",
+        "objective": "IV",
+        "group": "B04",
+        "type": "percent"
+    },
+    "b5e66c63b8b91909ff478eb4fc96529b": {
+        "name": "# de Consultores al final de cada per\u00edodo",
+        "shortname": "# Consultores al final de cada per\u00edodo",
+        "objective": "IV",
+        "group": "B04",
+        "type": "value"
+    }
+}
