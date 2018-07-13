@@ -9,7 +9,7 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{498506D7-EB5F-4E05-8D6B-7C557D3FA861}</ProjectGuid>
+    <ProjectGuid>{5D4DA2AE-6949-474B-9539-B9159B4A8E48}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -164,12 +164,14 @@
     <Compile Include="Controllers\checklistquestion.cs">
       <DependentUpon>DashboardFMPModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\countriesController.cs" />
     <Compile Include="Controllers\country.cs">
       <DependentUpon>DashboardFMPModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\country_indicator.cs">
       <DependentUpon>DashboardFMPModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\country_indicatorController.cs" />
     <Compile Include="Controllers\DashboardFMPModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -192,21 +194,19 @@
     <Compile Include="Controllers\indicatorgroup.cs">
       <DependentUpon>DashboardFMPModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\indicatorsController.cs" />
     <Compile Include="Controllers\language.cs">
       <DependentUpon>DashboardFMPModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\languagesController.cs" />
     <Compile Include="Controllers\objective.cs">
       <DependentUpon>DashboardFMPModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\objectivesController.cs" />
     <Compile Include="Controllers\question_value.cs">
       <DependentUpon>DashboardFMPModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>DashboardFMPModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\sp_helpdiagrams_Result.cs">
-      <DependentUpon>DashboardFMPModel.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Controllers\question_valueController.cs" />
     <Compile Include="Controllers\sysdiagram.cs">
       <DependentUpon>DashboardFMPModel.tt</DependentUpon>
     </Compile>
@@ -271,6 +271,36 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\countries\Create.cshtml" />
+    <Content Include="Views\countries\Delete.cshtml" />
+    <Content Include="Views\countries\Details.cshtml" />
+    <Content Include="Views\countries\Edit.cshtml" />
+    <Content Include="Views\countries\Index.cshtml" />
+    <Content Include="Views\languages\Create.cshtml" />
+    <Content Include="Views\languages\Delete.cshtml" />
+    <Content Include="Views\languages\Details.cshtml" />
+    <Content Include="Views\languages\Edit.cshtml" />
+    <Content Include="Views\languages\Index.cshtml" />
+    <Content Include="Views\objectives\Create.cshtml" />
+    <Content Include="Views\objectives\Delete.cshtml" />
+    <Content Include="Views\objectives\Details.cshtml" />
+    <Content Include="Views\objectives\Edit.cshtml" />
+    <Content Include="Views\objectives\Index.cshtml" />
+    <Content Include="Views\indicators\Create.cshtml" />
+    <Content Include="Views\indicators\Delete.cshtml" />
+    <Content Include="Views\indicators\Details.cshtml" />
+    <Content Include="Views\indicators\Edit.cshtml" />
+    <Content Include="Views\indicators\Index.cshtml" />
+    <Content Include="Views\question_value\Create.cshtml" />
+    <Content Include="Views\question_value\Delete.cshtml" />
+    <Content Include="Views\question_value\Details.cshtml" />
+    <Content Include="Views\question_value\Edit.cshtml" />
+    <Content Include="Views\question_value\Index.cshtml" />
+    <Content Include="Views\country_indicator\Create.cshtml" />
+    <Content Include="Views\country_indicator\Delete.cshtml" />
+    <Content Include="Views\country_indicator\Details.cshtml" />
+    <Content Include="Views\country_indicator\Edit.cshtml" />
+    <Content Include="Views\country_indicator\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -304,9 +334,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>60516</DevelopmentServerPort>
+          <DevelopmentServerPort>62774</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:60516/</IISUrl>
+          <IISUrl>http://localhost:62774/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

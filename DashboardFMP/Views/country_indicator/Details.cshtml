@@ -1,0 +1,74 @@
+﻿@model DashboardFMP.Controllers.country_indicator
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>country_indicator</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.value)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.value)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.inputtype)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.inputtype)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.quarter)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.quarter)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.target)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.target)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.inputyear)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.inputyear)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.country.code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.country.code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.indicator.code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.indicator.code)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

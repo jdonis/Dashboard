@@ -1,0 +1,50 @@
+﻿@model DashboardFMP.Controllers.question_value
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>question_value</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.value)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.value)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.target)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.target)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.checklistquestion.code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.checklistquestion.code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.country_indicator.inputtype)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.country_indicator.inputtype)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
