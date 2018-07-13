@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f223c65c49bf4a86af445d9a8b9d2c4b" Name="Diagram1">
+        <EntityTypeShape EntityType="DashboardFMPModel.checklist" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DashboardFMPModel.checklistquestion" Width="1.5" PointX="3" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DashboardFMPModel.country" Width="1.5" PointX="3" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DashboardFMPModel.country_indicator" Width="1.5" PointX="5.25" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DashboardFMPModel.indicator" Width="1.5" PointX="5.25" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DashboardFMPModel.indicatorgroup" Width="1.5" PointX="3" PointY="18.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DashboardFMPModel.language" Width="1.5" PointX="0.75" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DashboardFMPModel.objective" Width="1.5" PointX="3" PointY="21.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DashboardFMPModel.question_value" Width="1.5" PointX="7.5" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DashboardFMPModel.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="DashboardFMPModel.FK__checklist__check__2B3F6F97" ManuallyRouted="false" />
+        <AssociationConnector Association="DashboardFMPModel.FK__indicator__check__300424B4" ManuallyRouted="false" />
+        <AssociationConnector Association="DashboardFMPModel.FK__question___check__38996AB5" ManuallyRouted="false" />
+        <AssociationConnector Association="DashboardFMPModel.FK_checklistquestion_language" ManuallyRouted="false" />
+        <AssociationConnector Association="DashboardFMPModel.FK__country_i__count__2C3393D0" ManuallyRouted="false" />
+        <AssociationConnector Association="DashboardFMPModel.FK_country_language" ManuallyRouted="false" />
+        <AssociationConnector Association="DashboardFMPModel.FK__country_i__indic__2D27B809" ManuallyRouted="false" />
+        <AssociationConnector Association="DashboardFMPModel.FK__question_value__398D8EEE" ManuallyRouted="false" />
+        <AssociationConnector Association="DashboardFMPModel.FK__indicator__indic__30F848ED" ManuallyRouted="false" />
+        <AssociationConnector Association="DashboardFMPModel.FK__indicator__objec__31EC6D26" ManuallyRouted="false" />
+        <AssociationConnector Association="DashboardFMPModel.FK_indicator_language" ManuallyRouted="false" />
+        <AssociationConnector Association="DashboardFMPModel.FK_indicatorgroup_language" ManuallyRouted="false" />
+        <AssociationConnector Association="DashboardFMPModel.FK_objective_language" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
