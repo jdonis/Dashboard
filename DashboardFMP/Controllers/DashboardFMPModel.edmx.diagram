@@ -4,9 +4,9 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="febf25c6f5df4c3a8646e128ed02ae74" Name="Diagram1">
+      <Diagram DiagramId="febf25c6f5df4c3a8646e128ed02ae74" Name="DashboardFMPDiagram">
         <EntityTypeShape EntityType="DashboardFMPModel.checklist" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DashboardFMPModel.checklistquestion" Width="1.5" PointX="3" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DashboardFMPModel.checklistquestion" Width="1.5" PointX="4.875" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DashboardFMPModel.country" Width="1.5" PointX="3" PointY="9.875" IsExpanded="true" />
         <EntityTypeShape EntityType="DashboardFMPModel.country_indicator" Width="1.5" PointX="5.25" PointY="9.625" IsExpanded="true" />
         <EntityTypeShape EntityType="DashboardFMPModel.indicator" Width="1.5" PointX="5.25" PointY="14.25" IsExpanded="true" />
