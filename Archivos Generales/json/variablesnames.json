@@ -1,41 +1,41 @@
 var VariablesIds = ["32ca4344fd300051749722c549cfc762","827d42b140a8d3b3c232d84931ca1f95","c3da412d2ef5aceba2047af884afbf93","07261507d387f6270674191f1c02b308","311c01c40b253869cec27e89d0c8e30a","1e2a88b6ee7111a6d4c7ed688d7e1161","b37a7cbd882ddddd7e62ed9bfb5c2157","17a684e2f438ad21b111b43c7714e00d","e4f5eefec84243dff58b6f86a9792cb1","814e4cb8e8774e2f6ea19bb0b627c7a4","ecf93ad3f3074e3f9ae040a1834fb1a1","b82e0dad1c76b4f40a565913e063fb63","2c618a9f1690e52bef9cd9afc5c16c9f","a8d237d10b5f9f748eef2b70707af0c5","7c4ae0ffc70f0671d12cbac0e5952037","1a2a88b1a3f23f784a056ea6aa08b86c","3936c58f7439e98c0bb3f77e4011721d","d9b688ab149f0366cc3c000276e75cf6","c3056b82e4a652669486a4c66d4bdc0c","3774c0f345cc77b88d067349aa8a0133","8eaab5dfdc65fa6c96baaba3305978d8","a9bbbaee36ce6a38ec073f85494cee82","8b55739c388121da660aa9c06e42583c","822c5e91c234fa884735e2cc8c8e9a48","63ec433b0424bd89bbbf59549ee7a458","f46382af8b51cd7c0634157774ee3755","687d8f571c1605573ca7def27d04d2ef","82d58e58d3cab826324e242875fd66ab","b87129b4501b70a9f368bdbecc4de0c9","5fb0cebababa2b9ea872ce12c0374d6e","9e5edd098c998cb2c85eb09c8adbf53c","c4274d337a94af9921e2935ae85e802c","6caa19198aa5b02f11f1bee23861ac60","33f7c4f9d3598c40622e3d09db61dfc7","0dec50d4120a063dbee1b7b993d9646d","5d5c5db1f39719837a0428d8a207d080","7437b47be2ff51e4e4599c01b08776ba","38894054a017f63ce54e47c89808a821","3a251bc4fe8db902fa00f17b7e2fae55","89a7d05e038c90d064d646c47c60c134","56c755bd2364333a9016278ef9b56f25","7bf8c7043ba1bcd1b24450682feb040b","34e15c93aaaf5b7e9a8538d48bdefa78","b717c8b0b4bb545bd04b4adac8f0d30b","a4abe829669a8bf9262915080c1050f5","02592e3d2c3a8616457bcdaf94be9aa6","6781ff2d56d423d957ad9fcb25aaac74","cd752a7104df41a228fc79e456a21967","845abacf1890d887d0a9e5eff3ce8899","25ac4ce9b770ab95783007dd43721e56","28a550715acdc783b97888a71d7fa519","26fdf6202c6896b3a25c6bbfb4c1fbb1","518ff4032d21a2ad45238c82c2d7a077","b5e66c63b8b91909ff478eb4fc96529b"];
 var VariablesNames = {
-    "32ca4344fd300051749722c549cfc762": {
+    "32ca4344fd300051749722c549cfc762": { 1- ya
         "name": "Satisfacci\u00f3n con el tiempo de respuesta para dar no objeci\u00f3n PRM (%)",
         "shortname": "% Satisf.EFS: No Obj PRM",
         "objective": "I",
         "group": "A01",
         "type": "percent"
     },
-    "827d42b140a8d3b3c232d84931ca1f95": {
+    "827d42b140a8d3b3c232d84931ca1f95": { 2 - ya
         "name": "Satisfacci\u00f3n con el tiempo de respuesta para procesar desembolsos FM (%)",
         "shortname": "% Satisf.EFS: Proces Desemb. FM",
         "objective": "I",
         "group": "A01",
         "type": "percent"
     },
-    "c3da412d2ef5aceba2047af884afbf93": {
+    "c3da412d2ef5aceba2047af884afbf93": { 3 - ya
         "name": "# de Proyectos donde el Banco lidera la gesti\u00f3n financiera en nombre de los co-financiadores",
         "shortname": "# Projectos en nombre de co-financiadores",
         "objective": "I",
         "group": "A01",
         "type": "value"
     },
-    "07261507d387f6270674191f1c02b308": {
+    "07261507d387f6270674191f1c02b308": { 4- ya
         "name": "# Eventos de armonizaci\u00f3n de FMP",
         "shortname": "# Eventos de armonizaci\u00f3n de FMP",
         "objective": "I",
         "group": "A01",
         "type": "value"
     },
-    "311c01c40b253869cec27e89d0c8e30a": {
+    "311c01c40b253869cec27e89d0c8e30a": { 5 - ya
         "name": "# de participaciones en estudios e investigaciones de VPS",
         "shortname": "# de participaciones en estudios VPS",
         "objective": "I",
         "group": "A01",
         "type": "value"
     },
-    "1e2a88b6ee7111a6d4c7ed688d7e1161": {
+    "1e2a88b6ee7111a6d4c7ed688d7e1161": { 6 - ya
         "name": "% de Calidad en insumos a la EBP",
         "shortname": "% de Calidad en insumos a la EBP",
         "objective": "I",

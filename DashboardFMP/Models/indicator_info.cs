@@ -20,6 +20,7 @@ namespace DashboardFMP.Models
         [Column(Order = 1), Key]
         public int indicator_id { get; set; }
         public string name { get; set; }
+        public string short_ { get; set; }
         public string code { get; set; }
 
         [ForeignKey("indicator_id")]

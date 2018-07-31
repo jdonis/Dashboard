@@ -1,0 +1,54 @@
+"32ca4344fd300051749722c549cfc762","Satisfacci\u00f3n con el tiempo de respuesta para dar no objeci\u00f3n PRM (%)","% Satisf.EFS: No Obj PRM","I","A01","percent"
+"827d42b140a8d3b3c232d84931ca1f95","Satisfacci\u00f3n con el tiempo de respuesta para procesar desembolsos FM (%)","% Satisf.EFS: Proces Desemb. FM","I","A01","percent"
+"c3da412d2ef5aceba2047af884afbf93","# de Proyectos donde el Banco lidera la gesti\u00f3n financiera en nombre de los co-financiadores","# Projectos en nombre de co-financiadores","I","A01","value"
+"07261507d387f6270674191f1c02b308","# Eventos de armonizaci\u00f3n de FMP","# Eventos de armonizaci\u00f3n de FMP","I","A01","value"
+"311c01c40b253869cec27e89d0c8e30a","# de participaciones en estudios e investigaciones de VPS","# de participaciones en estudios VPS","I","A01","value"
+"1e2a88b6ee7111a6d4c7ed688d7e1161","% de Calidad en insumos a la EBP","% de Calidad en insumos a la EBP","I","A02","percent"
+"b37a7cbd882ddddd7e62ed9bfb5c2157","% de Calidad en insumos a los CPD","% de Calidad en insumos a los CPD","I","A02","percent"
+"17a684e2f438ad21b111b43c7714e00d","# de iniciativas innovadoras en progreso","# iniciativas innovadoras progreso","I","A03","value"
+"e4f5eefec84243dff58b6f86a9792cb1","# de capacitaciones t\u00e9cnicas de FMP a las AE en temas fiduciarios","# capacitaciones t\u00e9cnicas a las AE","I","A03","value"
+"814e4cb8e8774e2f6ea19bb0b627c7a4","% de dise\u00f1o de calidad reflejado en los Anexos III","% dise\u00f1o de calidad en Anexos III","I","A05","percent"
+"ecf93ad3f3074e3f9ae040a1834fb1a1","# de Anexos III","# de Annex III","I","A05","value"
+"b82e0dad1c76b4f40a565913e063fb63","% Reportes Financieros auditados en tiempo","% Reportes Fcieros audit en tiempo","I","A06","percent"
+"2c618a9f1690e52bef9cd9afc5c16c9f","% de calidad de los procesos de licitaci\u00f3n p\u00fablica internacional (LPI)","% calidad procesos LPI","I","A06","percent"
+"a8d237d10b5f9f748eef2b70707af0c5","# de procesos de licitaci\u00f3n p\u00fablica internacional (LPI)","# de procesos LPI","I","A06","value"
+"7c4ae0ffc70f0671d12cbac0e5952037","# d\u00edas promedio de duraci\u00f3n de procesos >200K (ICB, SBCC)","# d\u00edas prom >200K (ICB,SBCC)","I","A06","value"
+"1a2a88b1a3f23f784a056ea6aa08b86c","% de planes financieros con antig\u00fcedad > 180 d\u00edas o planificada","% de Planes Financieros >180","I","A06","percent"
+"3936c58f7439e98c0bb3f77e4011721d","% ex ante v. ex post y sistema nacionales","% ex ante v. ex post y sist nac","I","A06","percent"
+"d9b688ab149f0366cc3c000276e75cf6","# de personal certificado (Staff o DTC)","# personal certif (Staff o DTC)","I","A06","value"
+"c3056b82e4a652669486a4c66d4bdc0c","% de opiniones expertas de nivel 1 emitidas por personal certificado","% opiniones expertas nivel 1 certif","I","A06","percent"
+"3774c0f345cc77b88d067349aa8a0133","# de operaciones en alerta","# operaciones en alerta","I","A06","value"
+"8eaab5dfdc65fa6c96baaba3305978d8","% de actualizaci\u00f3n de plan de adquisiciones","% actualizaci\u00f3n plan adquisiciones","I","A06","percent"
+"a9bbbaee36ce6a38ec073f85494cee82","# de revisiones de firmas de auditor\u00eda de nivel 1","# revisiones firmas auditoria de nivel 1","I","A06","value"
+"8b55739c388121da660aa9c06e42583c","% de pr\u00e9stamos utilizando e-Disbursement","% prestamos usan e-disbursment","I","A06","percent"
+"822c5e91c234fa884735e2cc8c8e9a48","% de pr\u00e9stamos usando SEPA","% de prestamos usando SEPA","I","A06","percent"
+"63ec433b0424bd89bbbf59549ee7a458","% de operaciones que el Banco financia que se gestionan por sistemas nacionales fiduciarios","% ops por sistemas nacionales","I","A06","percent"
+"f46382af8b51cd7c0634157774ee3755","% de pa\u00edses de usan sistemas fiduciarios nacionales en operaciones financiadas por el Banco","% pa\u00edses usan sistemas nacionales","I","A06","percent"
+"687d8f571c1605573ca7def27d04d2ef","# de pa\u00edses que han adoptado o est\u00e1n en proceso de adopci\u00f3n de est\u00e1ndares internacionales","# paises adoptando est\u00e1nds intern.","I","A06","value"
+"82d58e58d3cab826324e242875fd66ab","# de evaluaciones de diagn\u00f3sticos de sistemas fiduciarios","# evaluaciones diagn\u00f3sticos sist fiduciars","I","A06","value"
+"b87129b4501b70a9f368bdbecc4de0c9","# de sistemas fiduciarios validados para uso","# validaciones sistemas fiduciarios","I","A06","value"
+"5fb0cebababa2b9ea872ce12c0374d6e","# de intervenciones de fortalecimiento para el uso de sistemas nacionales","# de intervenciones de fortalecimiento","I","A06","value"
+"9e5edd098c998cb2c85eb09c8adbf53c","% de cumplimiento del plan de KNL","% de cumplimiento del plan de KNL","III","B01","percent"
+"c4274d337a94af9921e2935ae85e802c","# de talleres t\u00e9cnicos","# de talleres t\u00e9cnicos","III","B01","value"
+"6caa19198aa5b02f11f1bee23861ac60","% de HQ & COFs que presentan planes de acci\u00f3n de D&I","% HQ & COFs presentan PA de D&I","III","B01","percent"
+"33f7c4f9d3598c40622e3d09db61dfc7","% del tiempo dedicado a compartir conocimiento","% tiempo compartir conocimiento","III","B01","percent"
+"0dec50d4120a063dbee1b7b993d9646d","% de staff en SAP, BI & Convergencia & activa participaci\u00f3n de los Dep de Pa\u00edses o representantes designados","% staff en SAP, BI & Convergencia","IV","B02","percent"
+"5d5c5db1f39719837a0428d8a207d080","# de m\u00f3dulos de IT dise\u00f1ados para apoyar y agilizar la funci\u00f3n fiduciaria","# m\u00f3dulos IT dise\u00f1ados","IV","B02","value"
+"7437b47be2ff51e4e4599c01b08776ba","# de iniciativas innovadoras en el \u00e1rea corporativa","# iniciativas innovadoras corporativas","IV","B03","value"
+"38894054a017f63ce54e47c89808a821","# de ex\u00e1menes de certificaci\u00f3n realizados","# examenes certificacion realizados","IV","B03","value"
+"3a251bc4fe8db902fa00f17b7e2fae55","# de outlines para la actualizaci\u00f3n de la estrategia de UCS","# outlines actualizaci\u00f3n estrategia UCS","IV","B03","value"
+"89a7d05e038c90d064d646c47c60c134","# de herramientas on-line de BI implementadas","# herramientas on-line BI","IV","B03","value"
+"56c755bd2364333a9016278ef9b56f25","# de Tablero on-line implementado","# de Tablero on-line implementado","IV","B03","value"
+"7bf8c7043ba1bcd1b24450682feb040b","# de acuerdos \/negociaciones con donantes","# negociaciones con donantes","IV","B03","value"
+"34e15c93aaaf5b7e9a8538d48bdefa78","# de Gu\u00edas y Toolkits de FMP actualizados","# Gu\u00edas y Toolkits FMP actualizados","IV","B03","value"
+"b717c8b0b4bb545bd04b4adac8f0d30b","% del tiempo del staff en acuerdos de horarios flexibles","% tiempo staff en horarios flexibles","IV","B04","percent"
+"a4abe829669a8bf9262915080c1050f5","% de mujeres grado 4 o mayor","% de mujeres grado 4 o mayor","IV","B04","percent"
+"02592e3d2c3a8616457bcdaf94be9aa6","# de Programa de Asociado Se\u00f1or de FMP dise\u00f1ado e implementado","# Programa Asociado Se\u00f1or de FMP","IV","B04","value"
+"6781ff2d56d423d957ad9fcb25aaac74","# de asignaciones temporales (WA)","# de asignaciones temporales (WA)","IV","B04","value"
+"cd752a7104df41a228fc79e456a21967","# de capacitaciones gerenciales y \"core\"","# de capacitaciones gerenciales y \"core\"","IV","B04","value"
+"845abacf1890d887d0a9e5eff3ce8899","% de ejecuci\u00f3n del presupuesto NPC","% de ejecucion del presupuesto NPC","IV","B04","percent"
+"25ac4ce9b770ab95783007dd43721e56","% de cumplimiento del T&L & mejora en la calidad del reporte","% cumplimiento T&L & calidad reporte","IV","B04","percent"
+"28a550715acdc783b97888a71d7fa519","% del tiempo dedicado a las actividades administrativas","% tiempo actividades administrativas","IV","B04","percent"
+"26fdf6202c6896b3a25c6bbfb4c1fbb1","# de iniciativas que fomentan la comunicaci\u00f3n","# iniciativas fomentan comunicaci\u00f3n","IV","B04","value"
+"518ff4032d21a2ad45238c82c2d7a077","% de satisfacci\u00f3n en general por la reuni\u00f3n anual de FMP 2017","% de satisfacci\u00f3n retiro FMP 2017","IV","B04","percent"
+"b5e66c63b8b91909ff478eb4fc96529b","# de Consultores al final de cada per\u00edodo","# Consultores al final de cada per\u00edodo","IV","B04","value"}

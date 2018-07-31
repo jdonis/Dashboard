@@ -22,7 +22,7 @@ namespace DashboardFMP.Models
         //}
     
         public int id { get; set; }
-        public int checklist_id { get; set; }
+        public int? checklist_id { get; set; }
         public int objective_id { get; set; }
         public int indicatorgroup_id { get; set; }
         public string code { get; set; }

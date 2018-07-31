@@ -19,8 +19,10 @@ namespace DashboardFMP.Models
         public int objective_id { get; set; }
         [Column(Order = 1), Key]
         public int language_id { get; set; }
+        public string short_ { get; set; }
         public string name { get; set; }
         public string text { get; set; }
+        public string code { get; set; }
 
         [ForeignKey("language_id")]
         public virtual language language { get; set; }
