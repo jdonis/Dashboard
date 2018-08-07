@@ -138,7 +138,7 @@ namespace DashboardFMP.Controllers
 
                 string[] group_list_object = labels_info.Where(z => z.language.code == Language_).OrderBy(y => y.indicatorgroup.code).Select(x => x.indicatorgroup.code).ToArray();  // Nodo groups_list
 
-                var groups = labels_info.Where(z=> z.language.code == Language_).OrderBy(y => y.indicatorgroup.code).ToArray();
+                var groups = labels_info.Where(z => z.language.code == Language_).OrderBy(y => y.indicatorgroup.code).ToArray();
 
                 foreach (indicator_group_info item_foreach in groups)
                 {
@@ -185,7 +185,7 @@ namespace DashboardFMP.Controllers
 
         }
 
-        public ActionResult variables()
+        public ActionResult variablesnames()
         {
             try
             {
@@ -230,5 +230,61 @@ namespace DashboardFMP.Controllers
             return null;
 
         }
+
+
+        public ActionResult variables()
+        {
+            try
+            {
+                var Language_ = "ES";
+
+                // Variables
+                IQueryable<country> country_ = db.countries.OrderBy(z => z.code);
+                IQueryable<indicator> indicator_ = db.indicators;
+                IQueryable<country_indicator> country_indicador_ = db.country_indicator.OrderBy(z => z.country.code).ThenBy(y => y.indicator_id).ThenBy(x => x.quarter);
+
+
+                var jsondata = new List<Object>();
+                var Variables_object = new Dictionary<string, Dictionary<string, Object>>();
+                var Indicador_object = new Dictionary<string, Dictionary<string, Object>>();
+                var Group_object = new Dictionary<string, Dictionary<string, Object>>();
+
+                foreach (country item_country in country_)
+                {
+                    var item_data = new Dictionary<string, Object>();
+                    var item_data_subitem = new Dictionary<string, Object>();
+                    item_data_subitem.Add("name",item_country.code.ToUpper());
+                    item_data.Add(item_country.code, item_data_subitem);
+                }
+
+                //foreach (country_indicator item_foreach in country_indicador_)
+                //{
+                //    var item_data = new Dictionary<string, Object>();
+                //    item_data.Add("name", item_foreach.name);
+                //    item_data.Add("shortname", item_foreach.short_);
+                //    item_data.Add("objective", item_foreach.indicator.objective.code);
+                //    item_data.Add("group", item_foreach.indicator.indicatorgroup.code);
+                //    item_data.Add("type", item_foreach.indicator.mode);
+                //    VariablesNames_object.Add(item_foreach.code, item_data);
+                //}
+
+                jsondata.Add(new
+                {
+                    Variables = Variables_object
+                });
+
+
+                return Json(jsondata, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+
+            return null;
+
+        }
+
     }
 }

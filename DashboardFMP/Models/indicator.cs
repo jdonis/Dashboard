@@ -38,6 +38,8 @@ namespace DashboardFMP.Models
         public virtual indicatorgroup indicatorgroup { get; set; }
         [ForeignKey("objective_id")]
         public virtual objective objective { get; set; }
+        //[ForeignKey("id")]
+        //public virtual country_indicator country_indicator { get; set; }
         //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         //public virtual ICollection<country_indicator> country_indicator { get; set; }
         //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

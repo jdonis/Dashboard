@@ -21,9 +21,10 @@ namespace DashboardFMP.Models
         //    this.question_value = new HashSet<question_value>();
         //}
 
-        [Column(Order = 0), Key]
+        public int id { get; set; }
+        //[Column(Order = 0), Key]
         public int indicator_id { get; set; }
-        [Column(Order = 1), Key]
+        //[Column(Order = 1), Key]
         public int country_id { get; set; }
         public int value { get; set; }
         public string inputtype { get; set; }
