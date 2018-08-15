@@ -14,13 +14,13 @@ namespace DashboardFMP.Models
     using System.ComponentModel.DataAnnotations.Schema;
     public partial class indicator
     {
-        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        //public indicator()
-        //{
-        //    this.country_indicator = new HashSet<country_indicator>();
-        //    this.indicator_info = new HashSet<indicator_info>();
-        //}
-    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public indicator()
+        {
+            //this.country_indicator = new HashSet<country_indicator>();
+            this.indicator_info = new HashSet<indicator_info>();
+        }
+
         public int id { get; set; }
         public int? checklist_id { get; set; }
         public int objective_id { get; set; }
@@ -42,7 +42,7 @@ namespace DashboardFMP.Models
         //public virtual country_indicator country_indicator { get; set; }
         //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         //public virtual ICollection<country_indicator> country_indicator { get; set; }
-        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        //public virtual ICollection<indicator_info> indicator_info { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<indicator_info> indicator_info { get; set; }
     }
 }

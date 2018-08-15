@@ -26,10 +26,10 @@ namespace DashboardFMP.Models
         public int indicator_id { get; set; }
         //[Column(Order = 1), Key]
         public int country_id { get; set; }
-        public int value { get; set; }
-        public string inputtype { get; set; }
+        public Nullable<decimal> value { get; set; }
+        public int year_ind_country { get; set; }
         public int quarter { get; set; }
-        public Nullable<int> target { get; set; }
+        public Nullable<decimal> target { get; set; }
         public Nullable<System.DateTime> inputyear { get; set; }
 
         [ForeignKey("country_id")]
