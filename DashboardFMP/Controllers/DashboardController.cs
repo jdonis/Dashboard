@@ -257,6 +257,26 @@ namespace DashboardFMP.Controllers
             return result;
         }
 
+        private decimal transform_valuetopercentil(string mode, decimal? value , decimal? target)
+        {
+           decimal result = 0;
+
+            if (value == null) value = 0;
+
+            if (target == null || target == 0) return result = 0;
+
+            if (mode == "value")
+            {
+                result = ((decimal)value * 100) / (decimal)target;
+            } else if ( mode == "percent")
+            {
+                result = (decimal)value;
+            }
+
+            return result; 
+        }
+
+
         public ActionResult variables()
         {
             try
@@ -468,8 +488,8 @@ namespace DashboardFMP.Controllers
 
                         if ((item_name == "Q1" && !item_data_Groups_quarters.ContainsKey("Q1")) || (item_name == "Q2" && !item_data_Groups_quarters.ContainsKey("Q2")) || (item_name == "Q3" && !item_data_Groups_quarters.ContainsKey("Q3")) || (item_name == "Q4" && !item_data_Groups_quarters.ContainsKey("Q4")))
                         {
-                                item_data_Groups_quarters.Add(item_name, (item_indicatorbycountry.value == null) ? 0 : (decimal)item_indicatorbycountry.value);
-                                item_data_Groups_quarters.Add(item_name_target, (item_indicatorbycountry.target == null) ? 0 :  (decimal)item_indicatorbycountry.target);
+                                item_data_Groups_quarters.Add(item_name, (item_indicatorbycountry.value == null) ? 0 : (item_indicatorbycountry.target == null) ? 0 : transform_valuetopercentil(item_indicatorbycountry.indicator.mode,  (decimal)item_indicatorbycountry.value, (decimal)item_indicatorbycountry.target));
+                                item_data_Groups_quarters.Add(item_name_target, (item_indicatorbycountry.target == null) ? 0 : transform_valuetopercentil(item_indicatorbycountry.indicator.mode, (decimal)item_indicatorbycountry.target, (decimal)item_indicatorbycountry.target));
                                 item_data_Groups_quarters.Add(item_name_count, (item_indicatorbycountry.value == null )? 0 : 1);
                         }
                         else
@@ -479,8 +499,8 @@ namespace DashboardFMP.Controllers
                             if (item_name == "Q3" && item_indicatorbycountry.value.ToString() != "") count_Q3 += 1;
                             if (item_name == "Q4" && item_indicatorbycountry.value.ToString() != "") count_Q4 += 1;
 
-                            item_data_Groups_quarters[item_name] = ((item_data_Groups_quarters[item_name] == 0 && item_indicatorbycountry.value == null) ? 0 : (item_data_Groups_quarters[item_name] != 0) ? item_data_Groups_quarters[item_name] : 0) + ((item_indicatorbycountry.value != null) ? (decimal)item_indicatorbycountry.value : 0);
-                            item_data_Groups_quarters[item_name_target] = (item_data_Groups_quarters[item_name_target] == 0 && item_indicatorbycountry.target == null) ? 0 : ((item_data_Groups_quarters[item_name_target] != 0) ? item_data_Groups_quarters[item_name_target] : 0) + ((item_indicatorbycountry.target != null) ? (decimal)item_indicatorbycountry.target : 0);
+                            item_data_Groups_quarters[item_name] = ((item_data_Groups_quarters[item_name] == 0 && item_indicatorbycountry.value == null) ? 0 : (item_data_Groups_quarters[item_name] != 0) ? item_data_Groups_quarters[item_name] : 0) + ((item_indicatorbycountry.value != null) ? (item_indicatorbycountry.target == null) ? 0 : transform_valuetopercentil(item_indicatorbycountry.indicator.mode, (decimal)item_indicatorbycountry.value, (decimal)item_indicatorbycountry.target) : 0);
+                            item_data_Groups_quarters[item_name_target] = (item_data_Groups_quarters[item_name_target] == 0 && item_indicatorbycountry.target == null) ? 0 : ((item_data_Groups_quarters[item_name_target] != 0) ? item_data_Groups_quarters[item_name_target] : 0) + ((item_indicatorbycountry.target != null) ? (item_indicatorbycountry.target == null) ? 0 : transform_valuetopercentil(item_indicatorbycountry.indicator.mode, (decimal)item_indicatorbycountry.target, (decimal)item_indicatorbycountry.target) : 0);
                             item_data_Groups_quarters[item_name_count] = (item_name == "Q1" && count_Q1 > 0) ? count_Q1 : (item_name == "Q2" && count_Q2 > 0) ? count_Q2 : (item_name == "Q3" && count_Q3 > 0) ? count_Q3 : (item_name == "Q4" && count_Q4 > 0) ? count_Q4 :  (item_data_Groups_quarters[item_name_count] != 0) ? item_data_Groups_quarters[item_name_count] : 0;
 
                         }
@@ -506,7 +526,7 @@ namespace DashboardFMP.Controllers
 
                 return Json(jsondata, JsonRequestBehavior.AllowGet);
 
-            }
+        }
             catch (Exception e)
             {
                 ViewBag.Message = e.Message;
