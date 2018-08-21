@@ -926,6 +926,13 @@
             <End Role="objective_info" EntitySet="objective_info" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="country_objective" BaseType="DashboardFMPModel.objective" >
+          <Property Name="objective_id" Type="String" Nullable="false" />
+          <Property Name="country_id" Type="String" Nullable="false" />
+          <Property Name="target" Type="String" Nullable="false" />
+          <Property Name="year_obj_country" Type="String" Nullable="false" />
+          <Property Name="quarter" Type="String" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1044,7 +1051,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="objectives">
-            <EntityTypeMapping TypeName="DashboardFMPModel.objective">
+            <EntityTypeMapping TypeName="IsTypeOf(DashboardFMPModel.objective)">
               <MappingFragment StoreEntitySet="objective">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="code" ColumnName="code" />

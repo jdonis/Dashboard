@@ -113,7 +113,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="objectives">
-      <EntityTypeMapping TypeName="DashboardFMPModel.objective">
+      <EntityTypeMapping TypeName="IsTypeOf(DashboardFMPModel.objective)">
         <MappingFragment StoreEntitySet="objective">
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="code" ColumnName="code" />

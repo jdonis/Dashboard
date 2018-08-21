@@ -37,6 +37,8 @@
         <AssociationConnector Association="DashboardFMPModel.FK__indicator__langu__35BCFE0A" ManuallyRouted="false" />
         <AssociationConnector Association="DashboardFMPModel.FK__objective__langu__36B12243" ManuallyRouted="false" />
         <AssociationConnector Association="DashboardFMPModel.FK__objective__objec__37A5467C" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DashboardFMPModel.country_objective" Width="1.5" PointX="8.375" PointY="1.625" />
+        <InheritanceConnector EntityType="DashboardFMPModel.country_objective" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

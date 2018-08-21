@@ -32,6 +32,7 @@ namespace DashboardFMP.Models
         public virtual DbSet<checklistquestion> checklistquestions { get; set; }
         public virtual DbSet<country> countries { get; set; }
         public virtual DbSet<country_indicator> country_indicator { get; set; }
+        public virtual DbSet<country_objective> country_objective { get; set; }
         public virtual DbSet<country_info> country_info { get; set; }
         public virtual DbSet<indicator> indicators { get; set; }
         public virtual DbSet<indicator_group_info> indicator_group_info { get; set; }

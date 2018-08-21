@@ -203,6 +203,9 @@
     <Compile Include="Models\country_info.cs">
       <DependentUpon>DashboardFMPModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\country_objective.cs">
+      <DependentUpon>DashboardFMPModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DashboardFMPModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

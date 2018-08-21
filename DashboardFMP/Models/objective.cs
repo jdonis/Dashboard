@@ -14,20 +14,23 @@ namespace DashboardFMP.Models
     
     public partial class objective
     {
-        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        //public objective()
-        //{
-        //    this.indicators = new HashSet<indicator>();
-        //    this.objective_info = new HashSet<objective_info>();
-        //}
-    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public objective()
+        {
+            //    this.indicators = new HashSet<indicator>();
+            this.objective_info = new HashSet<objective_info>();
+        }
+
         public int id { get; set; }
         public string code { get; set; }
         public string short_ { get; set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<objective_info> objective_info { get; set; }
+
         //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         //public virtual ICollection<indicator> indicators { get; set; }
-        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        //public virtual ICollection<objective_info> objective_info { get; set; }
+        //
+
     }
 }
