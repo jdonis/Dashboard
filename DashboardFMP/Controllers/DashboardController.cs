@@ -9,16 +9,16 @@ namespace DashboardFMP.Controllers
 {
     public class DashboardController : Controller
     {
-        private partial class indicator_by_country_class
-        {
+        //private partial class indicator_by_country_class
+        //{
 
-            public string code { get; set; }
-            public int quarter { get; set; }
-            public int count_ { get; set; }
-            public decimal sum_value { get; set; }
-            public decimal sum_target { get; set; }
+        //    public string code { get; set; }
+        //    public int quarter { get; set; }
+        //    public int count_ { get; set; }
+        //    public decimal sum_value { get; set; }
+        //    public decimal sum_target { get; set; }
 
-        }
+        //}
 
         private DefaultConnection db = new DefaultConnection();
         // GET: Dashboard

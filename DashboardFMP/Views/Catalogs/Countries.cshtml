@@ -1,0 +1,49 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Catálogo de paises</title>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/DataTables/css/jquery.dataTables.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/select.dataTables.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/buttons.dataTables.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/responsive.dataTables.css" rel="stylesheet" />
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <script src="~/scripts/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/scripts/DataTables/jquery.dataTables.js"></script>
+    <script src="~/scripts/DataTables/dataTables.buttons.js"></script>
+    <script src="~/scripts/DataTables/dataTables.select.js"></script>
+    <script src="~/scripts/DataTables/dataTables.responsive.js"></script>
+    <script src="~/scripts/DataTablesEditor/dataTables.altEditor.js"></script>
+
+    <script src="~/scripts/Catalog/CatalogCountries.js"></script>
+</head>
+<body>
+
+    <h2>jQuery Datatable With Server Side Data</h2>
+
+    <table id="Countries" class="table, display"  width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Group</th>
+                <th>Code</th>
+                <th>Language</th>
+                <th></th>
+            </tr>
+        </thead>
+    </table>
+
+
+
+</body>
+</html>
