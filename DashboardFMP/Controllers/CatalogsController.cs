@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -12,64 +13,42 @@ namespace DashboardFMP.Controllers
     {
         private DefaultConnection db = new DefaultConnection();
 
-        public ActionResult ListCountries()
+        private JsonResult SaveChanges()
+        {
+            db.SaveChanges();
+            return Json("Success");
+        }
+
+        public ActionResult ListLanguajeCatalog()
         {
             try
             {
-                //var jsondata = new List<Object>();
-            var jsondata_app = new List<Object>();
-            var list_countries = db.country_info;
-
-                //JArray blogPostsArray = new JArray(list_countries.Select(x => new { x.country.code, x.name, x.group, x.description, language = x.language.name }));
-
-                ////var countries_list_object = list_countries.Select(x => new { id = x.country_id.ToString(), code = x.country.code, name = x.name,
-                //                            group = x.group.ToString(), description = x.description, language = x.language.name }).ToArray();
-
-
-                var Array_countries_list = (from countries_db in list_countries
+                var list_languages = db.languages;
+                var jsondata = (from countries_db in list_languages
                                             select new
-                {
-                    id = countries_db.country_id.ToString(),
-                    code = countries_db.country.code.ToString(),
-                    name = countries_db.name.ToString(),
-                    description  = countries_db.description.ToString(),
-                    @group = countries_db.@group.ToString(),
-                    @language = countries_db.language.name.ToString()
+                                            {
+                                                id = countries_db.id,
+                                                code = countries_db.code,
+                                                name = countries_db.name
 
-                }).ToArray(); 
+                                            }).ToArray();
 
+                return Json(jsondata, JsonRequestBehavior.AllowGet);
 
-                //(from flucase in flucases
-                // select new
-                // {
-                //     surv_ID = flucase.Surv,
-                //     surv_IDInusual = flucase.SurvInusual,    //#### CAFQ: 180604 - Jamaica Universal
-                //     ready_close = ((flucase.flow == db.InstitutionsConfiguration.Where(i => i.InstitutionParentID == flucase.HospitalID).OrderByDescending(x => x.Priority).FirstOrDefault().Priority && flucase.statement == 2) || (flucase.IsSample == false)) ? 1 : 0,
-                //     id_D = flucase.ID,
-                //     H_D = flucase.HospitalDate,
-                //     LN_D = flucase.LName1 + " " + flucase.LName2 ?? "",
-                //     FN_D = flucase.FName1 + " " + flucase.FName2 ?? "",
-                //     NE_D = flucase.NoExpediente ?? "",
-                //     IS_D = flucase.IsSample,
-                //     FR_D = flucase.FinalResult,
-                //     FR_D_C = flucase.CatVirusType_FR1,
-                //     D_D = flucase.Destin,
-                //     FRVT_D = flucase.FinalResultVirusTypeID,
-                //     P_D = flucase.Processed,
-                //     CS_D = flucase.CaseStatus,
-                //     CS_D_Cat = flucase.CatStatusCase,
-                //     VR_IF_D = flucase.CaseLabTests.Where(e => e.TestType == 1 && e.Processed != null).OrderBy(y => y.CatVirusType.orden).ThenBy(d => d.SampleNumber).ThenBy(u => u.TestDate).FirstOrDefault(),
-                //     VR_PCR_D = flucase.CaseLabTests.Where(e => e.TestType == 2 && e.Processed != null).OrderBy(y => y.CatVirusType.orden).ThenBy(d => d.SampleNumber).ThenBy(u => u.TestDate).FirstOrDefault(),
-                //     HEALTH_INST = flucase.Hospital.Name ?? ""
-                // })
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
+        }
 
+        public ActionResult ListCountriesDataTables()
+        {
+            try
+            {
 
-
-                // Json general
-                //    jsondata.Add(new
-                //{
-                //    data = Array_countries_list
-                //    });
+            var list_countries = db.country_info; 
 
                 var jsondata = (from countries_db in list_countries
                                 select new
@@ -131,20 +110,63 @@ namespace DashboardFMP.Controllers
         }
 
         // GET: Catalogs/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult GetCountry(int id)
         {
-            return View();
+            try
+            {
+                var list_countries = db.country_info.Where(x => x.country_id == id);
+
+                var jsondata = (from countries_db in list_countries
+                                select new
+                                {
+                                    id = countries_db.country_id.ToString(),
+                                    code = countries_db.country.code.ToString(),
+                                    name = countries_db.name.ToString(),
+                                    description = countries_db.description.ToString(),
+                                    @group = countries_db.@group,
+                                    language_id = countries_db.language.id
+
+                                }).ToArray();
+
+                return Json(jsondata, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
         }
 
         // POST: Catalogs/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult SaveCountry(FormCollection frm)
         {
             try
             {
                 // TODO: Add update logic here
+                country_info country_;
+                var id_country = (frm["id"] == "" ) ? 0 : Convert.ToInt32(frm["id"]);
+                var id_language = (frm["language"] == "") ? 0 : Convert.ToInt32(frm["language"]);
 
-                return RedirectToAction("Index");
+                if (id_country == 0)
+                {
+                        country_ = new country_info();
+                        db.Entry(country_).State = EntityState.Added;
+                } else
+                {
+                    country_ = db.country_info.Find(id_country,id_language);
+                    db.Entry(country_).State = EntityState.Modified;
+                }
+
+                country_.description = frm["description"];
+                country_.group =  Convert.ToBoolean(frm["group"]);
+                country_.country.code = frm["code"];
+                country_.name = frm["Name"];
+                country_.country.code = frm["code"];
+
+                db.SaveChanges();
+
+                return Json("Success");
             }
             catch
             {
