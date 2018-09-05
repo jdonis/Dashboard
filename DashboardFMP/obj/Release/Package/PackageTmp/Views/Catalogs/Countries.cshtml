@@ -1,0 +1,113 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Catálogo de paises</title>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/DataTables/css/jquery.dataTables.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/select.dataTables.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/buttons.dataTables.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/responsive.dataTables.css" rel="stylesheet" />
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <script src="~/scripts/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/scripts/DataTables/jquery.dataTables.js"></script>
+    <script src="~/scripts/DataTables/dataTables.buttons.js"></script>
+    <script src="~/scripts/DataTables/dataTables.select.js"></script>
+    <script src="~/scripts/DataTables/dataTables.responsive.js"></script>
+    <script src="~/scripts/DataTablesEditor/dataTables.altEditor.js"></script>
+
+    <script src="~/scripts/Catalog/CatalogCountries.js"></script>
+</head>
+<body>
+
+    <h2>jQuery Datatable With Server Side Data</h2>
+
+    <table id="Countries" class="table, display"  width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Group</th>
+                <th>Code</th>
+                <th>Language</th>
+                <th></th>
+            </tr>
+        </thead>
+    </table>
+
+
+    <div class="modal fade" id="altEditor-modal" dtabindex="-1" role="dialog" style="display: none; padding-left: 17px;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Editar Registro</h4>
+                </div>
+                <div class="modal-body">
+                        <form name="altEditor-form" id="altEditor-form" role="form">
+                                <input  id="id" name="id" placeholder="id" value="" type="hidden">
+                                <div class="form-group">
+                                    <div class="col-sm-3 col-md-3 col-lg-3 text-right" style="padding-top:7px;">
+                                    <label for="Name">Name:</label></div><div class="col-sm-9 col-md-9 col-lg-9">
+                                        <input id="Name" name="Name" placeholder="Name" style="overflow:hidden" class="form-control form-control-sm primarykey" value="" type="text">
+                                    </div>
+                                    <div style="clear:both;"></div>
+                                 </div>
+                                <div class="form-group">
+                                    <div class="col-sm-3 col-md-3 col-lg-3 text-right" style="padding-top:7px;">
+                                    <label for="Description">Description:</label>
+                                    </div>
+                                    <div class="col-sm-9 col-md-9 col-lg-9">
+                                        <input id="Description" name="Description" placeholder="Description" style="overflow:hidden" class="form-control form-control-sm" value="" type="text">
+                                    </div>
+                                    <div style="clear:both;"></div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-3 col-md-3 col-lg-3 text-right" style="padding-top:7px;">
+                                    <label for="Group">Group:</label>
+                                        </div>
+                                    <div class="col-sm-9 col-md-9 col-lg-9">
+                                        <input id="Group" name="Group" placeholder="Group" style="overflow:hidden" class="form-control form-control-sm" value="true" type="checkbox">
+                                    </div>
+                                    <div style="clear:both;"></div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-3 col-md-3 col-lg-3 text-right" style="padding-top:7px;">
+                                    <label for="Code">Code:</label></div>
+                                    <div class="col-sm-9 col-md-9 col-lg-9">
+                                    <input id="Code" name="Code" placeholder="Code" style="overflow:hidden" class="form-control form-control-sm" value="" type="text">
+                                        </div>
+                                    <div style="clear:both;"></div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-3 col-md-3 col-lg-3 text-right" style="padding-top:7px;">
+                                    <label for="Language">Language:</label>
+                                    </div>
+                                    <div class="col-sm-9 col-md-9 col-lg-9">
+                                    @*<input id="Language" name="Language" placeholder="Language" style="overflow:hidden" class="form-control form-control-sm" value="" type="text">*@
+                                        <select class="languaje" id="languaje"></select>
+                                    </div>
+                                    <div style="clear:both;"></div>
+                                </div>
+                        </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-content="remove" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" data-content="remove" class="btn btn-primary" id="editRowBtn">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+</html>
