@@ -15,6 +15,7 @@ $.fn.serializeObject = function () {
     return o;
 };
 
+
 function ResetRecord() {
 
             $('#id').val("");
@@ -23,6 +24,20 @@ function ResetRecord() {
             $('#Group').prop('checked', false);
             $('#Code').val("");
             $('#languaje').val("");
+}
+
+
+function validate() {
+
+    var msg = "";
+
+    if ($("#Name").val() == "") { msg  += " Ingrese el nombre" + "\n"; $("#Name").focus()}
+    if ($("#Code").val() == "") { msg += " Ingrese el código del país" + "\n"; $("#Code").focus() };
+    if ($("#languaje").val() == "") { msg += " Ingrese el lenguaje" + "\n"; $("#languaje").focus() };
+
+    if (msg !== "") { alert(msg); return false; }
+    return true;
+
 }
 
 function GetRecord(id) {
@@ -55,6 +70,7 @@ function GetRecord(id) {
 function SaveRecord() {
     var id = $("#id").val();
     var formData = $('#altEditor-form').serializeObject();
+    console.log(formData);
     $.extend(formData, { 'country': id }); //Send Additional data
     $.extend(formData, { 'language': $("#languaje option:selected").val() }); //Send Additional data  $("#languaje").val()
 
@@ -77,7 +93,36 @@ function SaveRecord() {
 
 }
 
+function CreateRecord() {
+    var formData = $('#altEditor-form').serializeObject();
+    console.log(formData);
+    $.extend(formData, { 'language': $("#languaje option:selected").val() }); //Send Additional data  $("#languaje").val()
+
+
+    $.ajax({
+        url: "../Catalogs/CreateCountry/",
+        cache: false,
+        type: 'POST',
+        dataType: 'json',
+        data: decodeURIComponent($.param(formData)),
+        success: function (data) {
+            $('#Countries').DataTable().ajax.reload();
+            alert('Registro creado');
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("AJAX error: " + textStatus + ' : ' + errorThrown);
+        }
+    });
+
+    $('#languaje').attr('disabled', false);
+
+}
+
 $(document).ready(function () {
+
+    //$.validate({
+    //    validateHiddenInputs: true
+    //});
 
         //$("#altEditor-modal_AM").modal("hide");
 

@@ -95,18 +95,46 @@ namespace DashboardFMP.Controllers
 
         // POST: Catalogs/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult CreateCountry(FormCollection frm)
         {
             try
             {
-                // TODO: Add insert logic here
+                country_info country_;
+                country country_orig;
+                var id_language = (frm["language"] == "") ? 0 : Convert.ToInt32(frm["language"]);
+                var id_country = 0;
+                var cod_country = frm["code"];
+                if (db.countries.Where(z => z.code.ToUpper() == cod_country.ToUpper()).Any())
+                  id_country = db.countries.Where(z => z.code.ToUpper() == frm["code"].ToUpper()).SingleOrDefault().id;
 
-                return RedirectToAction("Index");
+                country_orig = new country();
+
+                if (id_country == 0  )
+                {
+
+                    country_orig.code = cod_country;
+                    db.Entry(country_orig).State = EntityState.Added;
+                    db.SaveChanges();
+                }
+
+                country_ = new country_info();
+                
+                country_.country_id = country_orig.id;
+                country_.description = frm["description"];
+                country_.group = Convert.ToBoolean(frm["group"]);
+                country_.name = frm["name"];
+                country_.language_id = id_language;
+                db.Entry(country_).State = EntityState.Added;
+
+                db.SaveChanges();
+
+                return Json("Success");
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                ViewBag.Message = e.Message;
             }
+            return null;
         }
 
         // GET: Catalogs/Edit/5
@@ -161,8 +189,7 @@ namespace DashboardFMP.Controllers
                 country_.description = frm["description"];
                 country_.group =  Convert.ToBoolean(frm["group"]);
                 country_.country.code = frm["code"];
-                country_.name = frm["Name"];
-                country_.country.code = frm["code"];
+                country_.name = frm["name"];
 
                 db.SaveChanges();
 
