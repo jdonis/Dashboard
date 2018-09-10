@@ -68,13 +68,13 @@ function GetRecord(id) {
 
 
 function SaveRecord() {
-    var id = $("#id").val();
+    var language_id = $("#language").val();
     var formData = $('#altEditor-form').serializeObject();
-    $.extend(formData, { 'language': id }); //Send Additional data
+    $.extend(formData, { 'language': language_id }); //Send Additional data
     console.log(formData);
 
     $.ajax({
-        url: "../Catalogs/LanguageSave/",
+        url: "../Catalogs/ObjectiveSave/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -96,7 +96,7 @@ function CreateRecord() {
     var formData = $('#altEditor-form').serializeObject();
 
     $.ajax({
-        url: "../Catalogs/LanguageCreate/",
+        url: "../Catalogs/ObjectiveCreate/",
         cache: false,
         type: 'POST',
         dataType: 'json',
