@@ -20,10 +20,10 @@ function ResetRecord() {
 
             $('#id').val("");
             $('#Name').val("");
-            $('#Description').val("");
-            $('#Group').prop('checked', false);
             $('#Code').val("");
-            $('#languaje').val("");
+            $('#Name').attr("disabled", false);
+            $('#Code').attr("disabled", false);
+
 }
 
 
@@ -32,8 +32,7 @@ function validate() {
     var msg = "";
 
     if ($("#Name").val() == "") { msg  += " Ingrese el nombre" + "\n"; $("#Name").focus()}
-    if ($("#Code").val() == "") { msg += " Ingrese el código del país" + "\n"; $("#Code").focus() };
-    if ($("#languaje").val() == "") { msg += " Ingrese el lenguaje" + "\n"; $("#languaje").focus() };
+    if ($("#Code").val() == "") { msg += " Ingrese el código del lenguaje" + "\n"; $("#Code").focus() };
 
     if (msg !== "") { alert(msg); return false; }
     return true;
@@ -45,7 +44,7 @@ function GetRecord(id) {
     console.log("Edit_Record " + id);
     $.ajax({
         type: "POST",
-        url: "../Catalogs/CountryGet/",
+        url: "../Catalogs/LanguageGet/",
         data: { 'ID': id },
         success: function (data) {
             console.log("Response Edit_record");
@@ -53,11 +52,7 @@ function GetRecord(id) {
 
             $('#id').val(id);
             $('#Name').val(data[0].name);
-            $('#Description').val(data[0].description);
-            if (data[0].group == true)
-                $('#Group').prop('checked', true);
             $('#Code').val(data[0].code);
-            $('#languaje').val(data[0].language_id);
 
         }
     });
@@ -70,18 +65,17 @@ function GetRecord(id) {
 function SaveRecord() {
     var id = $("#id").val();
     var formData = $('#altEditor-form').serializeObject();
+    $.extend(formData, { 'language': id }); //Send Additional data
     console.log(formData);
-    $.extend(formData, { 'country': id }); //Send Additional data
-    $.extend(formData, { 'language': $("#languaje option:selected").val() }); //Send Additional data  $("#languaje").val()
 
     $.ajax({
-        url: "../Catalogs/CountrySave/",
+        url: "../Catalogs/LanguageSave/",
         cache: false,
         type: 'POST',
         dataType: 'json',
         data: decodeURIComponent($.param(formData)),
         success: function (data) {
-            $('#Countries').DataTable().ajax.reload();
+            $('#DataTableCatalog').DataTable().ajax.reload();
             alert('Registro guardado');
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -95,19 +89,16 @@ function SaveRecord() {
 
 function CreateRecord() {
     var formData = $('#altEditor-form').serializeObject();
-    console.log(formData);
-    $.extend(formData, { 'language': $("#languaje option:selected").val() }); //Send Additional data  $("#languaje").val()
-
 
     $.ajax({
-        url: "../Catalogs/CountryCreate/",
+        url: "../Catalogs/LanguageCreate/",
         cache: false,
         type: 'POST',
         dataType: 'json',
         data: decodeURIComponent($.param(formData)),
         success: function (data) {
-            $('#Countries').DataTable().ajax.reload();
-            alert('Registro creado');
+            $('#DataTableCatalog').DataTable().ajax.reload();
+            alert(data);
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert("AJAX error: " + textStatus + ' : ' + errorThrown);
@@ -118,17 +109,44 @@ function CreateRecord() {
 
 }
 
+function DeleteRecord() {
+    var id = $("#id").val();
+    var formData = $('#altEditor-form').serializeObject();
+    $.extend(formData, { 'language': id }); //Send Additional data
+
+    $.ajax({
+        url: "../Catalogs/LanguageDelete/",
+        cache: false,
+        type: 'POST',
+        dataType: 'json',
+        data: decodeURIComponent($.param(formData)),
+        success: function (data) {
+            $('#DataTableCatalog').DataTable().ajax.reload();
+            alert(data);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("AJAX error: " + textStatus + ' : ' + errorThrown);
+        }
+    });
+
+    $('#languaje').attr('disabled', false);
+
+}
+
+
+function DisableRecord() {
+
+    $('#Name').attr("disabled", true);
+    $('#Code').attr("disabled", true);
+
+}
+
 $(document).ready(function () {
 
-    //$.validate({
-    //    validateHiddenInputs: true
-    //});
 
-        //$("#altEditor-modal_AM").modal("hide");
-
-    var table = $('#Countries').DataTable({
+    var table = $('#DataTableCatalog').DataTable({
         "ajax": {
-            "url": "../Catalogs/CountriesListDataTables/",
+            "url": "../Catalogs/LanguagesListDataTables/",
             "dataSrc": ""
         },
         "columns": [
@@ -140,10 +158,8 @@ $(document).ready(function () {
         //},
         { "data": "id", "visible": false },
         { "data": "name"  },
-        { "data": "description" },
-        { "data": "group" },
-        { "data": "code" },
-        { "data": "language" }],
+        { "data": "code" }
+        ],
         //select: {
         //    style: 'os',
         //    selector: 'td:first-child'
@@ -167,52 +183,6 @@ $(document).ready(function () {
             name: 'delete'      // do not change name
         }]
     });
-
-    $('#Countries').on('click', 'tbody td:not(:first-child)', function () {
-        //var rowIdx = table
-        //    .cell(this)
-        //    .index().row;
-
-        console.log($(this).data('name'));
-        //table
-        //    .rows(rowIdx)
-        //    .nodes()
-        //    .to$()
-        //    .addClass('clicked');
-
-    });
-
-
-// Catalogo de idiomas
-    $('#languaje').empty()
-    $.ajax({
-        type: "POST",
-        url: "../Catalogs/ListLanguajeCatalog/",
-        //data: { 'carId': carId },
-        success: function (data) {
-
-            $('#languaje').append('<option value=""> Select </option>');
-            for (i = 0; i < data.length; i++) {
-                //console.log(data[i].id + "---" + data[i].name);
-                $('#languaje').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
-            }
-
-            //$.each(opts, function (i, d) {
-            //    // You will need to alter the below to get the right values from your json object.  Guessing that d.id / d.modelName are columns in your carModels data
-            //    $('#emptyDropdown').append('<option value="' + d.id + '">' + d.name + '</option>');
-            //});
-        }
-    });
-
-    //var $modal = $('#altEditor-modal_AM');
-
-    ////when hidden
-    //$modal.on('hidden.bs.modal', function (e) {
-    //    return this.render(); //DOM destroyer
-    //});
-
-    //$modal.modal('hide'); //start hiding
-
 
 
 });

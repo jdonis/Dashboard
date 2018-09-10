@@ -179,23 +179,23 @@ namespace DashboardFMP.Controllers
 
                 // Objectives
 
-                string[] objective_list_object = objectives_info.Where(z => z.language.code == Language_).OrderBy(y => y.objective.code).Select(x => x.objective.objective_info.FirstOrDefault().code).ToArray();  // Nodo groups_list
+                string[] objective_list_object = objectives_info.Where(z => z.language.code == Language_).OrderBy(y => y.objective.code).Select(x => x.objective.objective_info.FirstOrDefault().code_info).ToArray();  // Nodo groups_list
 
-                var objectives = objectives_info.Where(z => z.language.code == Language_).OrderBy(y => y.code).ToArray();
+                var objectives = objectives_info.Where(z => z.language.code == Language_).OrderBy(y => y.code_info).ToArray();
 
                 foreach (objective_info item_foreach in objectives)
                 {
-                    objectives_short.Add(item_foreach.code, item_foreach.objective.short_);
+                    objectives_short.Add(item_foreach.code_info, item_foreach.objective.short_);
                 }
 
                 foreach (objective_info item_foreach in objectives)
                 {
                     string[] group_list_by_objective = indicators_.Where(x => x.objective_id == item_foreach.objective_id).GroupBy(z => z.indicatorgroup.code).Select( g => g.FirstOrDefault().indicatorgroup.code).ToArray();
 
-                    objectives_node_subnode.Add("short", item_foreach.short_);
+                    objectives_node_subnode.Add("short", item_foreach.short_name);
                     objectives_node_subnode.Add("name", item_foreach.name);
                     objectives_node_subnode.Add("groups", group_list_by_objective);
-                    objectives_node.Add(item_foreach.code,objectives_node_subnode);
+                    objectives_node.Add(item_foreach.code_info,objectives_node_subnode);
                     objectives_node_subnode = new Dictionary<string, Object>();
                     //objectives_node = new Dictionary<string, Object>();
                 }
@@ -925,12 +925,12 @@ namespace DashboardFMP.Controllers
 
                         if (objective_actual == "" && objective_back == "")
                         {
-                            objective_actual = objective_back = item_indicatorbycountry.indicator.objective.objective_info.FirstOrDefault().code;
+                            objective_actual = objective_back = item_indicatorbycountry.indicator.objective.objective_info.FirstOrDefault().code_info;
                             indicator_back_mode = item_indicatorbycountry.indicator.mode;
                         }
                         else
                         {
-                            objective_actual = item_indicatorbycountry.indicator.objective.objective_info.FirstOrDefault().code;
+                            objective_actual = item_indicatorbycountry.indicator.objective.objective_info.FirstOrDefault().code_info;
                         }
 
                         if (objective_actual != objective_back)
@@ -1087,12 +1087,12 @@ namespace DashboardFMP.Controllers
 
                         if (objective_actual == "" && objective_back == "")
                         {
-                            objective_actual = objective_back = item_indicatorbycountry.indicator.objective.objective_info.FirstOrDefault().code;
+                            objective_actual = objective_back = item_indicatorbycountry.indicator.objective.objective_info.FirstOrDefault().code_info;
                             indicator_back_mode = item_indicatorbycountry.indicator.mode;
                         }
                         else
                         {
-                            objective_actual = item_indicatorbycountry.indicator.objective.objective_info.FirstOrDefault().code;
+                            objective_actual = item_indicatorbycountry.indicator.objective.objective_info.FirstOrDefault().code_info;
                         }
 
                         if (objective_actual != objective_back)

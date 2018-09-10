@@ -43,12 +43,240 @@ namespace DashboardFMP.Controllers
             return null;
         }
 
-        public ActionResult ListCountriesDataTables()
+
+        // GET: Catalogs
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        // Objectives
+
+        public ActionResult Objectives(int? id)
+        {
+            return View();
+        }
+
+        public ActionResult ObjectivesListDataTables()
         {
             try
             {
 
-            var list_countries = db.country_info; 
+                var list_object = db.objective_info;
+
+                var jsondata = (from object_db in list_object
+                                select new
+                                {
+                                    id = object_db.objective.id,
+                                    code = object_db.objective.code,
+                                    code_short = object_db.objective.short_,
+                                    name = object_db.name,
+                                    short_name = object_db.short_name,
+                                    @language = object_db.language.name,
+                                    code_group_info = object_db.code_info
+
+                                }).ToArray();
+
+                return Json(jsondata, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
+        }
+
+        public ActionResult ObjectiveGet(int id)
+        {
+            try
+            {
+                var list_objectives = db.objective_info.Where(x => x.objective_id == id);
+
+                var jsondata = (from objective_db in list_objectives
+                                select new
+                                {
+                                    id = objective_db.objective_id,
+                                    code = objective_db.objective.code,
+                                    code_short = objective_db.objective.short_,
+                                    name = objective_db.name,
+                                    short_name = objective_db.short_name,
+                                    language_id = objective_db.language_id,
+                                    code_group_info = objective_db.code_info
+
+                                }).ToArray();
+
+                return Json(jsondata, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
+        }
+
+        // Languages
+
+        public ActionResult Languages(int? id)
+        {
+            return View();
+        }
+
+
+        public ActionResult LanguagesListDataTables()
+        {
+            try
+            {
+
+                var list_languages = db.languages;
+
+                var jsondata = (from languages_db in list_languages
+                                select new
+                                {
+                                    id = languages_db.id,
+                                    code = languages_db.code,
+                                    name = languages_db.name
+
+                                }).ToArray();
+
+                return Json(jsondata, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
+        }
+
+        public ActionResult LanguageGet(int id)
+        {
+            try
+            {
+                var list_languages = db.languages.Where(x => x.id == id);
+
+                var jsondata = (from languages_db in list_languages
+                                select new
+                                {
+                                    id = languages_db.id,
+                                    code = languages_db.code,
+                                    name = languages_db.name
+                                }).ToArray();
+
+                return Json(jsondata, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
+        }
+
+
+        public ActionResult LanguageSave(FormCollection frm)
+        {
+            try
+            {
+                // TODO: Add update logic here
+                language language_;
+                var id_language = (frm["id"] == "") ? 0 : Convert.ToInt32(frm["id"]);
+
+                if (id_language == 0)
+                {
+                    language_ = new language();
+                    db.Entry(language_).State = EntityState.Added;
+                }
+                else
+                {
+                    language_ = db.languages.Find(id_language);
+                    db.Entry(language_).State = EntityState.Modified;
+                }
+
+
+                language_.code = frm["code"];
+                language_.name = frm["name"];
+
+                db.SaveChanges();
+
+                return Json("Success");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        [HttpPost]
+        public ActionResult LanguageCreate(FormCollection frm)
+        {
+            try
+            {
+                language language_;
+                var id_language = (frm["language"] == "") ? 0 : Convert.ToInt32(frm["language"]);
+                var code_language = frm["code"].ToUpper();
+                var any_language_code = db.languages.Where(z => z.code.ToUpper() == code_language).Any();
+
+                language_ = new language();
+
+
+
+                if (any_language_code == true)
+                {
+                    return Json("El código ya existe, ingrese de nuevo los datos con otro código");
+                } else if (id_language == 0)
+                {
+                    db.Entry(language_).State = EntityState.Added;
+                    language_.code = frm["code"];
+                    language_.name = frm["name"];
+                    db.SaveChanges();
+                    return Json("Lenguaje agregado");
+                }
+                else
+                {
+                    return Json("Error al agregar");
+                }
+
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
+        }
+
+        [HttpPost]
+        public ActionResult LanguageDelete(FormCollection frm)
+        {
+            try
+            {
+
+                var id_language = (frm["language"] == "") ? 0 : Convert.ToInt32(frm["language"]);
+                var catalog = db.languages.Find(id_language);
+                db.languages.Remove(catalog);
+                db.SaveChanges();
+                return Json("Registro eliminado");
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+
+                return Json(e.Message);
+            }
+            return null;
+        }
+
+
+        //  Countries
+
+        public ActionResult Countries(int? id)
+        {
+            return View();
+        }
+
+        public ActionResult CountriesListDataTables()
+        {
+            try
+            {
+
+                var list_countries = db.country_info;
 
                 var jsondata = (from countries_db in list_countries
                                 select new
@@ -70,32 +298,9 @@ namespace DashboardFMP.Controllers
             }
             return null;
         }
-        // GET: Catalogs
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        // GET: Catalogs/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        public ActionResult Countries(int? id)
-        {
-            return View();
-        }
-
-        // GET: Catalogs/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
         // POST: Catalogs/Create
         [HttpPost]
-        public ActionResult CreateCountry(FormCollection frm)
+        public ActionResult CountryCreate(FormCollection frm)
         {
             try
             {
@@ -138,7 +343,7 @@ namespace DashboardFMP.Controllers
         }
 
         // GET: Catalogs/Edit/5
-        public ActionResult GetCountry(int id)
+        public ActionResult CountryGet(int id)
         {
             try
             {
@@ -167,7 +372,7 @@ namespace DashboardFMP.Controllers
 
         // POST: Catalogs/Edit/5
         [HttpPost]
-        public ActionResult SaveCountry(FormCollection frm)
+        public ActionResult CountrySave(FormCollection frm)
         {
             try
             {
