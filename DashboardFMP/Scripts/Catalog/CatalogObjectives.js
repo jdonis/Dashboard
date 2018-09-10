@@ -93,7 +93,9 @@ function SaveRecord() {
 }
 
 function CreateRecord() {
+    var language_id = $("#language").val();
     var formData = $('#altEditor-form').serializeObject();
+    $.extend(formData, { 'language': language_id }); //Send Additional data
 
     $.ajax({
         url: "../Catalogs/ObjectiveCreate/",
@@ -115,12 +117,12 @@ function CreateRecord() {
 }
 
 function DeleteRecord() {
-    var id = $("#id").val();
+    var language_id = $("#language").val();
     var formData = $('#altEditor-form').serializeObject();
-    $.extend(formData, { 'language': id }); //Send Additional data
+    $.extend(formData, { 'language': language_id }); //Send Additional data
 
     $.ajax({
-        url: "../Catalogs/LanguageDelete/",
+        url: "../Catalogs/ObjectiveDelete/",
         cache: false,
         type: 'POST',
         dataType: 'json',

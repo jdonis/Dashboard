@@ -174,19 +174,53 @@ namespace DashboardFMP.Controllers
                     objective_orig.code = cod_objective;
                     db.Entry(objective_orig).State = EntityState.Added;
                     db.SaveChanges();
+                    id_objective = objective_orig.id;
+                } else
+                {
+                    objective_orig = db.objectives.Find(id_objective);
                 }
 
                 objective_ = new objective_info();
-
-                objective_.objective_id = objective_orig.id;
-                objective_.name = frm["name"];
-                objective_.short_name = frm["short_name"]; ;
-                objective_.name = frm["name"];
+                objective_.objective_id = id_objective;
+                objective_.name = frm["Name"];
+                objective_.short_name = frm["Short_name"];
+                objective_.code_info = frm["Code_group_visual"];
                 objective_.language_id = id_language;
                 db.Entry(objective_).State = EntityState.Added;
-
                 db.SaveChanges();
 
+                objective_.objective.code = frm["Code_intern"];
+                objective_.objective.short_ = frm["Code_short"];
+                db.SaveChanges();
+
+                return Json("Success");
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
+        }
+
+        public ActionResult ObjectiveDelete(FormCollection frm)
+        {
+            try
+            {
+                var id_language = (frm["language"] == "") ? 0 : Convert.ToInt32(frm["language"]);
+                var id_objective = (frm["id"] == "") ? 0 : Convert.ToInt32(frm["id"]);
+                var objectives_length = db.objective_info.Where(z => z.objective_id == id_objective).Count();
+
+                var catalog = db.objective_info.Find(id_objective, id_language);
+                db.objective_info.Remove(catalog);
+                db.SaveChanges();
+
+                if (objectives_length > 1)
+                {
+                    var catalog_objective = db.objectives.Find(id_objective);
+                    db.objectives.Remove(catalog_objective);
+                    db.SaveChanges();
+                }
+                    
                 return Json("Success");
             }
             catch (Exception e)
