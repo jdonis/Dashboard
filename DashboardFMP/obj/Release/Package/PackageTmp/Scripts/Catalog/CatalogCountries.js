@@ -45,7 +45,7 @@ function GetRecord(id) {
     console.log("Edit_Record " + id);
     $.ajax({
         type: "POST",
-        url: "../Catalogs/GetCountry/",
+        url: "../Catalogs/CountryGet/",
         data: { 'ID': id },
         success: function (data) {
             console.log("Response Edit_record");
@@ -75,7 +75,7 @@ function SaveRecord() {
     $.extend(formData, { 'language': $("#languaje option:selected").val() }); //Send Additional data  $("#languaje").val()
 
     $.ajax({
-        url: "../Catalogs/SaveCountry/",
+        url: "../Catalogs/CountrySave/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -100,7 +100,7 @@ function CreateRecord() {
 
 
     $.ajax({
-        url: "../Catalogs/CreateCountry/",
+        url: "../Catalogs/CountryCreate/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -128,7 +128,7 @@ $(document).ready(function () {
 
     var table = $('#Countries').DataTable({
         "ajax": {
-            "url": "../Catalogs/ListCountriesDataTables/",
+            "url": "../Catalogs/CountriesListDataTables/",
             "dataSrc": ""
         },
         "columns": [
