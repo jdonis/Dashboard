@@ -155,3 +155,4 @@ C:\AD\Dashboard\DashboardFMP\bin\System.Web.WebPages.Razor.xml
 C:\AD\Dashboard\DashboardFMP\bin\System.Web.Optimization.xml
 C:\AD\Dashboard\DashboardFMP\obj\Debug\DashboardFMP.dll
 C:\AD\Dashboard\DashboardFMP\obj\Debug\DashboardFMP.pdb
+C:\AD\Dashboard\DashboardFMP\obj\Debug\DashboardFMP.csprojResolveAssemblyReference.cache

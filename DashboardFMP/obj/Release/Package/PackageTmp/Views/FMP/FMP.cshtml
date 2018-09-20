@@ -1,0 +1,182 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Información de los indicadores por país</title>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/DataTables/css/jquery.dataTables.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/select.dataTables.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/buttons.dataTables.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/responsive.dataTables.css" rel="stylesheet" />
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <script src="~/scripts/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/scripts/DataTables/jquery.dataTables.js"></script>
+    <script src="~/scripts/DataTables/dataTables.buttons.js"></script>
+    <script src="~/scripts/DataTables/dataTables.select.js"></script>
+    <script src="~/scripts/DataTables/dataTables.responsive.js"></script>
+    <script src="~/scripts/DataTablesEditor/dataTables.altEditor.js"></script>
+
+    <script src="~/scripts/Catalog/FMP.js"></script>
+</head>
+<body>
+
+    <h2>Catálogo de objetivos</h2>
+
+    <table id="DataTableCatalog" class="table, display"  width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Country</th>
+                <th>Languaje</th>
+                <th>Code</th>
+            </tr>
+        </thead>
+    </table>
+
+
+    <div class="modal fade show" id="altEditor-modal" tabindex="-1" role="dialog" style="display: none; padding-left: 17px;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Registro</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="altEditor-form" name="altEditor-form" role="form">
+                        <input class="primarykey" id="id" name="id" placeholder="" value="" type="hidden">
+                        <table>
+                            <tbody>
+                                <tr >
+                                    <td rowspan="2"  style="height:49.5pt;width:79pt" width="105" height="66">
+                                        Obj. Banco
+                                    </td>
+                                    <td rowspan="2"  style="width:152pt" width="203">
+                                        Main Business Functions
+                                    </td>
+                                    <td rowspan="2" >#</td>
+                                    <td rowspan="2" style="width:188pt" width="250">Actividades FMP</td>
+                                    <td class="blank_space" width="0">&nbsp;</td>
+                                    <td class="blank_space" style="border-left:none">&nbsp;</td>
+                                    <td rowspan="2"  style="border-bottom:1.0pt solid #A6A6A6">#</td>
+                                    <td rowspan="2"  style="border-bottom:1.0pt solid #A6A6A6">Tipo</td>
+                                    <td  style="border-left:none">Metas</td>
+                                    <td rowspan="2"  style="border-bottom:1.0pt solid #A6A6A6">Notas</td>
+                                    <td rowspan="2"  style="border-bottom:1.0pt solid #A6A6A6">Responsable</td>
+                                    <td rowspan="2"  style="border-bottom:1.0pt solid #A6A6A6">Contacto</td>
+                                    <td class="blank_space" style="border-left:none">&nbsp;</td>
+                                    <td colspan="14"  style="border-right:.5pt solid #A6A6A6">Tablero</td>
+                                    <td class="blank_space" width="0">&nbsp;</td>
+                                    <td colspan="4"  style="border-right:.5pt solid #A6A6A6">COMMENTS</td>
+                                    <td class="blank_space" width="0">&nbsp;</td>
+                                    <td rowspan="2"  style="border-bottom:1.0pt solid #A6A6A6">Freq.</td>
+                                    <td rowspan="2"  style="border-bottom:1.0pt solid #A6A6A6; width:45pt" width="60">Format</td>
+                                    <td rowspan="2"  style="border-bottom:1.0pt solid #A6A6A6;width:66pt" width="88">Annual calculation</td>
+                                    <td rowspan="2"  style="border-bottom:1.0pt solid #A6A6A6;width:66pt" width="88">Plan</td>
+                                </tr>
+                                <tr >
+                                    <td  style="height:24.75pt" width="0" height="33">&nbsp;</td>
+                                    <td  style="border-left:none;width:5pt" width="7">&nbsp;</td>
+                                    <td  style="border-left:none">
+                                        <a href="#">Go to Manual de Indicadores</a>
+                                    </td>
+                                    <td  style="border-left:none;width:8pt" width="10">&nbsp;</td>
+                                    <td>1Q</td>
+                                    <td  style="border-left:none">Actual</td>
+                                    <td class="blank_space">&nbsp;</td>
+                                    <td style="border-left:none">2Q</td>
+                                    <td style="border-left:none">Actual</td>
+                                    <td style="border-left:none">&nbsp;</td>
+                                    <td style="border-left:none">3Q</td>
+                                    <td style="border-left:none">Actual</td>
+                                    <td style="border-left:none">&nbsp;</td>
+                                    <td style="border-left:none">4Q</td>
+                                    <td style="border-left:none">Actual</td>
+                                    <td style="border-left:none">&nbsp;</td>
+                                    <td>2018</td>
+                                    <td style="border-left:none">Actual</td>
+                                    <td ></td>
+                                    <td>1Q</td>
+                                    <td>2Q</td>
+                                    <td>3Q</td>
+                                    <td>4Q</td>
+                                    <td></td>
+                                </tr>
+
+                                <tr>
+                                    <td  rowspan="25" width="105" height="901">
+                                        Objetivo IV <br>Recursos
+                                    </td>
+                                    <td rowspan="2" width="203">
+                                        <b>B02</b> Gestión de Mejoras de Capital
+                                    </td>
+                                    <td rowspan="2" width="28">
+                                        IV.1
+                                    </td>
+                                    <td rowspan="2"  width="250">
+                                        <b>FMP#9 - </b>
+                                            Modernizar y actualizar la política fiduciaria, guías de
+                                            procesos y sistemas
+                                            <br>
+                                            (B0202 ITE support) (esto no existe)
+                                    </td>
+                                    <td class="blank_space" width="0">B02</td>
+                                    <td class="blank_space" style="width:5pt" width="7">&nbsp;</td>
+                                    <td width="37">IV.1.1</td>
+                                    <td id="type" width="53">FYI</td>
+                                    <td id="" width="332">
+                                        Contribuir a la implementación de una estructura de gobierno de Convergencia actualizada y un plan de recursos en colaboración con VPF y VPS (VPC)
+                                    </td>
+                                    <td id="notes" width="181"></td>
+                                    <td class="xl5957918147" style="border-left:none;width:89pt" width="119">FO Team</td>
+                                    <td class="xl5957918147" style="width:72pt" width="96">FO Team</td>
+                                    <td class="xl5957318147" style="width:8pt" width="10">&nbsp;</td>
+                                    <td class="xl5959518147" style="width:27pt" width="36">&nbsp;</td>
+                                    <td class="xl5959618147" style="border-left:none;width:27pt" width="36">&nbsp;</td>
+                                    <td class="xl5959718147" style="border-left:none;width:8pt" width="10">&nbsp;</td>
+                                    <td class="xl5959518147" style="border-left:none;width:27pt" width="36">&nbsp;</td>
+                                    <td class="xl5959618147" style="border-left:none;width:27pt" width="36">&nbsp;</td>
+                                    <td class="xl5959718147" style="border-left:none;width:8pt" width="10">&nbsp;</td>
+                                    <td class="xl5959518147" style="border-left:none;width:27pt" width="36">&nbsp;</td>
+                                    <td class="xl5959618147" style="border-left:none;width:27pt" width="36">&nbsp;</td>
+                                    <td class="xl5959718147" style="border-left:none;width:8pt" width="10">&nbsp;</td>
+                                    <td class="xl5958018147" style="border-left:none;width:27pt" width="36">&nbsp;</td>
+                                    <td class="xl5967618147" style="border-left:none;width:27pt" width="36">&nbsp;</td>
+                                    <td class="xl5954618147" style="border-left:none;width:8pt" width="10">&nbsp;</td>
+                                    <td class="xl5967718147" style="width:43pt" width="57">&nbsp;</td>
+                                    <td class="xl5967818147" style="border-left:none;width:27pt" width="36">&nbsp;</td>
+                                    <td class="xl5950318147"></td>
+                                    <td class="xl5975118147" style="border-top:none">&nbsp;</td>
+                                    <td class="xl5975218147" style="border-top:none;border-left:none">&nbsp;</td>
+                                    <td class="xl5975118147" style="border-top:none;border-left:none">&nbsp;</td>
+                                    <td class="xl5975318147" style="border-top:none;border-left:none; width:127pt" width="169">
+                                        &nbsp;
+                                    </td>
+                                    <td class="xl5950318147"></td>
+                                    <td class="xl5969518147" style="width:45pt" width="60">4Q</td>
+                                    <td class="xl5969518147" style="border-left:none;width:45pt" width="60">%</td>
+                                    <td class="xl5969518147" style="border-left:none;width:66pt" width="88">4Q</td>
+                                    <td class="xl5969518147" style="border-left:none;width:66pt" width="88">HQ</td>
+                                </tr>
+                            </tbody>
+                            
+
+                        </table>
+
+                    </form>
+                </div>
+                <div class="modal-footer"><button type="button" data-content="remove" class="btn btn-default" data-dismiss="modal">Cerrar</button><button type="button" data-content="remove" class="btn btn-primary" id="editRowBtn">Guardar Cambios</button></div>
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+</html>

@@ -14,19 +14,19 @@ namespace DashboardFMP.Models
     
     public partial class country
     {
-        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        //public country()
-        //{
-        //    this.country_indicator = new HashSet<country_indicator>();
-        //    this.country_info = new HashSet<country_info>();
-        //}
-    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public country()
+        {
+            //    this.country_indicator = new HashSet<country_indicator>();
+            this.country_info = new HashSet<country_info>();
+        }
+
         public int id { get; set; }
         public string code { get; set; }
-    
+
         //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         //public virtual ICollection<country_indicator> country_indicator { get; set; }
-        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        //public virtual ICollection<country_info> country_info { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<country_info> country_info { get; set; }
     }
 }
