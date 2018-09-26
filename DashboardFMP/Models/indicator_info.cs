@@ -22,6 +22,7 @@ namespace DashboardFMP.Models
         public string name { get; set; }
         public string short_ { get; set; }
         public string code { get; set; }
+        
 
         [ForeignKey("indicator_id")]
         public virtual indicator indicator { get; set; }

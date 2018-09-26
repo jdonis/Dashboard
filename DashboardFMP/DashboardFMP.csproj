@@ -413,6 +413,7 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
+    <Content Include="Content\images\ajax-loader.gif" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\jquery-ui.structure.css" />
     <Content Include="favicon.ico" />
@@ -445,7 +446,7 @@
     <Content Include="Scripts\Catalog\CatalogObjectives.js" />
     <Content Include="Scripts\Catalog\CatalogLanguages.js" />
     <Content Include="Scripts\Catalog\CatalogCountries.js" />
-    <Content Include="Scripts\DataTablesEditor\dataTables.altEditor.free.original.js" />
+    <Content Include="Models\dataTables.altEditor.free.original.js" />
     <Content Include="Scripts\DataTablesEditor\dataTables.altEditor.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />

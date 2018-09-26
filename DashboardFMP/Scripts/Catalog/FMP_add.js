@@ -164,13 +164,29 @@ $(document).ready(function () {
     $.ajax({
         type: "POST",
         url: "../FMP/ListIndicatorbyCountry/",
-        data: { 'countryid_param': 2, 'language_param': 'ES', 'year_param': 2017 },
+        data: { 'countryid_param': 3, 'language_param': 'ES', 'year_param': 2017 },
+        beforeSend: function () { $('#loading').show(); },
+        complete: function () { $('#loading').hide(); },
         success: function (data) {
 
             $('#table-WorkPlan').find('tbody').append('<input class="primarykey" id="ind_' + data[i].id + '" name="id" placeholder="" value="" type="hidden">');
             for (i = 0; i < data.length; i++) {
                 var tr = "  "
-                $('#table-WorkPlan').find('tbody').append('<tr value="' + data[i].id + '">' + data[i].name + '</option>');
+                $('#table-WorkPlan').find('tbody').append('<tr id="ind_' + data[i].id + '">' +
+                        '<td>' + '<label for="ind_' + data[i].id + '">' + data[i].objective_ + '<label>' + '</td>' +
+                        '<td>' + '<label for="ind_' + data[i].id + '">' + data[i].indicator_group_ + '<label>' + '</td>' +
+                        '<td>' + '<label for="ind_' + data[i].id + '">' + data[i].tipo_ + '<label>' + '</td>' +
+                        '<td>' + '<label for="ind_' + data[i].id + '">' + data[i].metas_ + '<label>' + '</td>' +
+                        '<td>' + '<label for="ind_' + data[i].id + '">' + data[i].frec_ + '<label>' + '</td>' +
+                        '<td>' + '<label for="ind_target_' + data[i].id + '">' + ((data[i].Q1_target_ == null) ? "" : data[i].Q1_target_) + '<label>' + '</td>' +
+                        '<td>' + '<input id="ind_Q1_' + data[i].id + '" name="ind_Q1_' + data[i].id + '"  value="' + ((data[i].Q1_ == null) ? "" : data[i].Q1_) + '" type="text" size="3" ' + ((data[i].frec_ != "EQ") ? 'disabled = disabled' : "") + '>' + '</td>' +
+                        '<td>' + '<label for="ind_target_' + data[i].id + '">' + ((data[i].Q2_target_ == null) ? "" : data[i].Q2_target_) + '<label>' + '</td>' +
+                        '<td>' + '<input id="ind_Q2_' + data[i].id + '" name="ind_Q2_' + data[i].id + '"  value="' + ((data[i].Q2_ == null) ? "" : data[i].Q2_) + '" type="text" size="3" ' + ((data[i].frec_ == "EQ" || data[i].frec_ == "BQ") ? "" : 'disabled = disabled') + '>' + '</td>' +
+                        '<td>' + '<label for="ind_target_' + data[i].id + '">' + ((data[i].Q3_target_ == null) ? "" : data[i].Q3_target_) + '<label>' + '</td>' +
+                        '<td>' + '<input id="ind_Q3_' + data[i].id + '" name="ind_Q3_' + data[i].id + '"  value="' + ((data[i].Q3_ == null) ? "" : data[i].Q3_) + '" type="text" size="3"  ' + ((data[i].frec_ != "EQ") ? 'disabled = disabled' : "") + '>' + '</td>' +
+                        '<td>' + '<label for="ind_target_' + data[i].id + '">' + ((data[i].Q4_target_ == null) ? "" : data[i].Q4_target_) + '<label>' + '</td>' +
+                        '<td>' + '<input id="ind_Q4_' + data[i].id + '" name="ind_Q4_' + data[i].id + '"  value="' + ((data[i].Q4_ == null) ? "" : data[i].Q4_) + '" type="text" size="3">' + '</td>' +
+                        + '</tr>');
             }
         }
     });

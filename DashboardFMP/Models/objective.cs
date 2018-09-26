@@ -24,6 +24,7 @@ namespace DashboardFMP.Models
         public int id { get; set; }
         public string code { get; set; }
         public string short_ { get; set; }
+        public int orden { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<objective_info> objective_info { get; set; }
