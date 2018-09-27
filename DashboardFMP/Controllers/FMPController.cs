@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Http;
 using System.Web.Mvc;
 
 namespace DashboardFMP.Controllers
@@ -30,7 +31,7 @@ namespace DashboardFMP.Controllers
         }
 
         // POST: FMP/Create
-        [HttpPost]
+        //[HttpPost]
         public ActionResult Create(FormCollection collection)
         {
             try
@@ -52,7 +53,7 @@ namespace DashboardFMP.Controllers
         }
 
         // POST: FMP/Edit/5
-        [HttpPost]
+        //[HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
             try
@@ -74,7 +75,7 @@ namespace DashboardFMP.Controllers
         }
 
         // POST: FMP/Delete/5
-        [HttpPost]
+        //[HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
             try
@@ -134,16 +135,23 @@ namespace DashboardFMP.Controllers
             public List<country_indicator> children_1 { get; set; }
         }
 
+        public class IndicatorCountry
+        {
+            public int country_id { get; set; }
+            public int indicator_id { get; set; }
+            public int year_ind_country { get; set; }
+        }
 
-        [HttpPost]
-        public ActionResult IndicatorbyCountrySave(FormCollection frm)
+
+        //[HttpPost]
+        public ActionResult IndicatorbyCountrySave([FromBody] List <IndicatorCountry> frm)
         {
             try
             {
                 // TODO: Add update logic here
-                objective_info objective_;
-                var id_objective = (frm["id"] == "") ? 0 : Convert.ToInt32(frm["id"]);
-                var id_language = (frm["language"] == "") ? 0 : Convert.ToInt32(frm["language"]);
+                //objective_info objective_;
+                //var id_objective = (frm["id"] == "") ? 0 : Convert.ToInt32(frm["id"]);
+                //var id_language = (frm["language"] == "") ? 0 : Convert.ToInt32(frm["language"]);
 
                 //if (id_objective == 0)
                 //{

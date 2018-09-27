@@ -17,15 +17,21 @@ $.fn.serializeObject = function () {
 
 $.fn.formtoArray = function(formArray){
     var obj = {};
-    $.each(formArray, function(i, pair){
-        var cObj = obj, pObj, cpName;
-        $.each(pair.name.split("."), function(i, pName){
-            pObj = cObj;
-            cpName = pName;
-            cObj = cObj[pName] ? cObj[pName] : (cObj[pName] = {});
-        });
-        pObj[cpName] = pair.value;
+    var inputs_form;
+    var allListElements = $("tbody tr");
+    inputs_form = $(this).find(allListElements);
+    var allListElements_input = $("input");
+    var i = 0;
+
+    $.each(inputs_form, function () {
+
+        var inputs = $(this).find(allListElements_input).serializeObject();
+        obj["indicator"+i] = inputs;
+        i = i + 1;
+
     });
+
+    //console.log(obj);
     return obj;
 }
 
@@ -86,25 +92,26 @@ function GetRecord(id) {
             $('#table-WorkPlan').find('tbody').append('<input class="primarykey" id="ind_' + data[i].id + '" name="id' + data[i].id + '" placeholder="" value="" type="hidden">');
             for (i = 0; i < data.length; i++) {
                 var tr = "  "
-                $('#table-WorkPlan').find('tbody').append('<tr id="indicator">' +
-                        '<td style = "display:none">' + '<input id="indicator_id_' + data[i].id + '" name="indicator_id_' + data[i].id + '"  value="' + data[i].indicator_id + '" type="hidden" ' + '>' +
-                            '<input id="country_id' + data[i].id + '" name="country_id' + data[i].id + '"  value="' + data[i].country_id + '" type="hidden" ' + '>' +
-                            '<input id="year_' + data[i].id + '" name="year_' + data[i].id + '"  value="' + data[i].year_ + '" type="hidden" ' + '>' + '</td>' +
+                $('#table-WorkPlan').find('tbody').append('<tr id="indicator" name="indicator">' +
+                        '<td style = "display:none">' + '<input id="indicator_id" name="indicator_id"  value="' + data[i].indicator_id + '" type="hidden" ' + '>' +
+                            '<input id="country_id" name="country_id"  value="' + data[i].country_id + '" type="hidden" ' + '>' +
+                            '<input id="year_" name="year_"  value="' + data[i].year_ + '" type="hidden" ' + '>' + '</td>' +
                         '<td>' + '<label for="ind_' + data[i].id + '">' + data[i].objective_ + '<label>' + '</td>' +
                         '<td>' + '<label for="ind_' + data[i].id + '">' + data[i].indicator_group_ + '<label>' + '</td>' +
                         '<td>' + '<label for="ind_' + data[i].id + '">' + data[i].tipo_ + '<label>' + '</td>' +
                         '<td>' + '<label for="ind_' + data[i].id + '">' + data[i].metas_ + '<label>' + '</td>' +
                         '<td>' + '<label for="ind_' + data[i].id + '">' + data[i].frec_ + '<label>' + '</td>' +
                         '<td>' + '<label for="ind_target_' + data[i].id + '">' + ((data[i].Q1_target_ == null) ? "" : data[i].Q1_target_) + '<label>' + '</td>' +
-                        '<td>' + '<input id="ind_Q1_' + data[i].id + '" name="ind_Q1_' + data[i].id + '"  value="' + ((data[i].Q1_ == null) ? "" : data[i].Q1_) + '" type="text" size="3" ' + 'disabled = disabled' + '>' + '</td>' +
+                        '<td>' + '<input id="ind_Q1_" name="ind_Q1_"  value="' + ((data[i].Q1_ == null) ? "" : data[i].Q1_) + '" type="text" size="3" '  + '>' + '</td>' +
+                        //+ 'disabled = disabled'
                         '<td>' + '<label for="ind_target_' + data[i].id + '">' + ((data[i].Q2_target_ == null) ? "" : data[i].Q2_target_) + '<label>' + '</td>' +
-                        '<td>' + '<input id="ind_Q2_' + data[i].id + '" name="ind_Q2_' + data[i].id + '"  value="' + ((data[i].Q2_ == null) ? "" : data[i].Q2_) + '" type="text" size="3" ' +  'disabled = disabled'  + '>' + '</td>' +
+                        '<td>' + '<input id="ind_Q2_" name="ind_Q2_"  value="' + ((data[i].Q2_ == null) ? "" : data[i].Q2_) + '" type="text" size="3" '   + '>' + '</td>' +
                         '<td>' + '<label for="ind_target_' + data[i].id + '">' + ((data[i].Q3_target_ == null) ? "" : data[i].Q3_target_) + '<label>' + '</td>' +
-                        '<td>' + '<input id="ind_Q3_' + data[i].id + '" name="ind_Q3_' + data[i].id + '"  value="' + ((data[i].Q3_ == null) ? "" : data[i].Q3_) + '" type="text" size="3"  ' +  'disabled = disabled'  + '>' + '</td>' +
+                        '<td>' + '<input id="ind_Q3_" name="ind_Q3_"  value="' + ((data[i].Q3_ == null) ? "" : data[i].Q3_) + '" type="text" size="3"  '  + '>' + '</td>' +
                         '<td>' + '<label for="ind_target_' + data[i].id + '">' + ((data[i].Q4_target_ == null) ? "" : data[i].Q4_target_) + '<label>' + '</td>' +
-                        '<td>' + '<input id="ind_Q4_' + data[i].id + '" name="ind_Q4_' + data[i].id + '"  value="' + ((data[i].Q4_ == null) ? "" : data[i].Q4_) + '" type="text" size="3" ' +  'disabled = disabled' + '>' + '</td>' +
+                        '<td>' + '<input id="ind_Q4_" name="ind_Q4_"  value="' + ((data[i].Q4_ == null) ? "" : data[i].Q4_) + '" type="text" size="3" ' + '>' + '</td>' +
 
-                        '<td>' + '<a href="#edit" id="ind_'+data[i].id+'">Edit</a>  <a href="#save" style="display:none;">Save</a>' + '</td>' +
+                        //'<td>' + '<a href="#edit" id="ind_'+data[i].id+'">Edit</a>  <a href="#save" style="display:none;">Save</a>' + '</td>' +
 
                         + '</tr>');
             }
@@ -139,16 +146,18 @@ function GetRecord(id) {
 
 function SaveRecord() {
     var language_id = $("#language").val();
-    var formData = $('#altEditor-form').serializeObject();
+    //var formData = $('#altEditor-form').serializeObject();
+    var formData_array = $('#table-WorkPlan').formtoArray('table-WorkPlan');
     //$.extend(formData, { 'language': language_id }); //Send Additional data
-    console.log(formData);
-
+    //console.log(formData);
+    console.log(formData_array);
+    console.log(JSON.stringify(formData_array))
     $.ajax({
         url: "../FMP/IndicatorbyCountrySave/",
         cache: false,
         type: 'POST',
         dataType: 'json',
-        data: decodeURIComponent($.param(formData)),
+        data: JSON.stringify(formData_array),
         success: function (data) {
             $('#DataTableCatalog').DataTable().ajax.reload();
             alert('Registro guardado');
