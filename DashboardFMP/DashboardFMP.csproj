@@ -188,6 +188,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\additional_model.cs" />
     <Compile Include="Models\checklist.cs">
       <DependentUpon>DashboardFMPModel.tt</DependentUpon>
     </Compile>
@@ -442,11 +443,14 @@
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Catalog\CatalogIndicators.js" />
+    <Content Include="Scripts\Catalog\CatalogQuestionCheckList.js" />
     <Content Include="Scripts\Catalog\FMP_add.js" />
     <Content Include="Scripts\Catalog\FMP.js" />
     <Content Include="Scripts\Catalog\CatalogObjectives.js" />
     <Content Include="Scripts\Catalog\CatalogLanguages.js" />
     <Content Include="Scripts\Catalog\CatalogCountries.js" />
+    <Content Include="Scripts\DataTablesEditor\dataTables.altEditor.free.js" />
     <Content Include="Scripts\DataTablesEditor\dataTables.altEditor.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />
@@ -604,6 +608,8 @@
     <Content Include="Views\Catalogs\Objectives.cshtml" />
     <Content Include="Views\FMP\FMP.cshtml" />
     <Content Include="Views\FMP\Index.cshtml" />
+    <Content Include="Views\Catalogs\Indicators.cshtml" />
+    <Content Include="Views\Catalogs\QuestionsCheckList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

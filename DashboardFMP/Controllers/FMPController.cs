@@ -127,25 +127,12 @@ namespace DashboardFMP.Controllers
             return null;
         }
 
-        public class ConsolidatedIndicatorCountry
-        {
-            public int country_id { get; set; }
-            public int indicator_id { get; set; }
-            public int year_ind_country { get; set; }
-            public List<country_indicator> children_1 { get; set; }
-        }
-
-        public class IndicatorCountry
-        {
-            public int country_id { get; set; }
-            public int indicator_id { get; set; }
-            public int year_ind_country { get; set; }
-        }
 
 
         //[HttpPost]
-        public ActionResult IndicatorbyCountrySave([FromBody] List <IndicatorCountry> frm)
+        public ActionResult IndicatorbyCountrySave(List<IndicatorCountry> incoming)
         {
+            //IEnumerable<IndicatorCountry>
             try
             {
                 // TODO: Add update logic here
@@ -172,8 +159,8 @@ namespace DashboardFMP.Controllers
                 //objective_.code_info = frm["Code_group_visual"];
 
                 //db.SaveChanges();
-
                 return Json("Success");
+                //return ("Success");
             }
             catch (Exception e)
             {
@@ -181,6 +168,8 @@ namespace DashboardFMP.Controllers
             }
             return null;
         }
+
+
 
 
         public ActionResult ListIndicatorbyCountry(int countryid_param, string language_param, int year_param)

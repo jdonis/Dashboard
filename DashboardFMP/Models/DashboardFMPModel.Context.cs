@@ -42,5 +42,10 @@ namespace DashboardFMP.Models
         public virtual DbSet<objective> objectives { get; set; }
         public virtual DbSet<objective_info> objective_info { get; set; }
         public virtual DbSet<question_value> question_value { get; set; }
+
+        // Catalogs
+        public virtual DbSet<CatIndicatorFrequency> CatIndicatorFrequency { get; set; }
+        public virtual DbSet<CatIndicatorInputType> CatIndicatorInputType { get; set; }
+        public virtual DbSet<CatIndicatorMode> CatIndicatorMode { get; set; }
     }
 }

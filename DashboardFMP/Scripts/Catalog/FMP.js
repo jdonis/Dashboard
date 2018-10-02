@@ -1,5 +1,4 @@
-﻿
-$.fn.serializeObject = function () {
+﻿$.fn.serializeObject = function () {
     var o = {};
     var a = this.serializeArray();
     $.each(a, function () {
@@ -16,7 +15,7 @@ $.fn.serializeObject = function () {
 };
 
 $.fn.formtoArray = function(formArray){
-    var obj = {};
+    var obj = [];
     var inputs_form;
     var allListElements = $("tbody tr");
     inputs_form = $(this).find(allListElements);
@@ -26,12 +25,10 @@ $.fn.formtoArray = function(formArray){
     $.each(inputs_form, function () {
 
         var inputs = $(this).find(allListElements_input).serializeObject();
-        obj["indicator"+i] = inputs;
-        i = i + 1;
+        obj.push(inputs) ;
 
     });
 
-    //console.log(obj);
     return obj;
 }
 
@@ -39,7 +36,7 @@ $.fn.serializeToJson = function(serializer) {
     var _string = '{';
     for (var ix in serializer) {
         var row = serializer[ix];
-        _string += '"' + row.name + '":"' + row.value + '",';
+        _string += '' + row.name + ':"' + row.value + '",';
     }
     var end = _string.length - 1;
     _string = _string.substr(0, end);
@@ -88,6 +85,7 @@ function GetRecord(id) {
         beforeSend: function () { $('#loading').show(); },
         complete: function () { $('#loading').hide(); },
         success: function (data) {
+            dataretrive = data;
 
             $('#table-WorkPlan').find('tbody').append('<input class="primarykey" id="ind_' + data[i].id + '" name="id' + data[i].id + '" placeholder="" value="" type="hidden">');
             for (i = 0; i < data.length; i++) {
@@ -146,18 +144,18 @@ function GetRecord(id) {
 
 function SaveRecord() {
     var language_id = $("#language").val();
-    //var formData = $('#altEditor-form').serializeObject();
     var formData_array = $('#table-WorkPlan').formtoArray('table-WorkPlan');
-    //$.extend(formData, { 'language': language_id }); //Send Additional data
-    //console.log(formData);
-    console.log(formData_array);
-    console.log(JSON.stringify(formData_array))
+    //console.log(formData_array);
+    console.log(JSON.stringify(formData_array));
+    var jsonItems = JSON.stringify(formData_array);
+    
     $.ajax({
         url: "../FMP/IndicatorbyCountrySave/",
         cache: false,
         type: 'POST',
         dataType: 'json',
-        data: JSON.stringify(formData_array),
+        contentType: "application/json",
+        data: jsonItems,
         success: function (data) {
             $('#DataTableCatalog').DataTable().ajax.reload();
             alert('Registro guardado');

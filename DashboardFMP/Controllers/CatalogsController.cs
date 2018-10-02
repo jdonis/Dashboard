@@ -43,11 +43,264 @@ namespace DashboardFMP.Controllers
             return null;
         }
 
+        public ActionResult ListModeCatalog()
+        {
+            try
+            {
+                var list_modes = db.CatIndicatorMode;
+                var jsondata = (from mode_db in list_modes
+                                select new
+                                {
+                                    id= mode_db.name,
+                                    name = mode_db.name
+                                }).ToArray();
+
+                return Json(jsondata, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
+        }
+
+        public ActionResult ListFrequencyCatalog()
+        {
+            try
+            {
+                var list_Frequencies = db.CatIndicatorFrequency;
+                var jsondata = (from frequency_db in list_Frequencies
+                                select new
+                                {
+                                    id = frequency_db.name,
+                                    name = frequency_db.name
+                                }).ToArray();
+
+                return Json(jsondata, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
+        }
+
+        public ActionResult ListInputTypeCatalog()
+        {
+            try
+            {
+                var list_input_type = db.CatIndicatorInputType;
+                var jsondata = (from input_type_db in list_input_type
+                                select new
+                                {
+                                    id = input_type_db.name,
+                                    name = input_type_db.name
+                                }).ToArray();
+
+                return Json(jsondata, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
+        }
+
 
         // GET: Catalogs
         public ActionResult Index()
         {
             return View();
+        }
+
+        // Indicators
+
+        public ActionResult Indicators(int? id)
+        {
+            return View();
+        }
+
+        public ActionResult IndicatorListDataTables()
+        {
+            try
+            {
+
+                var list_indicator = db.indicator_info;
+
+                var jsondata = (from indicator_db in list_indicator
+                                select new
+                                {
+                                    @language = indicator_db.language.name,
+                                    id = indicator_db.indicator.id,
+                                    objective = indicator_db.indicator.objective.short_,
+                                    indicatorgroup = indicator_db.indicator.indicatorgroup.code,
+                                    name = indicator_db.name,
+                                    short_name = indicator_db.short_,
+                                    mode = indicator_db.indicator.mode,
+                                    frequency = indicator_db.indicator.frequency,
+                                    inputtype = indicator_db.indicator.inputtype
+
+
+                                })
+                                .OrderBy(y => y.objective)
+                                .ThenBy(x => x.indicatorgroup)
+                                .ToArray();
+
+                return Json(jsondata, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
+        }
+
+        public ActionResult IndicatorGet(int id)
+        {
+            try
+            {
+                var list_objectives = db.objective_info.Where(x => x.objective_id == id);
+
+                var jsondata = (from objective_db in list_objectives
+                                select new
+                                {
+                                    id = objective_db.objective_id,
+                                    code = objective_db.objective.code,
+                                    code_short = objective_db.objective.short_,
+                                    name = objective_db.name,
+                                    short_name = objective_db.short_name,
+                                    language_id = objective_db.language_id,
+                                    code_group_info = objective_db.code_info
+
+                                }).ToArray();
+
+                return Json(jsondata, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
+        }
+
+        [HttpPost]
+        public ActionResult IndicatorSave(FormCollection frm)
+        {
+            try
+            {
+                // TODO: Add update logic here
+                objective_info objective_;
+                var id_objective = (frm["id"] == "") ? 0 : Convert.ToInt32(frm["id"]);
+                var id_language = (frm["language"] == "") ? 0 : Convert.ToInt32(frm["language"]);
+
+                if (id_objective == 0)
+                {
+                    objective_ = new objective_info();
+                    db.Entry(objective_).State = EntityState.Added;
+                }
+                else
+                {
+                    objective_ = db.objective_info.Find(id_objective, id_language);
+                    db.Entry(objective_).State = EntityState.Modified;
+                }
+
+
+                objective_.objective.code = frm["code_intern"];
+                objective_.objective.short_ = frm["code_short"];
+                objective_.name = frm["name"];
+                objective_.short_name = frm["short_name"];
+                objective_.code_info = frm["Code_group_visual"];
+
+                db.SaveChanges();
+
+                return Json("Success");
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
+        }
+
+        [HttpPost]
+        public ActionResult IndicatorCreate(FormCollection frm)
+        {
+            try
+            {
+                objective_info objective_;
+                objective objective_orig;
+                var id_language = (frm["language"] == "") ? 0 : Convert.ToInt32(frm["language"]);
+                var id_objective = 0;
+                var cod_objective = frm["code_intern"]; ;
+                if (db.objectives.Where(z => z.code.ToUpper() == cod_objective.ToUpper()).Any())
+                    id_objective = db.objectives.Where(z => z.code.ToUpper() == cod_objective.ToUpper()).SingleOrDefault().id;
+
+                objective_orig = new objective();
+
+                if (id_objective == 0)
+                {
+
+                    objective_orig.code = cod_objective;
+                    db.Entry(objective_orig).State = EntityState.Added;
+                    db.SaveChanges();
+                    id_objective = objective_orig.id;
+                }
+                else
+                {
+                    objective_orig = db.objectives.Find(id_objective);
+                }
+
+                objective_ = new objective_info();
+                objective_.objective_id = id_objective;
+                objective_.name = frm["Name"];
+                objective_.short_name = frm["Short_name"];
+                objective_.code_info = frm["Code_group_visual"];
+                objective_.language_id = id_language;
+                db.Entry(objective_).State = EntityState.Added;
+                db.SaveChanges();
+
+                objective_.objective.code = frm["Code_intern"];
+                objective_.objective.short_ = frm["Code_short"];
+                db.SaveChanges();
+
+                return Json("Success");
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
+        }
+
+        public ActionResult IndicatorDelete(FormCollection frm)
+        {
+            try
+            {
+                var id_language = (frm["language"] == "") ? 0 : Convert.ToInt32(frm["language"]);
+                var id_objective = (frm["id"] == "") ? 0 : Convert.ToInt32(frm["id"]);
+                var objectives_length = db.objective_info.Where(z => z.objective_id == id_objective).Count();
+
+                var catalog = db.objective_info.Find(id_objective, id_language);
+                db.objective_info.Remove(catalog);
+                db.SaveChanges();
+
+                if (objectives_length > 1)
+                {
+                    var catalog_objective = db.objectives.Find(id_objective);
+                    db.objectives.Remove(catalog_objective);
+                    db.SaveChanges();
+                }
+
+                return Json("Success");
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
         }
 
         // Objectives
