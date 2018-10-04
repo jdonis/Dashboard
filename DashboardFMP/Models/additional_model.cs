@@ -42,10 +42,10 @@ namespace DashboardFMP.Models
         public int country_id { get; set; }
         public int indicator_id { get; set; }
         public int year_ { get; set; }
-        public int? Q1_ { get; set; }
-        public int? Q2_ { get; set; }
-        public int? Q3_ { get; set; }
-        public int? Q4_ { get; set; }
+        public int? ind_Q1_ { get; set; }
+        public int? ind_Q2_ { get; set; }
+        public int? ind_Q3_ { get; set; }
+        public int? ind_Q4_ { get; set; }
 
     }
 

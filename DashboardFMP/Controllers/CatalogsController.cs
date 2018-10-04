@@ -109,6 +109,50 @@ namespace DashboardFMP.Controllers
             return null;
         }
 
+        public ActionResult ListObjectiveCatalog(int language_id_)
+        {
+            try
+            {
+                var list_input_type = db.objective_info.Where(z => z.language_id == language_id_);
+                var jsondata = (from input_type_db in list_input_type
+                                select new
+                                {
+                                    id = input_type_db.objective_id,
+                                    name = input_type_db.objective.short_ + " - " + input_type_db.name
+                                }).ToArray();
+
+                return Json(jsondata, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
+        }
+
+        public ActionResult ListGroupCatalog(int language_id_)
+        {
+            try
+            {
+                var list_input_type = db.indicator_group_info.Where(z => z.language_id == language_id_);
+                var jsondata = (from input_type_db in list_input_type
+                                select new
+                                {
+                                    id = input_type_db.indicatorgroup_id,
+                                    name =  input_type_db.indicatorgroup.code + " - " + input_type_db.name
+                                }).ToArray();
+
+                return Json(jsondata, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
+        }
+
 
         // GET: Catalogs
         public ActionResult Index()
@@ -134,6 +178,7 @@ namespace DashboardFMP.Controllers
                                 select new
                                 {
                                     @language = indicator_db.language.name,
+                                    language_id = indicator_db.language_id,
                                     id = indicator_db.indicator.id,
                                     objective = indicator_db.indicator.objective.short_,
                                     indicatorgroup = indicator_db.indicator.indicatorgroup.code,
@@ -162,18 +207,20 @@ namespace DashboardFMP.Controllers
         {
             try
             {
-                var list_objectives = db.objective_info.Where(x => x.objective_id == id);
+                var list_indicators = db.indicator_info.Where(x => x.indicator_id == id);
 
-                var jsondata = (from objective_db in list_objectives
+                var jsondata = (from indicator_db in list_indicators
                                 select new
                                 {
-                                    id = objective_db.objective_id,
-                                    code = objective_db.objective.code,
-                                    code_short = objective_db.objective.short_,
-                                    name = objective_db.name,
-                                    short_name = objective_db.short_name,
-                                    language_id = objective_db.language_id,
-                                    code_group_info = objective_db.code_info
+                                    id = indicator_db.indicator_id,
+                                    objective = indicator_db.indicator.objective_id,
+                                    name = indicator_db.name,
+                                    short_name = indicator_db.short_,
+                                    language_id = indicator_db.language_id,
+                                    group_id = indicator_db.indicator.indicatorgroup_id,
+                                    mode = indicator_db.indicator.mode,
+                                    frequency = indicator_db.indicator.frequency,
+                                    inputtype = indicator_db.indicator.inputtype
 
                                 }).ToArray();
 

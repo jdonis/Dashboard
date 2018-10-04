@@ -53,12 +53,12 @@ function GetRecord(id) {
     $.ajax({
         type: "POST",
         url: "../Catalogs/ObjectiveGet/",
-        data: { 'ID': id },
+        data: { 'ID': id["id"] },
         success: function (data) {
             console.log("Response Edit_record");
             console.log(data);
 
-            $('#id').val(id);
+            $('#id').val(id["id"]);
             $('#Code_short').val(data[0].code_short);
             $('#Code_intern').val(data[0].code);
             $('#Name').val(data[0].name);

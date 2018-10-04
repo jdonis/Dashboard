@@ -46,7 +46,7 @@ $.fn.serializeToJson = function(serializer) {
 }
 
 function ResetRecord() {
-
+    console.log("... Reset Record");
             $('#id').val("");
             $('#Code_intern').val("");
             $('#Code_short').val("");
@@ -76,18 +76,19 @@ function validate() {
 
 function GetRecord(id) {
 
-    console.log("Edit_Record " + id);
-
+    console.log("Edit_Record ");
+    console.log(id);
+    $('#table-tbody-WorkPlan').empty();
     $.ajax({
         type: "POST",
         url: "../FMP/ListIndicatorbyCountry/",
-        data: { 'countryid_param': 3, 'language_param': 'ES', 'year_param': 2017 },
+        data: { 'countryid_param': id["id"], 'language_param': 'ES', 'year_param': id["year"] },
         beforeSend: function () { $('#loading').show(); },
         complete: function () { $('#loading').hide(); },
         success: function (data) {
             dataretrive = data;
 
-            $('#table-WorkPlan').find('tbody').append('<input class="primarykey" id="ind_' + data[i].id + '" name="id' + data[i].id + '" placeholder="" value="" type="hidden">');
+            //$('#table-WorkPlan').find('tbody').append('<input class="primarykey" id="ind_' + data[i].id + '" name="id' + data[i].id + '" placeholder="" value="" type="hidden">');
             for (i = 0; i < data.length; i++) {
                 var tr = "  "
                 $('#table-WorkPlan').find('tbody').append('<tr id="indicator" name="indicator">' +
@@ -146,7 +147,7 @@ function SaveRecord() {
     var language_id = $("#language").val();
     var formData_array = $('#table-WorkPlan').formtoArray('table-WorkPlan');
     //console.log(formData_array);
-    console.log(JSON.stringify(formData_array));
+    //console.log(JSON.stringify(formData_array));
     var jsonItems = JSON.stringify(formData_array);
     
     $.ajax({
@@ -157,8 +158,9 @@ function SaveRecord() {
         contentType: "application/json",
         data: jsonItems,
         success: function (data) {
-            $('#DataTableCatalog').DataTable().ajax.reload();
             alert('Registro guardado');
+            $('#DataTableCatalog').DataTable().ajax.reload();
+            
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert("AJAX error: " + textStatus + ' : ' + errorThrown);
@@ -166,6 +168,7 @@ function SaveRecord() {
     });
 
     $('#language').attr('disabled', false);
+    $('#table-tbody-WorkPlan').empty();
 
 }
 
@@ -245,8 +248,9 @@ $(document).ready(function () {
         //},
         { "data": "id", "visible": false },
         { "data": "name" },
-        { "data": "language"  },
-        { "data": "code" }
+        { "data": "code" },
+        { "data": "year"  }
+
         ],
         //select: {
         //    style: 'os',
@@ -256,20 +260,22 @@ $(document).ready(function () {
         select: 'single',
         responsive: true,
         altEditor: true,     // Enable altEditor
-        buttons: [{
-            text: 'Agregar',
-            name: 'add'        // do not change name
-        },
+        buttons: [
+        //    {
+        //    text: 'Agregar',
+        //    name: 'add'        // do not change name
+        //},
         {
             extend: 'selected', // Bind to Selected row
             text: 'Editar',
             name: 'edit'        // do not change name
         },
-        {
-            extend: 'selected', // Bind to Selected row
-            text: 'Borrar',
-            name: 'delete'      // do not change name
-        }]
+        //{
+        //    extend: 'selected', // Bind to Selected row
+        //    text: 'Borrar',
+        //    name: 'delete'      // do not change name
+        //}
+        ]
     });
 
     // Catalogo de idiomas

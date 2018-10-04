@@ -1,6 +1,7 @@
 ﻿using DashboardFMP.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -18,77 +19,77 @@ namespace DashboardFMP.Controllers
             return View();
         }
 
-        // GET: FMP/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+        //// GET: FMP/Details/5
+        //public ActionResult Details(int id)
+        //{
+        //    return View();
+        //}
 
-        // GET: FMP/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+        //// GET: FMP/Create
+        //public ActionResult Create()
+        //{
+        //    return View();
+        //}
 
-        // POST: FMP/Create
-        //[HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
+        //// POST: FMP/Create
+        ////[HttpPost]
+        //public ActionResult Create(FormCollection collection)
+        //{
+        //    try
+        //    {
+        //        // TODO: Add insert logic here
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //        return RedirectToAction("Index");
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
 
-        // GET: FMP/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+        //// GET: FMP/Edit/5
+        //public ActionResult Edit(int id)
+        //{
+        //    return View();
+        //}
 
-        // POST: FMP/Edit/5
-        //[HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
+        //// POST: FMP/Edit/5
+        ////[HttpPost]
+        //public ActionResult Edit(int id, FormCollection collection)
+        //{
+        //    try
+        //    {
+        //        // TODO: Add update logic here
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //        return RedirectToAction("Index");
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
 
-        // GET: FMP/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+        //// GET: FMP/Delete/5
+        //public ActionResult Delete(int id)
+        //{
+        //    return View();
+        //}
 
-        // POST: FMP/Delete/5
-        //[HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
+        //// POST: FMP/Delete/5
+        ////[HttpPost]
+        //public ActionResult Delete(int id, FormCollection collection)
+        //{
+        //    try
+        //    {
+        //        // TODO: Add delete logic here
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //        return RedirectToAction("Index");
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
 
         // Ingreso datos de indicadores
 
@@ -105,18 +106,21 @@ namespace DashboardFMP.Controllers
                 var list_country_indicators = db.country_info;
                 var list_country = db.country_info;
 
-                var subquery = (from u in list_country_indicators
-                               select u.country_id).Distinct();
+                var subquery = db.country_indicator
+                                .Where(z => z.country.country_info.FirstOrDefault().group != true)
+                                .GroupBy(x => new { x.country, x.year_ind_country })
+                                .Select(group => new { Peo = group.Key, Count = group.Count() });
 
-                var jsondata = (from object_db in list_country
-                                where subquery.Contains(object_db.country_id)
+                var jsondata = (from object_db in subquery
                                 select new
                                 {
-                                    id = object_db.country_id,
-                                    name = object_db.name,
-                                    @language = object_db.language.name,
-                                    code = object_db.country.code
-                                }).ToArray();
+                                    id = object_db.Peo.country.id,
+                                    name = object_db.Peo.country.country_info.FirstOrDefault().name,
+                                    code = object_db.Peo.country.code,
+                                    @year = object_db.Peo.year_ind_country
+                                })
+                                .OrderBy(z => z.name)
+                                .ToArray();
 
                 return Json(jsondata, JsonRequestBehavior.AllowGet);
             }
@@ -135,32 +139,34 @@ namespace DashboardFMP.Controllers
             //IEnumerable<IndicatorCountry>
             try
             {
-                // TODO: Add update logic here
-                //objective_info objective_;
-                //var id_objective = (frm["id"] == "") ? 0 : Convert.ToInt32(frm["id"]);
-                //var id_language = (frm["language"] == "") ? 0 : Convert.ToInt32(frm["language"]);
+                country_indicator country_indicator_;
+                var id_indicatorybycountry = 0;
 
-                //if (id_objective == 0)
-                //{
-                //    objective_ = new objective_info();
-                //    db.Entry(objective_).State = EntityState.Added;
-                //}
-                //else
-                //{
-                //    objective_ = db.objective_info.Find(id_objective, id_language);
-                //    db.Entry(objective_).State = EntityState.Modified;
-                //}
+                foreach (IndicatorCountry IndicatorCountry in incoming)
+                {
 
+                    for (int inc = 1; inc <= 4; inc++)
+                    {
+                        id_indicatorybycountry = db.country_indicator.Where(z => z.indicator_id == IndicatorCountry.indicator_id 
+                                                                            && z.country_id == IndicatorCountry.country_id 
+                                                                            && z.year_ind_country == IndicatorCountry.year_ 
+                                                                            && z.quarter == inc).FirstOrDefault().id;
+                        if (id_indicatorybycountry > 0 )
+                        {
+                            country_indicator_ = db.country_indicator.Find(id_indicatorybycountry);
+                            db.Entry(country_indicator_).State = EntityState.Modified;
 
-                //objective_.objective.code = frm["code_intern"];
-                //objective_.objective.short_ = frm["code_short"];
-                //objective_.name = frm["name"];
-                //objective_.short_name = frm["short_name"];
-                //objective_.code_info = frm["Code_group_visual"];
+                            country_indicator_.value = (inc == 1) ? IndicatorCountry.ind_Q1_ : (inc == 2) ? IndicatorCountry.ind_Q2_ : (inc == 3) ? IndicatorCountry.ind_Q3_ : (inc == 4) ? IndicatorCountry.ind_Q4_ : 0;
+                            db.SaveChanges();
 
-                //db.SaveChanges();
-                return Json("Success");
-                //return ("Success");
+                        }
+                        
+                    }
+
+                }
+
+                    return Json("Success");
+
             }
             catch (Exception e)
             {
@@ -168,8 +174,6 @@ namespace DashboardFMP.Controllers
             }
             return null;
         }
-
-
 
 
         public ActionResult ListIndicatorbyCountry(int countryid_param, string language_param, int year_param)
@@ -183,11 +187,6 @@ namespace DashboardFMP.Controllers
 
                 if (countryid < 1 || languageid < 1 || year_ < 1) return null;
                
-                //var list_country_indicators_unique = db.country_indicator.Where(z => z.country_id == countryid
-                //                                    //&& z.country.country_info.FirstOrDefault().language_id == languageid
-                //                                    && z.year_ind_country == year_ )
-                //                                    //.Select(z=> z.indicator_id)
-                //                                    .Distinct();
 
                 var list_country_indicators_unique = db.country_indicator.GroupBy( x => new { x.country_id, x.indicator_id, x.year_ind_country})
                                                         .Select(y => new ConsolidatedIndicatorCountry()
@@ -200,9 +199,6 @@ namespace DashboardFMP.Controllers
                                                         )
                                                         .Where(z => z.country_id == countryid && z.year_ind_country == year_).ToList();
 
-                //ConsolidateIndicators()
-                //var list_country_indicators = db.country_indicator;
-                //var list_country_indicator = db.country_indicator.Where(z=> list_country_indicators_unique.Contains(z.indicator_id)).ToList();
 
                 var jsondata = (from object_db in list_country_indicators_unique
                                 select new

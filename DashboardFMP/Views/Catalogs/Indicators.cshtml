@@ -33,6 +33,7 @@
         <thead>
             <tr>
                 <th></th>
+                <th></th>
                 <th>Language</th>
                 <th>Group </th>
                 <th>Objective</th>
@@ -63,12 +64,14 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-3 col-md-3 col-lg-3 text-right" style="padding-top:7px;"><label for="Group ">Group :</label></div>
-                            <div class="col-sm-9 col-md-9 col-lg-9"><input id="group " name="group " placeholder="Group " style="overflow:hidden" class="form-control  form-control-sm" value="" type="text"></div>
+                            @*<div class="col-sm-9 col-md-9 col-lg-9"><input id="group " name="group " placeholder="Group " style="overflow:hidden" class="form-control  form-control-sm" value="" type="text"></div>*@
+                            <select class="group" id="group" required data-validation="required" data-validation-if-checked-value="yes"></select>
                             <div style="clear:both;"></div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-3 col-md-3 col-lg-3 text-right" style="padding-top:7px;"><label for="Objective">Objective:</label></div>
-                            <div class="col-sm-9 col-md-9 col-lg-9"><input id="objective" name="objective" placeholder="Objective" style="overflow:hidden" class="form-control  form-control-sm" value="" type="text"></div>
+                            @*<div class="col-sm-9 col-md-9 col-lg-9"><input id="objective" name="objective" placeholder="Objective" style="overflow:hidden" class="form-control  form-control-sm" value="" type="text"></div>*@
+                            <select class="objective" id="objective" required data-validation="required" data-validation-if-checked-value="yes"></select>
                             <div style="clear:both;"></div>
                         </div>
                         <div class="form-group">

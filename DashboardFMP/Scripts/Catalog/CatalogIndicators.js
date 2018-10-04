@@ -18,19 +18,18 @@ $.fn.serializeObject = function () {
 
 function ResetRecord() {
 
+
             $('#id').val("");
-            $('#Code_intern').val("");
-            $('#Code_short').val("");
-            $('#Name').val("");
-            $('#Short_name').val("");
+            $('#objective').val("");
+            $('#group').val("");
+            $('#name').val("");
+            $('#short_').val("");
             $('#language').val("");
-            $('#Code_group_visual').val("");
-            $('#Code_intern').attr("disabled", false);
-            $('#Code_short').attr("disabled", false);
-            $('#Name').attr("disabled", false);
-            $('#Short_name').attr("disabled", false);
+            $('#mode').val("");
+            $('#frequency').val("");
+            $('#input_type').val("");
             $('#language').attr("disabled", false);
-            $('#Code_group_visual').attr("disabled", false);
+            $('#Name').attr("disabled", false);
 
 }
 
@@ -50,21 +49,57 @@ function validate() {
 function GetRecord(id) {
 
     console.log("Edit_Record " + id);
+    console.log(id);
+
+    $('#group').empty()
     $.ajax({
         type: "POST",
-        url: "../Catalogs/ObjectiveGet/",
-        data: { 'ID': id },
+        url: "../Catalogs/ListGroupCatalog/",
+        data: { 'language_id_': id["language_id"] },
+        async: false,
+        success: function (data) {
+
+            $('#group').append('<option value=""> Select </option>');
+            for (i = 0; i < data.length; i++) {
+                $('#group').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+            }
+        }
+    });
+
+    $('#objective').empty()
+    $.ajax({
+        type: "POST",
+        url: "../Catalogs/ListObjectiveCatalog/",
+        data: { 'language_id_': id["language_id"] },
+        async: false,
+        success: function (data) {
+
+            $('#objective').append('<option value=""> Select </option>');
+            for (i = 0; i < data.length; i++) {
+                $('#objective').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+            }
+        }
+    });
+
+
+
+    $.ajax({
+        type: "POST",
+        url: "../Catalogs/IndicatorGet/",
+        data: { 'ID': id["id"] },
         success: function (data) {
             console.log("Response Edit_record");
             console.log(data);
 
-            $('#id').val(id);
-            $('#Code_short').val(data[0].code_short);
-            $('#Code_intern').val(data[0].code);
-            $('#Name').val(data[0].name);
-            $('#Short_name').val(data[0].short_name);
+            $('#id').val(id["id"]);
+            $('#objective').val(data[0].objective);
+            $('#group').val(data[0].group_id);
+            $('#name').val(data[0].name);
+            $('#short_').val(data[0].short_name);
             $('#language').val(data[0].language_id);
-            $('#Code_group_visual').val(data[0].code_group_info);
+            $('#mode').val(data[0].mode);
+            $('#frequency').val(data[0].frequency);
+            $('#input_type').val(data[0].inputtype);
             
 
         }
@@ -172,6 +207,7 @@ $(document).ready(function () {
         //    orderable: false
         //},
         { "data": "id", "visible": false },
+        { "data": "language_id", "visible": false },
         { "data": "language" },
         { "data": "indicatorgroup" },
         { "data": "objective" },
