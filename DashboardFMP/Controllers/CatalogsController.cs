@@ -239,27 +239,29 @@ namespace DashboardFMP.Controllers
             try
             {
                 // TODO: Add update logic here
-                objective_info objective_;
-                var id_objective = (frm["id"] == "") ? 0 : Convert.ToInt32(frm["id"]);
+                indicator_info indicator_;
+                var id_indicator = (frm["id"] == "") ? 0 : Convert.ToInt32(frm["id"]);
                 var id_language = (frm["language"] == "") ? 0 : Convert.ToInt32(frm["language"]);
 
-                if (id_objective == 0)
+                if (id_indicator == 0)
                 {
-                    objective_ = new objective_info();
-                    db.Entry(objective_).State = EntityState.Added;
+                    indicator_ = new indicator_info();
+                    db.Entry(indicator_).State = EntityState.Added;
                 }
                 else
                 {
-                    objective_ = db.objective_info.Find(id_objective, id_language);
-                    db.Entry(objective_).State = EntityState.Modified;
+                    indicator_ = db.indicator_info.Find( id_language, id_indicator);
+                    db.Entry(indicator_).State = EntityState.Modified;
                 }
 
 
-                objective_.objective.code = frm["code_intern"];
-                objective_.objective.short_ = frm["code_short"];
-                objective_.name = frm["name"];
-                objective_.short_name = frm["short_name"];
-                objective_.code_info = frm["Code_group_visual"];
+                indicator_.indicator.indicatorgroup_id = Convert.ToInt32(frm["group"]);
+                indicator_.indicator.objective_id = Convert.ToInt32(frm["objective"]);
+                indicator_.name = frm["name"];
+                indicator_.short_ = frm["short_"];
+                indicator_.indicator.mode = frm["mode"];
+                indicator_.indicator.frequency = frm["frequency"];
+                indicator_.indicator.inputtype = frm["input_type"];
 
                 db.SaveChanges();
 
@@ -277,40 +279,35 @@ namespace DashboardFMP.Controllers
         {
             try
             {
-                objective_info objective_;
-                objective objective_orig;
+                indicator_info indicator_info_;
+                indicator indicator_;
+                //objective objective_orig;
                 var id_language = (frm["language"] == "") ? 0 : Convert.ToInt32(frm["language"]);
-                var id_objective = 0;
-                var cod_objective = frm["code_intern"]; ;
-                if (db.objectives.Where(z => z.code.ToUpper() == cod_objective.ToUpper()).Any())
-                    id_objective = db.objectives.Where(z => z.code.ToUpper() == cod_objective.ToUpper()).SingleOrDefault().id;
+                var id_indicator = 0;
 
-                objective_orig = new objective();
-
-                if (id_objective == 0)
+                if (id_indicator == 0)
                 {
+                    indicator_ = new indicator();
+                    indicator_.indicatorgroup_id = Convert.ToInt32(frm["group"]);
+                    indicator_.objective_id = Convert.ToInt32(frm["objective"]);
+                    indicator_.mode = frm["mode"];
+                    indicator_.frequency = frm["frequency"];
+                    indicator_.inputtype = frm["input_type"];
 
-                    objective_orig.code = cod_objective;
-                    db.Entry(objective_orig).State = EntityState.Added;
+                    db.Entry(indicator_).State = EntityState.Added;
                     db.SaveChanges();
-                    id_objective = objective_orig.id;
+                    id_indicator = indicator_.id;
                 }
                 else
                 {
-                    objective_orig = db.objectives.Find(id_objective);
+                    indicator_ = db.indicators.Find(id_indicator);
                 }
 
-                objective_ = new objective_info();
-                objective_.objective_id = id_objective;
-                objective_.name = frm["Name"];
-                objective_.short_name = frm["Short_name"];
-                objective_.code_info = frm["Code_group_visual"];
-                objective_.language_id = id_language;
-                db.Entry(objective_).State = EntityState.Added;
-                db.SaveChanges();
+                indicator_info_ = new indicator_info();
+                indicator_info_.name = frm["name"];
+                indicator_info_.short_ = frm["short_"];
 
-                objective_.objective.code = frm["Code_intern"];
-                objective_.objective.short_ = frm["Code_short"];
+                db.Entry(indicator_info_).State = EntityState.Added;
                 db.SaveChanges();
 
                 return Json("Success");

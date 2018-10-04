@@ -28,10 +28,10 @@ namespace DashboardFMP.Models
         public string code { get; set; }
         public string mode { get; set; }
         public string frequency { get; set; }
-        public Nullable<int> responsible { get; set; }
-        public Nullable<int> contact { get; set; }
+        public int? responsible { get; set; }
+        public int? contact { get; set; }
         public string inputtype { get; set; }
-        public int orden { get; set; }
+        public int? orden { get; set; }
 
         [ForeignKey("checklist_id")]
         public virtual checklist checklist { get; set; }
