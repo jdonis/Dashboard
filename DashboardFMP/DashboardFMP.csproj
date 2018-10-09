@@ -445,6 +445,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Catalog\CatalogIndicators.js" />
     <Content Include="Scripts\Catalog\CatalogQuestionCheckList.js" />
+    <Content Include="Scripts\Catalog\CatalogIndicatorbyCountry.js" />
     <Content Include="Scripts\Catalog\FMP_add.js" />
     <Content Include="Scripts\Catalog\FMP.js" />
     <Content Include="Scripts\Catalog\CatalogObjectives.js" />
@@ -610,6 +611,7 @@
     <Content Include="Views\FMP\Index.cshtml" />
     <Content Include="Views\Catalogs\Indicators.cshtml" />
     <Content Include="Views\Catalogs\QuestionsCheckList.cshtml" />
+    <Content Include="Views\Catalogs\IndicatorsbyCountry.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,10 +1,8 @@
 ﻿using DashboardFMP.Models;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace DashboardFMP.Controllers
@@ -158,6 +156,86 @@ namespace DashboardFMP.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        // Indicator by Country
+
+        public ActionResult IndicatorsbyCountry(int? id)
+        {
+            return View();
+        }
+
+        public ActionResult IndicatorbyCountryListDataTables()
+        {
+            try
+            {
+
+                var list_country_indicators = db.country_info;
+                var list_country = db.country_info;
+
+                var subquery = db.country_indicator
+                                .Where(z => z.country.country_info.FirstOrDefault().group != true)
+                                .GroupBy(x => new { x.country, x.year_ind_country })
+                                .Select(group => new { Peo = group.Key, Count = group.Count() });
+
+                var jsondata = (from object_db in subquery
+                                select new
+                                {
+                                    id = object_db.Peo.country.id,
+                                    name = object_db.Peo.country.country_info.FirstOrDefault().name,
+                                    code = object_db.Peo.country.code,
+                                    @year = object_db.Peo.year_ind_country
+                                })
+                                .OrderBy(z => z.name)
+                                .ToArray();
+
+                return Json(jsondata, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
+        }
+
+
+        public ActionResult IndicatorbyCountryListGet(int countryid_param, string language_param, int year_param)
+        {
+            try
+            {
+                var countryid = countryid_param > 0 ? countryid_param : 0;
+                var languageid = language_param != "" ? db.languages.Where(z => z.code == language_param.Trim().ToUpper()).FirstOrDefault().id : 0;
+                var year_ = year_param > 0 ? year_param : 0;
+                var jsondata_app = new List<Object>();
+
+                if (countryid < 1 || languageid < 1 || year_ < 1) return null;
+
+
+                var list_country_indicators_unique = db.country_indicator.GroupBy(x => new { x.country_id, x.indicator_id, x.year_ind_country })
+                                                        .Select(y => new ConsolidatedIndicatorCountry()
+                                                        {
+                                                            country_id = y.Key.country_id,
+                                                            indicator_id = y.Key.indicator_id,
+                                                            year_ind_country = y.Key.year_ind_country,
+                                                            children_1 = y.ToList()
+                                                        }
+                                                        )
+                                                        .Where(z => z.country_id == countryid && z.year_ind_country == year_).ToList();
+                var jsondata = list_country_indicators_unique.ToArray();
+
+                            jsondata_app.Add(new
+                            {
+                                indicator_by_country = jsondata,
+                                check_list_ = 0
+                            });
+
+                return Json(jsondata, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
         }
 
         // Indicators

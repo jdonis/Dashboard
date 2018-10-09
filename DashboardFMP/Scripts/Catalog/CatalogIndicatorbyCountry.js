@@ -215,7 +215,7 @@ $(document).ready(function () {
 
     var table = $('#DataTableCatalog').DataTable({
         "ajax": {
-            "url": "../FMP/FMPListDataTables/",
+            "url": "../Catalogs/IndicatorbyCountryListDataTables/",
             "dataSrc": ""
         },
         "columns": [
@@ -240,10 +240,10 @@ $(document).ready(function () {
         responsive: true,
         altEditor: true,     // Enable altEditor
         buttons: [
-        //    {
-        //    text: 'Agregar',
-        //    name: 'add'        // do not change name
-        //},
+            {
+            text: 'Agregar',
+            name: 'add'        // do not change name
+        },
         {
             extend: 'selected', // Bind to Selected row
             text: 'Editar',
