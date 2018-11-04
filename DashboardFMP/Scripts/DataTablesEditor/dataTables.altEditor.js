@@ -203,13 +203,14 @@
             //}), t("#altEditor-modal").modal("show"), t("#altEditor-modal input.primarykey+div input").focus()
             $('#altEditor-modal .modal-body .alert').remove();
             $('#altEditor-modal').on('show.bs.modal', function (e) {
-                console.log("show modal")
+                console.log("show modal");
                 //if (!data) return e.preventDefault() // stops modal from being shown
             });
             $("#altEditor-modal").find(".modal-title").html("Agregar Registro");
             $('#editRowBtn').text("Agregar Registro");
             $('#editRowBtn').attr('id', 'addRowBtn');
             $('#deleteRowBtn').attr('id', 'addRowBtn');
+            $('#loading').hide();
             $("#altEditor-modal").modal("show");
 
         },

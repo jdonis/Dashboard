@@ -37,6 +37,15 @@ namespace DashboardFMP.Models
 
     }
 
+    public class CatYears
+    {
+        [Key]
+        public int id { get; set; }
+        public string year_name { get; set; }
+        public bool? active { get; set; }
+
+    }
+
     public class IndicatorCountry
     {
         public int country_id { get; set; }
@@ -46,6 +55,16 @@ namespace DashboardFMP.Models
         public int? ind_Q2_ { get; set; }
         public int? ind_Q3_ { get; set; }
         public int? ind_Q4_ { get; set; }
+
+    }
+
+    public class IndicatorByCountryActive
+    {
+        public int country_id { get; set; }
+        public int indicator_id { get; set; }
+        public int year_ { get; set; }
+        public bool? active { get; set; }
+        public bool? visible { get; set; }
 
     }
 

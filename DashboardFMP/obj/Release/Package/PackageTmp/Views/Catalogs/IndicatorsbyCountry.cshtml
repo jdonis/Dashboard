@@ -1,0 +1,96 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Catálogo de indicadores por país y por año</title>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/DataTables/css/jquery.dataTables.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/select.dataTables.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/buttons.dataTables.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/responsive.dataTables.css" rel="stylesheet" />
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <script src="~/scripts/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/scripts/DataTables/jquery.dataTables.js"></script>
+    <script src="~/scripts/DataTables/dataTables.buttons.js"></script>
+    <script src="~/scripts/DataTables/dataTables.select.js"></script>
+    <script src="~/scripts/DataTables/dataTables.responsive.js"></script>
+    <script src="~/scripts/DataTablesEditor/dataTables.altEditor.js"></script>
+
+    <script src="~/scripts/Catalog/CatalogIndicatorbyCountry.js"></script>
+</head>
+<body>
+
+    <h2>Catálogo de asignación de indicadores por país y por año</h2>
+
+    <table id="DataTableCatalog" class="table, display" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Country</th>
+                <th>Code</th>
+                <th>Year</th>
+
+            </tr>
+        </thead>
+    </table>
+
+    <div class="modal fade" id="altEditor-modal" tabindex="-1" role="dialog" style="display: none; padding-left: 17px;">
+        <div class="modal-dialog" style="max-width:1200px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="col-sm-3 col-md-3 col-lg-3 text-right" style="padding-top:7px;"><label for="country">País:</label></div>
+                    <select  id="country_slc" name="country_slc" required data-validation="required" data-validation-if-checked-value="yes"></select>
+                    <div class="col-sm-3 col-md-3 col-lg-3 text-right" style="padding-top:7px;"><label for="country">Año:</label></div>
+                    <select  id="year_slc" name="year_slc" required data-validation="required" data-validation-if-checked-value="yes"></select>
+                    <div class="col-sm-1 text-right" style="padding-top:7px;"><label for="country">  </label></div>
+                    <button type="button" data-content="remove" class="btn btn-default" id="create_cty_year" name="create_cty_year" aria-label="Crear" onclick="CreateIndByCtyYear()" >Crear</button>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Edit Record</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="altEditor-form" id="altEditor-form" role="form">
+                        <input class="primarykey" id="id" name="id" placeholder="" value="" type="hidden">
+                        <table id="table-WorkPlan" class="table table-hover table-bordered table-striped">
+                            <thead>
+                                <tr id="table-WorkPlan-header">
+                                    <td scope="col">Obj. Banco</td>
+                                    <td scope="col">Main Business Functions</td>
+                                    <td scope="col">Tipo</td>
+                                    <td scope="col">
+                                        Metas <br />
+                                        <a href="#">Go to Manual de Indicadores</a>
+                                    </td>
+                                    <td scope="col">Frec.</td>
+                                    <td scope="col">Activo</td>
+                                    <td scope="col">Visible</td>
+                                </tr>
+                            </thead>
+                            <tbody id="table-tbody-WorkPlan"></tbody>
+
+
+                        </table>
+                        <div id="loading">
+                            <p><img src="~/Content/images/ajax-loader.gif" /> Please Wait</p>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-content="remove" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" data-content="remove" class="btn btn-primary" id="editRowBtn">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+</html>

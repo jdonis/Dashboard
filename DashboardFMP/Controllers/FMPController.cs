@@ -151,7 +151,9 @@ namespace DashboardFMP.Controllers
                                     format_ = object_db.children_1.FirstOrDefault().indicator.mode,
                                     order_by_objective = object_db.children_1.FirstOrDefault().indicator.objective.orden,
                                     order_by_indicatorgroup = object_db.children_1.FirstOrDefault().indicator.indicatorgroup.orden,
-                                    order_by_indicator = object_db.children_1.FirstOrDefault().indicator.orden
+                                    order_by_indicator = object_db.children_1.FirstOrDefault().indicator.orden,
+                                    active = object_db.children_1.FirstOrDefault().active,
+                                    visible = object_db.children_1.FirstOrDefault().visible
 
                                 })
                                 .OrderBy(z => z.order_by_objective)

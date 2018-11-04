@@ -46,12 +46,12 @@ function GetRecord(id) {
     $.ajax({
         type: "POST",
         url: "../Catalogs/CountryGet/",
-        data: { 'ID': id },
+        data: { 'ID': id["id"] },
         success: function (data) {
             console.log("Response Edit_record");
             console.log(data);
 
-            $('#id').val(id);
+            $('#id').val(id["id"]);
             $('#Name').val(data[0].name);
             $('#Description').val(data[0].description);
             if (data[0].group == true)

@@ -1,5 +1,4 @@
-﻿
-$.fn.serializeObject = function () {
+﻿$.fn.serializeObject = function () {
     var o = {};
     var a = this.serializeArray();
     $.each(a, function () {
@@ -15,9 +14,39 @@ $.fn.serializeObject = function () {
     return o;
 };
 
+$.fn.formtoArray = function(formArray){
+    var obj = [];
+    var inputs_form;
+    var allListElements = $("tbody tr");
+    inputs_form = $(this).find(allListElements);
+    var allListElements_input = $("input");
+    var i = 0;
+
+    $.each(inputs_form, function () {
+
+        var inputs = $(this).find(allListElements_input).serializeObject();
+        obj.push(inputs) ;
+
+    });
+
+    return obj;
+}
+
+$.fn.serializeToJson = function(serializer) {
+    var _string = '{';
+    for (var ix in serializer) {
+        var row = serializer[ix];
+        _string += '' + row.name + ':"' + row.value + '",';
+    }
+    var end = _string.length - 1;
+    _string = _string.substr(0, end);
+    _string += '}';
+    console.log('_string: ', _string);
+    return JSON.parse(_string);
+}
 
 function ResetRecord() {
-
+    console.log("... Reset Record");
             $('#id').val("");
             $('#Code_intern').val("");
             $('#Code_short').val("");
@@ -39,8 +68,6 @@ function validate() {
 
     var msg = "";
 
-    if ($("#Name").val() == "") { msg  += " Ingrese el nombre" + "\n"; $("#Name").focus()}
-    if ($("#Code_intern").val() == "") { msg += " Ingrese el código del objetivo" + "\n"; $("#Code").focus() };
 
     if (msg !== "") { alert(msg); return false; }
     return true;
@@ -49,47 +76,74 @@ function validate() {
 
 function GetRecord(id) {
 
-    console.log("Edit_Record " + id);
+    console.log("Edit_Record ");
+    console.log(id);
+    $('#table-tbody-WorkPlan').empty();
+    $('#country_slc').val(id["id"]);
+    $('#year_slc').val(id["year"]);
     $.ajax({
         type: "POST",
-        url: "../Catalogs/ObjectiveGet/",
-        data: { 'ID': id },
+        url: "../FMP/ListIndicatorbyCountry/",
+        data: { 'countryid_param': id["id"], 'language_param': 'ES', 'year_param': id["year"] },
+        beforeSend: function () { $('#loading').show(); },
+        complete: function () { $('#loading').hide(); },
         success: function (data) {
-            console.log("Response Edit_record");
-            console.log(data);
+            dataretrive = data;
 
-            $('#id').val(id);
-            $('#Code_short').val(data[0].code_short);
-            $('#Code_intern').val(data[0].code);
-            $('#Name').val(data[0].name);
-            $('#Short_name').val(data[0].short_name);
-            $('#language').val(data[0].language_id);
-            $('#Code_group_visual').val(data[0].code_group_info);
-            
+            for (i = 0; i < data.length; i++) {
+                var tr = "  "
+                $('#table-WorkPlan').find('tbody').append('<tr id="indicator" name="indicator">' +
+                        '<td style = "display:none">' + '<input id="indicator_id" name="indicator_id"  value="' + data[i].indicator_id + '" type="hidden" ' + '>' +
+                            '<input id="country_id" name="country_id"  value="' + data[i].country_id + '" type="hidden" ' + '>' +
+                            '<input id="year_" name="year_"  value="' + data[i].year_ + '" type="hidden" ' + '>' + '</td>' +
+                        '<td>' + '<label for="ind_' + data[i].id + '">' + data[i].objective_ + '<label>' + '</td>' +
+                        '<td>' + '<label for="ind_' + data[i].id + '">' + data[i].indicator_group_ + '<label>' + '</td>' +
+                        '<td>' + '<label for="ind_' + data[i].id + '">' + data[i].tipo_ + '<label>' + '</td>' +
+                        '<td>' + '<label for="ind_' + data[i].id + '">' + data[i].metas_ + '<label>' + '</td>' +
+                        '<td>' + '<label for="ind_' + data[i].id + '">' + data[i].frec_ + '<label>' + '</td>' +
+                        '<td>' + '<label for="ind_target_' + data[i].id + '">' + ((data[i].Q1_target_ == null) ? "" : data[i].Q1_target_) + '<label>' + '</td>' +
+                        '<td>' + '<input id="ind_Q1_" name="ind_Q1_"  value="' + ((data[i].Q1_ == null) ? "" : data[i].Q1_) + '" type="text" size="3" '  + '>' + '</td>' +
+                        //+ 'disabled = disabled'
+                        '<td>' + '<label for="ind_target_' + data[i].id + '">' + ((data[i].Q2_target_ == null) ? "" : data[i].Q2_target_) + '<label>' + '</td>' +
+                        '<td>' + '<input id="ind_Q2_" name="ind_Q2_"  value="' + ((data[i].Q2_ == null) ? "" : data[i].Q2_) + '" type="text" size="3" '   + '>' + '</td>' +
+                        '<td>' + '<label for="ind_target_' + data[i].id + '">' + ((data[i].Q3_target_ == null) ? "" : data[i].Q3_target_) + '<label>' + '</td>' +
+                        '<td>' + '<input id="ind_Q3_" name="ind_Q3_"  value="' + ((data[i].Q3_ == null) ? "" : data[i].Q3_) + '" type="text" size="3"  '  + '>' + '</td>' +
+                        '<td>' + '<label for="ind_target_' + data[i].id + '">' + ((data[i].Q4_target_ == null) ? "" : data[i].Q4_target_) + '<label>' + '</td>' +
+                        '<td>' + '<input id="ind_Q4_" name="ind_Q4_"  value="' + ((data[i].Q4_ == null) ? "" : data[i].Q4_) + '" type="text" size="3" ' + '>' + '</td>' +
 
+                        //'<td>' + '<a href="#edit" id="ind_'+data[i].id+'">Edit</a>  <a href="#save" style="display:none;">Save</a>' + '</td>' +
+
+                        + '</tr>');
+            }
         }
     });
 
+
     $('#language').attr('disabled', true);
+    $('#country_slc').attr('disabled', true);
+    $('#year_slc').attr('disabled', true);
 
 }
 
 
 function SaveRecord() {
     var language_id = $("#language").val();
-    var formData = $('#altEditor-form').serializeObject();
-    $.extend(formData, { 'language': language_id }); //Send Additional data
-    console.log(formData);
-
+    var formData_array = $('#table-WorkPlan').formtoArray('table-WorkPlan');
+    //console.log(formData_array);
+    //console.log(JSON.stringify(formData_array));
+    var jsonItems = JSON.stringify(formData_array);
+    
     $.ajax({
-        url: "../Catalogs/ObjectiveSave/",
+        url: "../FMP/IndicatorbyCountrySave/",
         cache: false,
         type: 'POST',
         dataType: 'json',
-        data: decodeURIComponent($.param(formData)),
+        contentType: "application/json",
+        data: jsonItems,
         success: function (data) {
-            $('#DataTableCatalog').DataTable().ajax.reload();
             alert('Registro guardado');
+            $('#DataTableCatalog').DataTable().ajax.reload();
+            
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert("AJAX error: " + textStatus + ' : ' + errorThrown);
@@ -97,6 +151,7 @@ function SaveRecord() {
     });
 
     $('#language').attr('disabled', false);
+    $('#table-tbody-WorkPlan').empty();
 
 }
 
@@ -158,6 +213,9 @@ function DisableRecord() {
 
 $(document).ready(function () {
 
+    $(function () {
+        $("#tabs").tabs();
+    });
 
     var table = $('#DataTableCatalog').DataTable({
         "ajax": {
@@ -173,8 +231,9 @@ $(document).ready(function () {
         //},
         { "data": "id", "visible": false },
         { "data": "name" },
-        { "data": "language"  },
-        { "data": "code" }
+        { "data": "code" },
+        { "data": "year"  }
+
         ],
         //select: {
         //    style: 'os',
@@ -184,20 +243,37 @@ $(document).ready(function () {
         select: 'single',
         responsive: true,
         altEditor: true,     // Enable altEditor
-        buttons: [{
-            text: 'Agregar',
-            name: 'add'        // do not change name
-        },
+        buttons: [
+        //    {
+        //    text: 'Agregar',
+        //    name: 'add'        // do not change name
+        //},
         {
             extend: 'selected', // Bind to Selected row
             text: 'Editar',
             name: 'edit'        // do not change name
         },
-        {
-            extend: 'selected', // Bind to Selected row
-            text: 'Borrar',
-            name: 'delete'      // do not change name
-        }]
+        //{
+        //    extend: 'selected', // Bind to Selected row
+        //    text: 'Borrar',
+        //    name: 'delete'      // do not change name
+        //}
+        ]
+    });
+
+    // Catalogo de Paises
+    $('#country_slc').empty()
+    $.ajax({
+        type: "POST",
+        url: "../Catalogs/ListCountriesCatalog/",
+        //data: { 'carId': carId },
+        success: function (data) {
+
+            $('#country_slc').append('<option value=""> Select </option>');
+            for (i = 0; i < data.length; i++) {
+                $('#country_slc').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+            }
+        }
     });
 
     // Catalogo de idiomas
@@ -211,6 +287,21 @@ $(document).ready(function () {
             $('#language').append('<option value=""> Select </option>');
             for (i = 0; i < data.length; i++) {
                 $('#language').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+            }
+        }
+    });
+
+    // Catalogo de años
+    $('#year_slc').empty()
+    $.ajax({
+        type: "POST",
+        url: "../Catalogs/ListYearsCatalog/",
+        //data: { 'carId': carId },
+        success: function (data) {
+
+            $('#year_slc').append('<option value=""> Select </option>');
+            for (i = 0; i < data.length; i++) {
+                $('#year_slc').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
             }
         }
     });

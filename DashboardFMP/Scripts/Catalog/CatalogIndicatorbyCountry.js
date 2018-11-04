@@ -77,11 +77,14 @@ function validate() {
 function GetRecord(id) {
 
     console.log("Edit_Record ");
-    console.log(id);
+    console.log(id["id"]);
     $('#table-tbody-WorkPlan').empty();
+    $('#country_slc').val(id["id"]);
+    $('#year_slc').val(id["year"]);
+    $('#create_cty_year').css('visibility', 'hidden');
     $.ajax({
         type: "POST",
-        url: "../FMP/ListIndicatorbyCountry/",
+        url: "../Catalogs/IndicatorbyCountryListGet/",
         data: { 'countryid_param': id["id"], 'language_param': 'ES', 'year_param': id["year"] },
         beforeSend: function () { $('#loading').show(); },
         complete: function () { $('#loading').hide(); },
@@ -94,22 +97,13 @@ function GetRecord(id) {
                         '<td style = "display:none">' + '<input id="indicator_id" name="indicator_id"  value="' + data[i].indicator_id + '" type="hidden" ' + '>' +
                             '<input id="country_id" name="country_id"  value="' + data[i].country_id + '" type="hidden" ' + '>' +
                             '<input id="year_" name="year_"  value="' + data[i].year_ + '" type="hidden" ' + '>' + '</td>' +
-                        '<td>' + '<label for="ind_' + data[i].id + '">' + data[i].objective_ + '<label>' + '</td>' +
-                        '<td>' + '<label for="ind_' + data[i].id + '">' + data[i].indicator_group_ + '<label>' + '</td>' +
-                        '<td>' + '<label for="ind_' + data[i].id + '">' + data[i].tipo_ + '<label>' + '</td>' +
-                        '<td>' + '<label for="ind_' + data[i].id + '">' + data[i].metas_ + '<label>' + '</td>' +
-                        '<td>' + '<label for="ind_' + data[i].id + '">' + data[i].frec_ + '<label>' + '</td>' +
-                        '<td>' + '<label for="ind_target_' + data[i].id + '">' + ((data[i].Q1_target_ == null) ? "" : data[i].Q1_target_) + '<label>' + '</td>' +
-                        '<td>' + '<input id="ind_Q1_" name="ind_Q1_"  value="' + ((data[i].Q1_ == null) ? "" : data[i].Q1_) + '" type="text" size="3" '  + '>' + '</td>' +
-                        //+ 'disabled = disabled'
-                        '<td>' + '<label for="ind_target_' + data[i].id + '">' + ((data[i].Q2_target_ == null) ? "" : data[i].Q2_target_) + '<label>' + '</td>' +
-                        '<td>' + '<input id="ind_Q2_" name="ind_Q2_"  value="' + ((data[i].Q2_ == null) ? "" : data[i].Q2_) + '" type="text" size="3" '   + '>' + '</td>' +
-                        '<td>' + '<label for="ind_target_' + data[i].id + '">' + ((data[i].Q3_target_ == null) ? "" : data[i].Q3_target_) + '<label>' + '</td>' +
-                        '<td>' + '<input id="ind_Q3_" name="ind_Q3_"  value="' + ((data[i].Q3_ == null) ? "" : data[i].Q3_) + '" type="text" size="3"  '  + '>' + '</td>' +
-                        '<td>' + '<label for="ind_target_' + data[i].id + '">' + ((data[i].Q4_target_ == null) ? "" : data[i].Q4_target_) + '<label>' + '</td>' +
-                        '<td>' + '<input id="ind_Q4_" name="ind_Q4_"  value="' + ((data[i].Q4_ == null) ? "" : data[i].Q4_) + '" type="text" size="3" ' + '>' + '</td>' +
-
-                        //'<td>' + '<a href="#edit" id="ind_'+data[i].id+'">Edit</a>  <a href="#save" style="display:none;">Save</a>' + '</td>' +
+                        '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].objective_ + '<label>' + '</td>' +
+                        '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].indicator_group_ + '<label>' + '</td>' +
+                        '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].tipo_ + '<label>' + '</td>' +
+                        '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].metas_ + '<label>' + '</td>' +
+                        '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].frec_ + '<label>' + '</td>' +
+                        '<td>' + '<input id="active" name="active"  value="true"' + ((data[i].indicator_selected == true) ? "checked" : "") + ' type="checkbox" size="3" ' + '>' + '</td>' +
+                        '<td>' + '<input id="visible" name="visible"  value="true"' + ((data[i].indicator_visible == true) ? "checked" : "") + ' type="checkbox" size="3" ' + '>' + '</td>' +
 
                         + '</tr>');
             }
@@ -118,7 +112,10 @@ function GetRecord(id) {
 
 
     $('#language').attr('disabled', true);
-
+    $('#country_slc').attr('disabled', true);
+    $('#year_slc').attr('disabled', true);
+    //$('#create_cty_year').css('visibility', 'visible');
+    
 }
 
 
@@ -130,11 +127,12 @@ function SaveRecord() {
     var jsonItems = JSON.stringify(formData_array);
     
     $.ajax({
-        url: "../FMP/IndicatorbyCountrySave/",
+        url: "../Catalogs/IndicatorbyCountryListGetSave/",
         cache: false,
         type: 'POST',
         dataType: 'json',
         contentType: "application/json",
+        //data: {"name": "John","age": 30,"cars": ["Ford", "BMW", "Fiat"]},
         data: jsonItems,
         success: function (data) {
             alert('Registro guardado');
@@ -147,6 +145,7 @@ function SaveRecord() {
     });
 
     $('#language').attr('disabled', false);
+    $('#country_slc').attr('disabled', false);
     $('#table-tbody-WorkPlan').empty();
 
 }
@@ -200,6 +199,58 @@ function DeleteRecord() {
 }
 
 
+function CreateIndByCtyYear(id) {
+
+    //console.log("Edit_Record ");
+    //console.log(id["id"]);
+    $('#table-tbody-WorkPlan').empty();
+    $('#country_slc').val(id["id"]);
+    $('#year_slc').val(id["year"]);
+    $('#create_cty_year').css('visibility', 'visible');
+    $('#loading').hide();
+    if ($('#country_slc').val() != '' && $('#year_slc').val() != '') {
+
+        $.ajax({
+            type: "POST",
+            url: "../Catalogs/IndicatorbyCountryListGetByActivation/",
+            data: { 'countryid_param': id["id"], 'language_param': 'ES', 'year_param': id["year"]},
+            beforeSend: function () { $('#loading').show(); },
+            complete: function () { $('#loading').hide(); },
+            success: function (data) {
+                dataretrive = data;
+
+                for (i = 0; i < data.length; i++) {
+                    var tr = "  "
+                    $('#table-WorkPlan').find('tbody').append('<tr id="indicator" name="indicator">' +
+                            '<td style = "display:none">' + '<input id="indicator_id" name="indicator_id"  value="' + data[i].indicator_id + '" type="hidden" ' + '>' +
+                                '<input id="country_id" name="country_id"  value="' + data[i].country_id + '" type="hidden" ' + '>' +
+                                '<input id="year_" name="year_"  value="' + data[i].year_ + '" type="hidden" ' + '>' + '</td>' +
+                            '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].objective_ + '<label>' + '</td>' +
+                            '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].indicator_group_ + '<label>' + '</td>' +
+                            '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].tipo_ + '<label>' + '</td>' +
+                            '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].metas_ + '<label>' + '</td>' +
+                            '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].frec_ + '<label>' + '</td>' +
+                            '<td>' + '<input id="active" name="active"  value="true"' + ((data[i].indicator_selected == true) ? "checked" : "") + ' type="checkbox" size="3" ' + '>' + '</td>' +
+                            '<td>' + '<input id="visible" name="visible"  value="true"' + ((data[i].indicator_visible == true) ? "checked" : "") + ' type="checkbox" size="3" ' + '>' + '</td>' +
+
+                            + '</tr>');
+                }
+            }
+        });
+
+    } else {
+        alert('Ingrese País y Año para crear los indicadores');
+    }
+
+
+
+    $('#language').attr('disabled', false);
+    $('#country_slc').attr('disabled', false);
+    $('#year_slc').attr('disabled', false);
+    //$('#create_cty_year').css('visibility', 'hidden');
+
+}
+
 function DisableRecord() {
 
     $('#Name').attr("disabled", true);
@@ -209,9 +260,9 @@ function DisableRecord() {
 
 $(document).ready(function () {
 
-    $(function () {
-        $("#tabs").tabs();
-    });
+    //$(function () {
+    //    $("#tabs").tabs();
+    //});
 
     var table = $('#DataTableCatalog').DataTable({
         "ajax": {
@@ -257,6 +308,21 @@ $(document).ready(function () {
         ]
     });
 
+    // Catalogo de Paises
+    $('#country_slc').empty()
+    $.ajax({
+        type: "POST",
+        url: "../Catalogs/ListCountriesCatalog/",
+        //data: { 'carId': carId },
+        success: function (data) {
+
+            $('#country_slc').append('<option value=""> Select </option>');
+            for (i = 0; i < data.length; i++) {
+                $('#country_slc').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+            }
+        }
+    });
+
     // Catalogo de idiomas
     $('#language').empty()
     $.ajax({
@@ -268,6 +334,21 @@ $(document).ready(function () {
             $('#language').append('<option value=""> Select </option>');
             for (i = 0; i < data.length; i++) {
                 $('#language').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+            }
+        }
+    });
+
+    // Catalogo de años
+    $('#year_slc').empty()
+    $.ajax({
+        type: "POST",
+        url: "../Catalogs/ListYearsCatalog/",
+        //data: { 'carId': carId },
+        success: function (data) {
+
+            $('#year_slc').append('<option value=""> Select </option>');
+            for (i = 0; i < data.length; i++) {
+                $('#year_slc').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
             }
         }
     });

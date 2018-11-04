@@ -26,11 +26,14 @@ namespace DashboardFMP.Models
         public int indicator_id { get; set; }
         //[Column(Order = 1), Key]
         public int country_id { get; set; }
-        public Nullable<decimal> value { get; set; }
+        //[Column(Order = 0), Key]
         public int year_ind_country { get; set; }
+        public Nullable<decimal> value { get; set; }
         public int quarter { get; set; }
         public Nullable<decimal> target { get; set; }
         public Nullable<System.DateTime> inputyear { get; set; }
+        public bool? active { get; set; }
+        public bool? visible { get; set; }
 
         [ForeignKey("country_id")]
         public virtual country country { get; set; }

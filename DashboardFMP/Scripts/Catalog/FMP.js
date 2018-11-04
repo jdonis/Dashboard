@@ -79,6 +79,8 @@ function GetRecord(id) {
     console.log("Edit_Record ");
     console.log(id);
     $('#table-tbody-WorkPlan').empty();
+    $('#country_slc').val(id["id"]);
+    $('#year_slc').val(id["year"]);
     $.ajax({
         type: "POST",
         url: "../FMP/ListIndicatorbyCountry/",
@@ -118,6 +120,8 @@ function GetRecord(id) {
 
 
     $('#language').attr('disabled', true);
+    $('#country_slc').attr('disabled', true);
+    $('#year_slc').attr('disabled', true);
 
 }
 
@@ -257,6 +261,21 @@ $(document).ready(function () {
         ]
     });
 
+    // Catalogo de Paises
+    $('#country_slc').empty()
+    $.ajax({
+        type: "POST",
+        url: "../Catalogs/ListCountriesCatalog/",
+        //data: { 'carId': carId },
+        success: function (data) {
+
+            $('#country_slc').append('<option value=""> Select </option>');
+            for (i = 0; i < data.length; i++) {
+                $('#country_slc').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+            }
+        }
+    });
+
     // Catalogo de idiomas
     $('#language').empty()
     $.ajax({
@@ -268,6 +287,21 @@ $(document).ready(function () {
             $('#language').append('<option value=""> Select </option>');
             for (i = 0; i < data.length; i++) {
                 $('#language').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+            }
+        }
+    });
+
+    // Catalogo de años
+    $('#year_slc').empty()
+    $.ajax({
+        type: "POST",
+        url: "../Catalogs/ListYearsCatalog/",
+        //data: { 'carId': carId },
+        success: function (data) {
+
+            $('#year_slc').append('<option value=""> Select </option>');
+            for (i = 0; i < data.length; i++) {
+                $('#year_slc').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
             }
         }
     });

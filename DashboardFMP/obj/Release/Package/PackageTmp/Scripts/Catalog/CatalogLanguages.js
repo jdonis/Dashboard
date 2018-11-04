@@ -41,16 +41,17 @@ function validate() {
 
 function GetRecord(id) {
 
+   
     console.log("Edit_Record " + id);
     $.ajax({
         type: "POST",
         url: "../Catalogs/LanguageGet/",
-        data: { 'ID': id },
+        data: { 'ID': id["id"] },
         success: function (data) {
             console.log("Response Edit_record");
             console.log(data);
 
-            $('#id').val(id);
+            $('#id').val(id["id"]);
             $('#Name').val(data[0].name);
             $('#Code').val(data[0].code);
 
