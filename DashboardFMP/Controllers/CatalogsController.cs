@@ -92,6 +92,28 @@ namespace DashboardFMP.Controllers
             return null;
         }
 
+        public ActionResult ListCheckListCatalog()
+        {
+            try
+            {
+                var list_checklist = db.checklists;
+                var jsondata = (from checklist_db in list_checklist
+                                select new
+                                {
+                                    id = checklist_db.id,
+                                    name = checklist_db.code
+                                }).ToArray();
+
+                return Json(jsondata, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
+        }
+
         public ActionResult ListModeCatalog()
         {
             try
@@ -1130,6 +1152,270 @@ namespace DashboardFMP.Controllers
                 db.SaveChanges();
 
                 return Json("Success");
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
+        }
+
+        //  Check Question List
+
+        public ActionResult CheckListQuestion(int? id)
+        {
+            return View();
+        }
+        public ActionResult CheckListQuestionListDataTables()
+        {
+            try
+            {
+
+                var list_object = db.checklistquestions;
+
+                var jsondata = (from object_db in list_object
+                                select new
+                                {
+                                    id = object_db.id,
+                                    orden_despliegue = object_db.code,
+                                    name = object_db.checklist_question_info.FirstOrDefault().name,
+                                    checklist = object_db.checklist.code,
+                                    language = object_db.checklist_question_info.FirstOrDefault().language.name,
+                                    
+
+                                    //code = object_db.
+
+                                })
+                                .OrderBy(x=> x.checklist)
+                                .ThenBy(z=> z.orden_despliegue)
+                                .ToArray();
+
+                return Json(jsondata, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
+        }
+
+        public ActionResult CheckListQuestionGet(int id)
+        {
+            try
+            {
+                var list_checklistquestion = db.checklistquestions.Where(x => x.id == id);
+
+                var jsondata = (from checklistquestion_db in list_checklistquestion
+                                select new
+                                {
+                                    id = checklistquestion_db.id,
+                                    name = checklistquestion_db.checklist_question_info.FirstOrDefault().name,
+                                    language_id = checklistquestion_db.checklist_question_info.FirstOrDefault().language_id,
+                                    checklist_id = checklistquestion_db.checklist_id,
+                                    orden_view = checklistquestion_db.code
+                                }).ToArray();
+
+                return Json(jsondata, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
+        }
+
+        public ActionResult CheckListQuestionSave(FormCollection frm)
+        {
+            try
+            {
+                // TODO: Add update logic here
+                checklist_question_info checklist_question_;
+                var id_checklistquestion = (frm["id"] == "") ? 0 : Convert.ToInt32(frm["id"]);
+                var id_language = (frm["language"] == "") ? 0 : Convert.ToInt32(frm["language"]);
+                var id_checklist = (frm["checklist"] == "") ? 0 : Convert.ToInt32(frm["checklist"]);
+
+                if (id_checklistquestion == 0)
+                {
+                    checklist_question_ = new checklist_question_info();
+                    db.Entry(checklist_question_).State = EntityState.Added;
+                }
+                else
+                {
+                    checklist_question_ = db.checklist_question_info.Find(id_checklistquestion, id_language);
+                    db.Entry(checklist_question_).State = EntityState.Modified;
+                }
+
+
+                checklist_question_.name = frm["name"];
+                checklist_question_.checklistquestion.code = frm["order_view"];
+                checklist_question_.checklistquestion.checklist_id = id_checklist;
+
+
+                db.SaveChanges();
+
+                return Json("Success");
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
+        }
+
+        public ActionResult CheckListQuestionDelete(FormCollection frm)
+        {
+            try
+            {
+
+                var id_checklist = (frm["id"] == "") ? 0 : Convert.ToInt32(frm["id"]);
+                var catalog = db.checklists.Find(id_checklist);
+                db.checklists.Remove(catalog);
+                db.SaveChanges();
+                return Json("Registro eliminado");
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+
+                return Json(e.Message);
+            }
+            return null;
+        }
+
+
+        //  Check List
+
+        public ActionResult CheckList(int? id)
+        {
+            return View();
+        }
+        public ActionResult CheckListListDataTables()
+        {
+            try
+            {
+
+                var list_object = db.checklists;
+
+                var jsondata = (from object_db in list_object
+                                select new
+                                {
+                                    id = object_db.id,
+                                    code = object_db.code
+
+                                }).ToArray();
+
+                return Json(jsondata, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
+        }
+
+        public ActionResult CheckListGet(int id)
+        {
+            try
+            {
+                var list_checklist = db.checklists.Where(x => x.id == id);
+
+                var jsondata = (from checklist_db in list_checklist
+                                select new
+                                {
+                                    id = checklist_db.id,
+                                    code = checklist_db.code
+                                }).ToArray();
+
+                return Json(jsondata, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
+        }
+
+        public ActionResult CheckListSave(FormCollection frm)
+        {
+            try
+            {
+                // TODO: Add update logic here
+                checklist checklist_;
+                var id_checklist = (frm["id"] == "") ? 0 : Convert.ToInt32(frm["id"]);
+
+                if (id_checklist == 0)
+                {
+                    checklist_ = new checklist();
+                    db.Entry(checklist_).State = EntityState.Added;
+                }
+                else
+                {
+                    checklist_ = db.checklists.Find(id_checklist);
+                    db.Entry(checklist_).State = EntityState.Modified;
+                }
+
+
+                checklist_.code = frm["code"];
+                //checklist_.name = frm["name"];
+
+                db.SaveChanges();
+
+                return Json("Success");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        public ActionResult CheckListDelete(FormCollection frm)
+        {
+            try
+            {
+
+                var id_checklist = (frm["id"] == "") ? 0 : Convert.ToInt32(frm["id"]);
+                var catalog = db.checklists.Find(id_checklist);
+                db.checklists.Remove(catalog);
+                db.SaveChanges();
+                return Json("Registro eliminado");
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+
+                return Json(e.Message);
+            }
+            return null;
+        }
+
+        public ActionResult CheckListCreate(FormCollection frm)
+        {
+            try
+            {
+                checklist checklist_;
+                var id_checklist = (frm["id"] == "") ? 0 : Convert.ToInt32(frm["id"]);
+                var code_checklist = frm["code"].ToUpper();
+                var any_checklist_code = db.checklists.Where(z => z.code.ToUpper() == code_checklist).Any();
+
+                checklist_ = new checklist();
+
+                if (any_checklist_code == true)
+                {
+                    return Json("El código de Check List ya existe, ingrese de nuevo los datos con otro código");
+                }
+                else if (id_checklist == 0)
+                {
+                    db.Entry(checklist_).State = EntityState.Added;
+                    checklist_.code = frm["code"];
+                    //language_.name = frm["name"];
+                    db.SaveChanges();
+                    return Json("Check List agregado");
+                }
+                else
+                {
+                    return Json("Error al agregar");
+                }
+
             }
             catch (Exception e)
             {

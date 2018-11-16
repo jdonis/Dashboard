@@ -14,21 +14,21 @@ namespace DashboardFMP.Models
     using System.ComponentModel.DataAnnotations.Schema;
     public partial class checklistquestion
     {
-        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        //public checklistquestion()
-        //{
-        //    this.checklist_question_info = new HashSet<checklist_question_info>();
-        //    this.question_value = new HashSet<question_value>();
-        //}
-    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public checklistquestion()
+        {
+            this.checklist_question_info = new HashSet<checklist_question_info>();
+            //this.question_value = new HashSet<question_value>();
+        }
+
         public int id { get; set; }
         public int checklist_id { get; set; }
         public string code { get; set; }
 
         [ForeignKey("checklist_id")]
         public virtual checklist checklist { get; set; }
-        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        //public virtual ICollection<checklist_question_info> checklist_question_info { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<checklist_question_info> checklist_question_info { get; set; }
         //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         //public virtual ICollection<question_value> question_value { get; set; }
     }

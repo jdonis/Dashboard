@@ -148,7 +148,7 @@
                 l = "";
 
                 ResetRecord();
-                GetRecord(d.data()[0]["id"]);
+                GetRecord(d.data()[0]);
                 DisableRecord();
 
                 $("#altEditor-modal").find(".modal-title").html("Eliminar Registro");
