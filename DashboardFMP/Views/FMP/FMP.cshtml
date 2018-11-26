@@ -46,13 +46,13 @@
 
 
     <div class="modal fade" id="altEditor-modal" tabindex="-1" role="dialog" dstyle="display: none; padding-left: 3px;">
-        <div class="modal-dialog" style="max-width:1200px;">
+        <div class="modal-dialog" style="max-width:1250px;">
             <div class="modal-content">
                 <div class="modal-header">
 
                     <div class="col-sm-3 col-md-3 col-lg-3 text-right" style="padding-top:7px;"><label for="country">País:</label></div>
                     <select id="country_slc" name="country_slc" required data-validation="required" data-validation-if-checked-value="yes"></select>
-                    <div class="col-sm-3 col-md-3 col-lg-3 text-right" style="padding-top:7px;"><label for="country">Año:</label></div>
+                    <div class="col-sm-3 col-md-3 col-lg-3 text-right" style="padding-top:7px;"><label for="year_">Año:</label></div>
                     <select id="year_slc" name="year_slc" required data-validation="required" data-validation-if-checked-value="yes"></select>
 
 
@@ -64,11 +64,11 @@
                         <div id="tabs">
                             <ul>
                                 <li><a href="#tab-WorkPlan">Work Plan</a></li>
-                                <li><a href="#tab-EBPChecklist">EBP Checklist</a></li>
-                                <li><a href="#tab-CPDChecklists">CPD Checklists</a></li>
-                                <li><a href="#tab-ANEXOIIIChecklist">ANEXO III Checklist</a></li>
-                                <li><a href="#tab-ICBChecklist">ICB Checklist</a></li>
-                                <li><a href="#tab-TyLChecklist">T&L Checklist</a></li>
+                                <li><a href="#tab-EBPchecklist">EBP Checklist</a></li>
+                                <li><a href="#tab-CPDchecklist">CPD Checklists</a></li>
+                                <li><a href="#tab-ANEXOIIIchecklist">ANEXO III Checklist</a></li>
+                                <li><a href="#tab-ICBchecklist">ICB Checklist</a></li>
+                                <li><a href="#tab-TyLchecklist">T&L Checklist</a></li>
                             </ul>
 
                             <div id="tab-WorkPlan">
@@ -76,7 +76,7 @@
                                 <div dclass="table-responsive">
                                     <table id="table-WorkPlan" class="table table-hover table-bordered table-striped">
                                         <thead>
-                                            <tr id="table-WorkPlan-header">
+                                            <tr class="font-weight-bold" id="table-WorkPlan-header">
                                                 <td scope="col">Obj. Banco</td>
                                                 <td scope="col">Main Business Functions</td>
                                                 <td scope="col">Tipo</td>
@@ -106,20 +106,101 @@
                                 </div>
                             </div>
 
-                            <div id="tab-EBPChecklist">
-                                akdsjf;lakjdfl;kajdflk
+                            <div id="tab-EBPchecklist">
+                                <div dclass="table-responsive">
+                                    <table  id="table-EBPchecklist" class="table table-hover table-bordered table-striped">
+                                        <thead>
+                                            <tr class="font-weight-bold"  id="table-EBPchecklist-header">
+                                                <td scope="col" id="indicator_EBPchecklist" colspan="2"></td>
+                                                <td scope="col">1Q </td>
+                                                <td scope="col">2Q </td>
+                                                <td scope="col">3Q </td>
+                                                <td scope="col">4Q </td>
+                                                <td scope="col">Comentarios</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="table-tbody-EBPchecklist"></tbody>
+
+
+                                    </table>
+
+                                </div>
                             </div>
-                            <div id="tab-CPDChecklists">
-                                kajdfl;kajsdfl;kjas
+                            <div id="tab-CPDchecklist">
+                                <div dclass="table-responsive">
+                                    <table id="table-CPDchecklist" class="table table-hover table-bordered table-striped">
+                                        <thead>
+                                            <tr id="table-CPDchecklist-header">
+                                                <td scope="col" id="indicator_CPDchecklist" colspan="2"></td>
+                                                <td scope="col">1Q </td>
+                                                <td scope="col">2Q </td>
+                                                <td scope="col">3Q </td>
+                                                <td scope="col">4Q </td>
+                                                <td scope="col">Comentarios</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="table-tbody-CPDchecklist"></tbody>
+
+
+                                    </table>
+                                </div>
                             </div>
-                            <div id="tab-ANEXOIIIChecklist">
-                                ajsdfl;kajsdl;kfjsa
+                            <div id="tab-ANEXOIIIchecklist">
+                                <div dclass="table-responsive">
+                                    <table  id="table-ANEXOIIIchecklist" class="table table-hover table-bordered table-striped">
+                                        <thead>
+                                            <tr id="table-ANEXOIIIchecklist-header">
+                                                <td scope="col" id="indicator_ANEXOIIIchecklist" colspan="2"></td>
+                                                <td scope="col">1Q </td>
+                                                <td scope="col">2Q </td>
+                                                <td scope="col">3Q </td>
+                                                <td scope="col">4Q </td>
+                                                <td scope="col">Comentarios</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="table-tbody-ANEXOIIIchecklist"></tbody>
+
+
+                                    </table>
+                                </div>
                             </div>
-                            <div id="tab-ICBChecklist">
-                                klajdsfl;kajldfkjs
+                            <div id="tab-ICBchecklist">
+                                <div dclass="table-responsive">
+                                    <table id="table-ICBchecklist" class="table table-hover table-bordered table-striped">
+                                        <thead>
+                                            <tr id="table-ICBchecklist-header">
+                                                <td scope="col" id="indicator_ICBchecklist" colspan="2"></td>
+                                                <td scope="col">1Q </td>
+                                                <td scope="col">2Q </td>
+                                                <td scope="col">3Q </td>
+                                                <td scope="col">4Q </td>
+                                                <td scope="col">Comentarios</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="table-tbody-ICBchecklist"></tbody>
+
+
+                                    </table>
+                                </div>
                             </div>
-                            <div id="tab-TyLChecklist">
-                                lkajdl;fkjaslkdf
+                            <div id="tab-TyLchecklist">
+                                <div dclass="table-responsive">
+                                    <table id="table-TyLchecklist" class="table table-hover table-bordered table-striped">
+                                        <thead>
+                                            <tr id="table-TyLchecklist-header">
+                                                <td scope="col" id="indicator_TyLchecklist" colspan="2"></td>
+                                                <td scope="col">1Q </td>
+                                                <td scope="col">2Q </td>
+                                                <td scope="col">3Q </td>
+                                                <td scope="col">4Q </td>
+                                                <td scope="col">Comentarios</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="table-tbody-TyLchecklist"></tbody>
+
+
+                                    </table>
+                                </div>
                             </div>
                         </div>
 

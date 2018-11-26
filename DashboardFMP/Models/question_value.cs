@@ -21,8 +21,15 @@ namespace DashboardFMP.Models
         public int country_indicator_indicator_id { get; set; }
         [Column(Order = 2), Key]
         public int checklistquestion_id { get; set; }
-        public Nullable<int> value { get; set; }
-        public Nullable<int> target { get; set; }
+        public int year_ind_country { get; set; }
+        public int? Q1value { get; set; }
+        public int? Q1target { get; set; }
+        public int? Q2value { get; set; }
+        public int? Q2target { get; set; }
+        public int? Q3value { get; set; }
+        public int? Q3target { get; set; }
+        public int? Q4value { get; set; }
+        public int? Q4target { get; set; }
 
         [ForeignKey("checklistquestion_id")]
         public virtual checklistquestion checklistquestion { get; set; }

@@ -153,7 +153,31 @@ namespace DashboardFMP.Controllers
                                     order_by_indicatorgroup = object_db.children_1.FirstOrDefault().indicator.indicatorgroup.orden,
                                     order_by_indicator = object_db.children_1.FirstOrDefault().indicator.orden,
                                     active = object_db.children_1.FirstOrDefault().active,
-                                    visible = object_db.children_1.FirstOrDefault().visible
+                                    visible = object_db.children_1.FirstOrDefault().visible,
+                                    //CheckList = db.question_value.Where(z => z.country_indicator_country_id == object_db.country_id && z.country_indicator_indicator_id == object_db.indicator_id && z.year_ind_country == object_db.year_ind_country).ToList()
+                                    CheckList = (object_db.children_1.FirstOrDefault().indicator.inputtype != "checklist") ? null :
+                                                  (  from object_checklist in db.question_value
+                                                     where object_checklist.country_indicator_country_id == object_db.country_id 
+                                                        && object_checklist.country_indicator_indicator_id == object_db.indicator_id
+                                                        && object_checklist.year_ind_country == object_db.year_ind_country
+                                                   select new
+                                                   {
+                                                       link_checklist = object_checklist.checklistquestion.checklist.code,
+                                                       id_checklist = object_checklist.checklistquestion.checklist.id,
+                                                       orden = object_checklist.checklistquestion.code,
+                                                       question = object_checklist.checklistquestion.checklist_question_info.FirstOrDefault().name,
+                                                       Q1_value = object_checklist.Q1value,
+                                                       Q1_target = object_checklist.Q1target,
+                                                       Q2_value = object_checklist.Q2value,
+                                                       Q2_target = object_checklist.Q2target,
+                                                       Q3_value = object_checklist.Q3value,
+                                                       Q3_target = object_checklist.Q3target,
+                                                       Q4_value = object_checklist.Q4value,
+                                                       Q4_target = object_checklist.Q4target,
+
+                                                   }
+                                                  ).OrderBy(z=> z.orden)
+                                    
 
                                 })
                                 .OrderBy(z => z.order_by_objective)
