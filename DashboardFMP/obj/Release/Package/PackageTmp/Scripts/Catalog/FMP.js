@@ -89,36 +89,59 @@ function GetRecord(id) {
         complete: function () { $('#loading').hide(); },
         success: function (data) {
             dataretrive = data;
+            //console.log(data);
 
             for (i = 0; i < data.length; i++) {
-                var tr = "  "
+                var tr = "  ";
+                var onclick_ = (data[i].tipo_ == "checklist") ? "$('#tabs').tabs({ active: " + (data[i].CheckList[0].id_checklist) + " });" : "";
+                //(data[i].tipo_ == "checklist") ?  console.log(data[i].CheckList): "";
                 $('#table-WorkPlan').find('tbody').append('<tr id="indicator" name="indicator">' +
                         '<td style = "display:none">' + '<input id="indicator_id" name="indicator_id"  value="' + data[i].indicator_id + '" type="hidden" ' + '>' +
                             '<input id="country_id" name="country_id"  value="' + data[i].country_id + '" type="hidden" ' + '>' +
                             '<input id="year_" name="year_"  value="' + data[i].year_ + '" type="hidden" ' + '>' + '</td>' +
-                        '<td>' + '<label for="ind_' + data[i].id + '">' + data[i].objective_ + '<label>' + '</td>' +
-                        '<td>' + '<label for="ind_' + data[i].id + '">' + data[i].indicator_group_ + '<label>' + '</td>' +
-                        '<td>' + '<label for="ind_' + data[i].id + '">' + data[i].tipo_ + '<label>' + '</td>' +
-                        '<td>' + '<label for="ind_' + data[i].id + '">' + data[i].metas_ + '<label>' + '</td>' +
+                        '<td>' + '<label for="ind_' + data[i].id + '">' + data[i].objective_ + '</label>' + '</td>' +
+                        '<td>' + '<label for="ind_' + data[i].id + '">' + data[i].indicator_group_ + '</label>' + '</td>' +
+                        '<td>' + '<label for="ind_' + data[i].id + '">' + data[i].tipo_ + '</label>' + '</td>' +
+                        '<td>' + ((data[i].tipo_ == "checklist") ? '<div class="page-link" onclick="' + onclick_ + '">' : "") + '<label for="ind_' + data[i].id + '">' + data[i].metas_ + '</label>' + ((data[i].tipo_ == "checklist") ? "</div>" : "") + '</td>' +
+                         //  $('#tabs a[href="#tabtwo"]').click();
+                         //$("#workflowTab").tabs({ active: 0 });
+                         //+ ((data[i].tipo_ == "checklist") ? "<a href='#tab-" + data[i].CheckList[0].link_checklist + "checklist'>" : "")
                         '<td>' + '<label for="ind_' + data[i].id + '">' + data[i].frec_ + '<label>' + '</td>' +
                         '<td>' + '<label for="ind_target_' + data[i].id + '">' + ((data[i].Q1_target_ == null) ? "" : data[i].Q1_target_) + '<label>' + '</td>' +
-                        '<td>' + '<input id="ind_Q1_" name="ind_Q1_"  value="' + ((data[i].Q1_ == null) ? "" : data[i].Q1_) + '" type="text" size="3" '  + '>' + '</td>' +
+                        '<td>' + '<input id="ind_Q1_" name="ind_Q1_"  value="' + ((data[i].Q1_ == null) ? "" : data[i].Q1_) + '" type="text" size="3" ' + ((data[i].tipo_ == "checklist") ? "disabled = disabled" : "") + '>' + '</td>' +
                         //+ 'disabled = disabled'
                         '<td>' + '<label for="ind_target_' + data[i].id + '">' + ((data[i].Q2_target_ == null) ? "" : data[i].Q2_target_) + '<label>' + '</td>' +
-                        '<td>' + '<input id="ind_Q2_" name="ind_Q2_"  value="' + ((data[i].Q2_ == null) ? "" : data[i].Q2_) + '" type="text" size="3" '   + '>' + '</td>' +
+                        '<td>' + '<input id="ind_Q2_" name="ind_Q2_"  value="' + ((data[i].Q2_ == null) ? "" : data[i].Q2_) + '" type="text" size="3" ' + ((data[i].tipo_ == "checklist") ? "disabled = disabled" : "") + '>' + '</td>' +
                         '<td>' + '<label for="ind_target_' + data[i].id + '">' + ((data[i].Q3_target_ == null) ? "" : data[i].Q3_target_) + '<label>' + '</td>' +
-                        '<td>' + '<input id="ind_Q3_" name="ind_Q3_"  value="' + ((data[i].Q3_ == null) ? "" : data[i].Q3_) + '" type="text" size="3"  '  + '>' + '</td>' +
+                        '<td>' + '<input id="ind_Q3_" name="ind_Q3_"  value="' + ((data[i].Q3_ == null) ? "" : data[i].Q3_) + '" type="text" size="3"  ' + ((data[i].tipo_ == "checklist") ? "disabled = disabled" : "") + '>' + '</td>' +
                         '<td>' + '<label for="ind_target_' + data[i].id + '">' + ((data[i].Q4_target_ == null) ? "" : data[i].Q4_target_) + '<label>' + '</td>' +
-                        '<td>' + '<input id="ind_Q4_" name="ind_Q4_"  value="' + ((data[i].Q4_ == null) ? "" : data[i].Q4_) + '" type="text" size="3" ' + '>' + '</td>' +
+                        '<td>' + '<input id="ind_Q4_" name="ind_Q4_"  value="' + ((data[i].Q4_ == null) ? "" : data[i].Q4_) + '" type="text" size="3" ' + ((data[i].tipo_ == "checklist") ? "disabled = disabled" : "") + '>' + '</td>' +
 
                         //'<td>' + '<a href="#edit" id="ind_'+data[i].id+'">Edit</a>  <a href="#save" style="display:none;">Save</a>' + '</td>' +
 
                         + '</tr>');
+
+                if (data[i].tipo_ == "checklist" && data[i].CheckList != null) {
+                    //console.log('#table-' + data[i].CheckList[0].link_checklist + 'checklist');
+                    $('#table-' + data[i].CheckList[0].link_checklist + 'checklist').find('indicator_EBPchecklist').append(
+                        '<label>' + data[i].metas_ + '<label>');
+                    for (j = 0; j < data[i].CheckList.length; j++) {
+                        $('#table-' + data[i].CheckList[0].link_checklist + 'checklist').find('tbody').append('<tr id="checklist" name="checklist">' +
+                            '<td colspan="2">' + '<label for="chklist_' + data[i].CheckList[j].orden + '">' + data[i].CheckList[j].question + '</label>' + '</td>' +
+                            '<td>' + '<input id="chklist_' + data[i].CheckList[0].link_checklist + '_Q1_" name="chklist_' + data[i].CheckList[0].link_checklist + '_Q1_"  value="' + ((data[i].CheckList[j].Q1_value == null) ? "" : data[i].CheckList[j].Q1_value) + '" type="text" size="3" ' + ((data[i].frec_ == "EQ" || data[i].frec_ == "BQ") ? "" : "disabled = disabled") + '>' + '</td>' +
+                            '<td>' + '<input id="chklist_' + data[i].CheckList[0].link_checklist + '_Q1_" name="chklist_' + data[i].CheckList[0].link_checklist + '_Q1_"  value="' + ((data[i].CheckList[j].Q2_value == null) ? "" : data[i].CheckList[j].Q2_value) + '" type="text" size="3" ' + ((data[i].frec_ == "EQ" ) ? "" : "disabled = disabled") + '>' + '</td>' +
+                            '<td>' + '<input id="chklist_' + data[i].CheckList[0].link_checklist + '_Q1_" name="chklist_' + data[i].CheckList[0].link_checklist + '_Q1_"  value="' + ((data[i].CheckList[j].Q3_value == null) ? "" : data[i].CheckList[j].Q3_value) + '" type="text" size="3" ' + ((data[i].frec_ == "EQ" ) ? "" : "disabled = disabled") + '>' + '</td>' +
+                            '<td>' + '<input id="chklist_' + data[i].CheckList[0].link_checklist + '_Q1_" name="chklist_' + data[i].CheckList[0].link_checklist + '_Q1_"  value="' + ((data[i].CheckList[j].Q4_value == null) ? "" : data[i].CheckList[j].Q4_value) + '" type="text" size="3" ' + ((data[i].frec_ == "EQ" || data[i].frec_ == "BQ" || data[i].frec_ == "LQ") ? "" : "disabled = disabled") + '>' + '</td>' +
+                            '</tr>');
+
+                    }
+                }
             }
         }
     });
 
 
+    $("#tabs").tabs({ active: 0 });
     $('#language').attr('disabled', true);
     $('#country_slc').attr('disabled', true);
     $('#year_slc').attr('disabled', true);
@@ -216,6 +239,10 @@ $(document).ready(function () {
     $(function () {
         $("#tabs").tabs();
     });
+
+    $("#tabs").tabs({ active: 0 });
+    //$("#tabs").tabs("option", "active", 0);
+    //$("#tabs").tabs('select', '#tab-WorkPlan');
 
     var table = $('#DataTableCatalog').DataTable({
         "ajax": {

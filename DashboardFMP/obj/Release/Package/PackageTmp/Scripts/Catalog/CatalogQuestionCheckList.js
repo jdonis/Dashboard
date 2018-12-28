@@ -19,18 +19,13 @@ $.fn.serializeObject = function () {
 function ResetRecord() {
 
             $('#id').val("");
-            $('#Code_intern').val("");
-            $('#Code_short').val("");
             $('#Name').val("");
-            $('#Short_name').val("");
+            $('#order_view').val("");
             $('#language').val("");
-            $('#Code_group_visual').val("");
-            $('#Code_intern').attr("disabled", false);
-            $('#Code_short').attr("disabled", false);
+            $('#checklist').val("");
             $('#Name').attr("disabled", false);
-            $('#Short_name').attr("disabled", false);
             $('#language').attr("disabled", false);
-            $('#Code_group_visual').attr("disabled", false);
+            $('#checklist').attr("disabled", false);
 
 }
 
@@ -52,19 +47,17 @@ function GetRecord(id) {
     console.log("Edit_Record " + id);
     $.ajax({
         type: "POST",
-        url: "../Catalogs/ObjectiveGet/",
+        url: "../Catalogs/CheckListQuestionGet/",
         data: { 'ID': id["id"] },
         success: function (data) {
             console.log("Response Edit_record");
             console.log(data);
 
             $('#id').val(id["id"]);
-            $('#Code_short').val(data[0].code_short);
-            $('#Code_intern').val(data[0].code);
             $('#Name').val(data[0].name);
-            $('#Short_name').val(data[0].short_name);
             $('#language').val(data[0].language_id);
-            $('#Code_group_visual').val(data[0].code_group_info);
+            $('#checklist').val(data[0].checklist_id);
+            $('#order_view').val(data[0].orden_view);
             
 
         }
@@ -77,12 +70,13 @@ function GetRecord(id) {
 
 function SaveRecord() {
     var language_id = $("#language").val();
+    var checklist_id = $("#checklist").val();
     var formData = $('#altEditor-form').serializeObject();
-    $.extend(formData, { 'language': language_id }); //Send Additional data
+    $.extend(formData, { 'language': language_id, 'checklist': checklist_id }); //Send Additional data
     console.log(formData);
 
     $.ajax({
-        url: "../Catalogs/ObjectiveSave/",
+        url: "../Catalogs/CheckListQuestionSave/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -161,7 +155,7 @@ $(document).ready(function () {
 
     var table = $('#DataTableCatalog').DataTable({
         "ajax": {
-            "url": "../Catalogs/ObjectivesListDataTables/",
+            "url": "../Catalogs/CheckListQuestionListDataTables/",
             "dataSrc": ""
         },
         "columns": [
@@ -172,12 +166,10 @@ $(document).ready(function () {
         //    orderable: false
         //},
         { "data": "id", "visible": false },
-        { "data": "code" },
-        { "data": "code_short"  },
+        { "data": "orden_despliegue" },
         { "data": "name" },
-        { "data": "short_name" },
-        { "data": "language" },
-        { "data": "code_group_info" }
+        { "data": "checklist" },
+        { "data": "language" }
         ],
         //select: {
         //    style: 'os',
@@ -214,6 +206,20 @@ $(document).ready(function () {
             $('#language').append('<option value=""> Select </option>');
             for (i = 0; i < data.length; i++) {
                 $('#language').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+            }
+        }
+    });
+
+    $('#checklist').empty()
+    $.ajax({
+        type: "POST",
+        url: "../Catalogs/ListCheckListCatalog/",
+        //data: { 'carId': carId },
+        success: function (data) {
+
+            $('#checklist').append('<option value=""> Select </option>');
+            for (i = 0; i < data.length; i++) {
+                $('#checklist').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
             }
         }
     });
