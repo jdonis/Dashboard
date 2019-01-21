@@ -28,6 +28,11 @@ namespace DashboardFMP.Models
         public string code { get; set; }
         public string mode { get; set; }
         public string frequency { get; set; }
+        public bool? Q1 { get; set; }
+        public bool? Q2 { get; set; }
+        public bool? Q3 { get; set; }
+        public bool? Q4 { get; set; }
+        public int? anual_calculation_id { get; set; }
         public int? responsible { get; set; }
         public int? contact { get; set; }
         public string inputtype { get; set; }

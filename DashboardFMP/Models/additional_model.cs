@@ -46,6 +46,16 @@ namespace DashboardFMP.Models
 
     }
 
+    public class CatAnnualCalculation
+    {
+        [Key]
+        public int id { get; set; }
+        public string Name { get; set; }
+        public string Instruction { get; set; }
+        public int? orden { get; set; }
+
+    }
+
     public class IndicatorCountry
     {
         public int country_id { get; set; }

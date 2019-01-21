@@ -21,6 +21,7 @@ namespace DashboardFMP.Models
         public int indicator_id { get; set; }
         public string name { get; set; }
         public string short_ { get; set; }
+        public string ind_num_visible { get; set; }
         public string code { get; set; }
         
 

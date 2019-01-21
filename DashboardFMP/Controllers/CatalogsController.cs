@@ -67,6 +67,30 @@ namespace DashboardFMP.Controllers
             return null;
         }
 
+        public ActionResult ListAnualCalculationCatalog()
+        {
+
+            try
+            {
+                var list_annualcalculation = db.CatAnnualCalculation;
+                var jsondata = (from annualcalculation_db in list_annualcalculation
+                                select new
+                                {
+                                    id = annualcalculation_db.id,
+                                    name = annualcalculation_db.Name
+
+                                }).ToArray();
+
+                return Json(jsondata, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
+        }
+
         public ActionResult ListLanguajeCatalog()
         {
             // Hay que agregar el parametro de idioma
@@ -525,7 +549,8 @@ namespace DashboardFMP.Controllers
                                     name = indicator_db.name,
                                     short_name = indicator_db.short_,
                                     mode = indicator_db.indicator.mode,
-                                    frequency = indicator_db.indicator.frequency,
+                                    //frequency = indicator_db.indicator.frequency,
+                                    frequency = (indicator_db.indicator.Q1 == true ? "Q1 " : "") + (indicator_db.indicator.Q2 == true ? "Q2 " : "") + (indicator_db.indicator.Q3 == true ? "Q3 " : "") + (indicator_db.indicator.Q4 == true ? "Q4 " : ""),
                                     inputtype = indicator_db.indicator.inputtype
 
 
@@ -556,10 +581,16 @@ namespace DashboardFMP.Controllers
                                     objective = indicator_db.indicator.objective_id,
                                     name = indicator_db.name,
                                     short_name = indicator_db.short_,
+                                    ind_num_visible = indicator_db.ind_num_visible,
                                     language_id = indicator_db.language_id,
                                     group_id = indicator_db.indicator.indicatorgroup_id,
                                     mode = indicator_db.indicator.mode,
                                     frequency = indicator_db.indicator.frequency,
+                                    Q1 = indicator_db.indicator.Q1,
+                                    Q2 = indicator_db.indicator.Q2,
+                                    Q3 = indicator_db.indicator.Q3,
+                                    Q4 = indicator_db.indicator.Q4,
+                                    anual_calculation_id = indicator_db.indicator.anual_calculation_id,
                                     inputtype = indicator_db.indicator.inputtype
 
                                 }).ToArray();
@@ -602,6 +633,12 @@ namespace DashboardFMP.Controllers
                 indicator_.indicator.mode = frm["mode"];
                 indicator_.indicator.frequency = frm["frequency"];
                 indicator_.indicator.inputtype = frm["input_type"];
+                indicator_.ind_num_visible = frm["ind_num_visible"];
+                indicator_.indicator.Q1 = frm["frequency_Q1"] == "1" ? true : false ;
+                indicator_.indicator.Q2 = frm["frequency_Q2"] == "2" ? true : false;
+                indicator_.indicator.Q3 = frm["frequency_Q3"] == "3" ? true : false;
+                indicator_.indicator.Q4 = frm["frequency_Q4"] == "4" ? true : false;
+                indicator_.indicator.anual_calculation_id = Convert.ToInt32(frm["annual_calculation"]);
 
                 db.SaveChanges();
 

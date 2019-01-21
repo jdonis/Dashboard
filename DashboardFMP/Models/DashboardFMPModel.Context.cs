@@ -48,5 +48,6 @@ namespace DashboardFMP.Models
         public virtual DbSet<CatIndicatorInputType> CatIndicatorInputType { get; set; }
         public virtual DbSet<CatIndicatorMode> CatIndicatorMode { get; set; }
         public virtual DbSet<CatYears> CatYears { get; set; }
+        public virtual DbSet<CatAnnualCalculation> CatAnnualCalculation { get; set; }
     }
 }
