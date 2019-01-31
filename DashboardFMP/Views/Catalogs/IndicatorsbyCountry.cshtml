@@ -1,13 +1,11 @@
 ﻿@{
     Layout = null;
 }
-
-<!DOCTYPE html>
-
 <html>
 <head>
     <title>Catálogo de indicadores por país y por año</title>
     <meta name="viewport" content="width=device-width" />
+
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/DataTables/css/jquery.dataTables.css" rel="stylesheet" />
@@ -23,7 +21,9 @@
     <script src="~/scripts/DataTables/dataTables.responsive.js"></script>
     <script src="~/scripts/DataTablesEditor/dataTables.altEditor.js"></script>
 
-    <script src="~/scripts/Catalog/CatalogIndicatorbyCountry.js"></script>
+    <script src="~/Scripts/localconfig.js"></script>
+    <script src="~/Scripts/Catalog/CatalogIndicatorbyCountry.js"></script>
+    @*<script src= "~/scripts/Catalog/CatalogIndicatorbyCountry.js"></script>*@
 </head>
 <body>
 
@@ -78,7 +78,7 @@
 
                         </table>
                         <div id="loading">
-                            <p><img src="~/Content/images/ajax-loader.gif" /> Please Wait</p>
+                            <p><img src= "~/Content/images/ajax-loader.gif" /> Please Wait</p>
                         </div>
                     </form>
                 </div>

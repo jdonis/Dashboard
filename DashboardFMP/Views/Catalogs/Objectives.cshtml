@@ -1,9 +1,6 @@
 ﻿@{
     Layout = null;
 }
-
-<!DOCTYPE html>
-
 <html>
 <head>
     <title>Catálogo de objetivos</title>
@@ -23,6 +20,7 @@
     <script src="~/scripts/DataTables/dataTables.responsive.js"></script>
     <script src="~/scripts/DataTablesEditor/dataTables.altEditor.js"></script>
 
+    <script src="~/Scripts/localconfig.js"></script>
     <script src="~/scripts/Catalog/CatalogObjectives.js"></script>
 </head>
 <body>
@@ -52,7 +50,7 @@
                     <h4 class="modal-title">Registro</h4>
                 </div>
                 <div class="modal-body">
-                    <form id="altEditor-form" name="altEditor-form" role="form">
+                    <div id="altEditor-form" name="altEditor-form" role="form">
                         <input class="primarykey" id="id" name="id" placeholder="" value="" type="hidden">
                         <div class="form-group">
                             <div class="col-sm-3 col-md-3 col-lg-3 text-right" style="padding-top:7px;"><label for="Code intern">Code visual:</label></div>
@@ -84,7 +82,7 @@
                             <div class="col-sm-9 col-md-9 col-lg-9"><input id="Code_group_visual" name="Code_group_visual" placeholder="Code_group_visual" maxlength="4" style="overflow:hidden" class="form-control form-control-sm" value="" type="text"></div>
                             <div style="clear:both;"></div>
                         </div>
-                    </form>
+                    </div>
                 </div>
                 <div class="modal-footer"><button type="button" data-content="remove" class="btn btn-default" data-dismiss="modal">Cerrar</button><button type="button" data-content="remove" class="btn btn-primary" id="editRowBtn">Guardar Cambios</button></div>
             </div>

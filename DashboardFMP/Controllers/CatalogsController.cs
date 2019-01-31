@@ -937,6 +937,155 @@ namespace DashboardFMP.Controllers
             return null;
         }
 
+        public ActionResult Years(int? id)
+        {
+            return View();
+        }
+
+        public ActionResult YearGet(int id)
+        {
+            try
+            {
+                var list_years = db.CatYears.Where(x => x.id == id);
+
+                var jsondata = (from years_db in list_years
+                                select new
+                                {
+                                    id = years_db.id,
+                                    active = years_db.active,
+                                    name = years_db.year_name
+                                }).ToArray();
+
+                return Json(jsondata, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
+        }
+
+        public ActionResult YearSave(FormCollection frm)
+        {
+            try
+            {
+                // TODO: Add update logic here
+                CatYears Year_;
+                var id_year = (frm["id"] == "") ? 0 : Convert.ToInt32(frm["id"]);
+
+                if (id_year == 0)
+                {
+                    Year_ = new CatYears();
+                    db.Entry(Year_).State = EntityState.Added;
+                }
+                else
+                {
+                    Year_ = db.CatYears.Find(id_year);
+                    db.Entry(Year_).State = EntityState.Modified;
+                }
+
+                Year_.active = Convert.ToBoolean(frm["activated"]);
+                Year_.year_name = Convert.ToInt32(frm["name"]);
+
+                db.SaveChanges();
+
+                return Json("Success");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+
+        public ActionResult YearCreate(FormCollection frm)
+        {
+            try
+            {
+                CatYears year_;
+                var id_year = (frm["id"] == "") ? 0 : Convert.ToInt32(frm["id"]);
+                var name_year_ = Convert.ToInt32(frm["name"]);
+                var any_year_name = db.CatYears.Where(z => z.year_name == name_year_).Any();
+
+                year_ = new CatYears();
+
+
+
+                if (any_year_name == true)
+                {
+                    return Json("El año ya existe, ingrese de nuevo los datos");
+                }
+                else if (id_year == 0)
+                {
+                    //id_year = Convert.ToInt32(frm["name"]);
+                    db.Entry(year_).State = EntityState.Added;
+                    //year_.id = id_year;
+                    //db.SaveChanges();
+                    year_.active = Convert.ToBoolean(frm["activated"]);
+                    year_.year_name = Convert.ToInt32(frm["name"]);
+                    db.SaveChanges();
+                    return Json("Año agregado");
+                }
+                else
+                {
+                    return Json("Error al agregar");
+                }
+
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
+        }
+
+        [HttpPost]
+        public ActionResult YearDelete(FormCollection frm)
+        {
+            try
+            {
+
+                var id_year = (frm["id"] == "") ? 0 : Convert.ToInt32(frm["id"]);
+                var catalog = db.CatYears.Find(id_year);
+                db.CatYears.Remove(catalog);
+                db.SaveChanges();
+                return Json("Registro eliminado");
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+
+                return Json(e.Message);
+            }
+            return null;
+        }
+
+
+        public ActionResult YearsListDataTables()
+        {
+            try
+            {
+
+                var list_Years = db.CatYears;
+
+                var jsondata = (from Years_db in list_Years
+                                select new
+                                {
+                                    id = Years_db.id,
+                                    active = Years_db.active,
+                                    name = Years_db.year_name
+
+                                }).OrderBy(z=> z.name).ToArray();
+
+                return Json(jsondata, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+            }
+            return null;
+        }
+
         public ActionResult LanguageGet(int id)
         {
             try

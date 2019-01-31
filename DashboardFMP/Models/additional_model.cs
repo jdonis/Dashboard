@@ -41,7 +41,7 @@ namespace DashboardFMP.Models
     {
         [Key]
         public int id { get; set; }
-        public string year_name { get; set; }
+        public int? year_name { get; set; }
         public bool? active { get; set; }
 
     }

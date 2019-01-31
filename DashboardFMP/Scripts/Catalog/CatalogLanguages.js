@@ -45,7 +45,7 @@ function GetRecord(id) {
     console.log("Edit_Record " + id);
     $.ajax({
         type: "POST",
-        url: "../Catalogs/LanguageGet/",
+        url: url_ + "/Catalogs/LanguageGet/",
         data: { 'ID': id["id"] },
         success: function (data) {
             console.log("Response Edit_record");
@@ -65,12 +65,13 @@ function GetRecord(id) {
 
 function SaveRecord() {
     var id = $("#id").val();
-    var formData = $('#altEditor-form').serializeObject();
+    var formData = $('#altEditor-form').find("select, textarea, input").serializeObject();
+
     $.extend(formData, { 'language': id }); //Send Additional data
-    console.log(formData);
+    //console.log(formData);
 
     $.ajax({
-        url: "../Catalogs/LanguageSave/",
+        url: url_ + "/Catalogs/LanguageSave/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -89,10 +90,10 @@ function SaveRecord() {
 }
 
 function CreateRecord() {
-    var formData = $('#altEditor-form').serializeObject();
+    var formData = $('#altEditor-form').find("select, textarea, input").serializeObject();
 
     $.ajax({
-        url: "../Catalogs/LanguageCreate/",
+        url: url_ + "/Catalogs/LanguageCreate/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -112,11 +113,11 @@ function CreateRecord() {
 
 function DeleteRecord() {
     var id = $("#id").val();
-    var formData = $('#altEditor-form').serializeObject();
+    var formData = $('#altEditor-form').find("select, textarea, input").serializeObject();
     $.extend(formData, { 'language': id }); //Send Additional data
 
     $.ajax({
-        url: "../Catalogs/LanguageDelete/",
+        url: url_ + "/Catalogs/LanguageDelete/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -144,10 +145,9 @@ function DisableRecord() {
 
 $(document).ready(function () {
 
-
     var table = $('#DataTableCatalog').DataTable({
         "ajax": {
-            "url": "../Catalogs/LanguagesListDataTables/",
+            "url": url_ + "/Catalogs/LanguagesListDataTables/",
             "dataSrc": ""
         },
         "columns": [

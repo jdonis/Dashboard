@@ -1,9 +1,6 @@
 ﻿@{
     Layout = null;
 }
-
-<!DOCTYPE html>
-
 <html>
 <head>
     <title>Catálogo de lenguajes</title>
@@ -14,6 +11,7 @@
     <link href="~/Content/DataTables/css/select.dataTables.css" rel="stylesheet" />
     <link href="~/Content/DataTables/css/buttons.dataTables.css" rel="stylesheet" />
     <link href="~/Content/DataTables/css/responsive.dataTables.css" rel="stylesheet" />
+    <script src="~/Scripts/localconfig.js"></script>
     <script src="~/Scripts/modernizr-2.8.3.js"></script>
     <script src="~/scripts/jquery-3.3.1.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
@@ -23,7 +21,8 @@
     <script src="~/scripts/DataTables/dataTables.responsive.js"></script>
     <script src="~/scripts/DataTablesEditor/dataTables.altEditor.js"></script>
 
-    <script src="~/scripts/Catalog/CatalogLanguages.js"></script>
+    <script src="~/Scripts/Catalog/CatalogLanguages.js"></script>
+    @*<script src="~/scripts/Catalog/CatalogLanguages.js"></script>*@
 </head>
 <body>
 
@@ -48,7 +47,7 @@
                     <h4 class="modal-title">Registro</h4>
                 </div>
                 <div class="modal-body">
-                    <form name="altEditor-form" id="altEditor-form" role="form">
+                    <div name="altEditor-form" id="altEditor-form" role="form">
                         <input class="primarykey" id="id" name="id" placeholder="id" value="" type="hidden">
                         <div class="form-group">
                             <div class="col-sm-3 col-md-3 col-lg-3 text-right" style="padding-top:7px;"><label for="Name">Name:</label></div>
@@ -60,7 +59,7 @@
                             <div class="col-sm-9 col-md-9 col-lg-9"><input id="Code" name="Code" placeholder="Code" style="overflow:hidden" class="form-control form-control-sm" value="" type="text"></div>
                             <div style="clear:both;"></div>
                         </div>
-                    </form>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-content="remove" class="btn btn-default" data-dismiss="modal">Cerrar</button>

@@ -47,7 +47,7 @@ function GetRecord(id) {
     console.log("Edit_Record " + id);
     $.ajax({
         type: "POST",
-        url: "../Catalogs/CheckListQuestionGet/",
+        url: url_ + "/Catalogs/CheckListQuestionGet/",
         data: { 'ID': id["id"] },
         success: function (data) {
             console.log("Response Edit_record");
@@ -76,7 +76,7 @@ function SaveRecord() {
     console.log(formData);
 
     $.ajax({
-        url: "../Catalogs/CheckListQuestionSave/",
+        url: url_ + "/Catalogs/CheckListQuestionSave/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -100,7 +100,7 @@ function CreateRecord() {
     $.extend(formData, { 'language': language_id }); //Send Additional data
 
     $.ajax({
-        url: "../Catalogs/ObjectiveCreate/",
+        url: url_ + "/Catalogs/ObjectiveCreate/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -124,7 +124,7 @@ function DeleteRecord() {
     $.extend(formData, { 'language': language_id }); //Send Additional data
 
     $.ajax({
-        url: "../Catalogs/ObjectiveDelete/",
+        url: url_ + "/Catalogs/ObjectiveDelete/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -155,7 +155,7 @@ $(document).ready(function () {
 
     var table = $('#DataTableCatalog').DataTable({
         "ajax": {
-            "url": "../Catalogs/CheckListQuestionListDataTables/",
+            "url": url_ + "/Catalogs/CheckListQuestionListDataTables/",
             "dataSrc": ""
         },
         "columns": [
@@ -199,7 +199,7 @@ $(document).ready(function () {
     $('#language').empty()
     $.ajax({
         type: "POST",
-        url: "../Catalogs/ListLanguajeCatalog/",
+        url: url_ + "/Catalogs/ListLanguajeCatalog/",
         //data: { 'carId': carId },
         success: function (data) {
 
@@ -213,7 +213,7 @@ $(document).ready(function () {
     $('#checklist').empty()
     $.ajax({
         type: "POST",
-        url: "../Catalogs/ListCheckListCatalog/",
+        url: url_ + "/Catalogs/ListCheckListCatalog/",
         //data: { 'carId': carId },
         success: function (data) {
 

@@ -1,9 +1,6 @@
 ﻿@{
     Layout = null;
 }
-
-<!DOCTYPE html>
-
 <html>
 <head>
     <title>Catálogo de objetivos</title>
@@ -23,6 +20,7 @@
     <script src="~/scripts/DataTables/dataTables.responsive.js"></script>
     <script src="~/scripts/DataTablesEditor/dataTables.altEditor.js"></script>
 
+    <script src="~/Scripts/localconfig.js"></script>
     <script src="~/scripts/Catalog/CatalogIndicators.js"></script>
 </head>
 <body>
@@ -55,7 +53,7 @@
                     <h4 class="modal-title">Edit Record</h4>
                 </div>
                 <div class="modal-body">
-                    <form name="altEditor-form" id="altEditor-form" role="form">
+                    <div name="altEditor-form" id="altEditor-form" role="form">
                         <input class="primarykey" id="id" name="id" placeholder="" value="" type="hidden">
                         <div class="form-group">
                             <div class="col-sm-3 col-md-3 col-lg-3"><label for="Language">Language:</label></div>
@@ -116,7 +114,7 @@
                             <select class="input_type" id="input_type" required data-validation="required" data-validation-if-checked-value="yes"></select>
                             @*<div style="clear:both;"></div>*@
                         </div>
-                    </form>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-content="remove" class="btn btn-default" data-dismiss="modal">Close</button>

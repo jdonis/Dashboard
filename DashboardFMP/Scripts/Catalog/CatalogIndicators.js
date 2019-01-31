@@ -23,7 +23,7 @@ function ResetRecord(lenguage_id_) {
     $('#group').empty()
     $.ajax({
         type: "POST",
-        url: "../Catalogs/ListGroupCatalog/",
+        url: url_ + "/Catalogs/ListGroupCatalog/",
         data: { 'language_id_': lenguage_id },
         async: false,
         success: function (data) {
@@ -38,7 +38,7 @@ function ResetRecord(lenguage_id_) {
     $('#objective').empty()
     $.ajax({
         type: "POST",
-        url: "../Catalogs/ListObjectiveCatalog/",
+        url: url_ + "/Catalogs/ListObjectiveCatalog/",
         data: { 'language_id_': lenguage_id },
         async: false,
         success: function (data) {
@@ -53,7 +53,7 @@ function ResetRecord(lenguage_id_) {
     $('#annual_calculation').empty()
     $.ajax({
         type: "POST",
-        url: "../Catalogs/ListAnualCalculationCatalog/",
+        url: url_ + "/Catalogs/ListAnualCalculationCatalog/",
         success: function (data) {
 
             $('#annual_calculation').append('<option value=""> Select </option>');
@@ -111,7 +111,7 @@ function GetRecord(id) {
 
     $.ajax({
         type: "POST",
-        url: "../Catalogs/IndicatorGet/",
+        url: url_ + "/Catalogs/IndicatorGet/",
         data: { 'ID': id["id"] },
         success: function (data) {
             //console.log("Response Edit_record");
@@ -149,7 +149,7 @@ function SaveRecord() {
     console.log(formData);
 
     $.ajax({
-        url: "../Catalogs/IndicatorSave/",
+        url: url_ + "/Catalogs/IndicatorSave/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -175,7 +175,7 @@ function CreateRecord() {
     //$('#group').empty()
     //$.ajax({
     //    type: "POST",
-    //    url: "../Catalogs/ListGroupCatalog/",
+    //    url:url_ + "/Catalogs/ListGroupCatalog/",
     //    data: { 'language_id_': id["language_id"] },
     //    async: false,
     //    success: function (data) {
@@ -190,7 +190,7 @@ function CreateRecord() {
     //$('#objective').empty()
     //$.ajax({
     //    type: "POST",
-    //    url: "../Catalogs/ListObjectiveCatalog/",
+    //    url:url_ + "/Catalogs/ListObjectiveCatalog/",
     //    data: { 'language_id_': id["language_id"] },
     //    async: false,
     //    success: function (data) {
@@ -205,7 +205,7 @@ function CreateRecord() {
     //ResetRecord();
 
     $.ajax({
-        url: "../Catalogs/IndicatorCreate/",
+        url: url_ + "/Catalogs/IndicatorCreate/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -229,7 +229,7 @@ function DeleteRecord() {
     $.extend(formData, { 'language': language_id }); //Send Additional data
 
     $.ajax({
-        url: "../Catalogs/IndicatorDelete/",
+        url: url_ + "/Catalogs/IndicatorDelete/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -260,7 +260,7 @@ $(document).ready(function () {
 
     var table = $('#DataTableCatalog').DataTable({
         "ajax": {
-            "url": "../Catalogs/IndicatorListDataTables/",
+            "url": url_ + "/Catalogs/IndicatorListDataTables/",
             "dataSrc": ""
         },
         "columns": [
@@ -309,7 +309,7 @@ $(document).ready(function () {
     $('#language').empty()
     $.ajax({
         type: "POST",
-        url: "../Catalogs/ListLanguajeCatalog/",
+        url: url_ + "/Catalogs/ListLanguajeCatalog/",
         //data: { 'carId': carId },
         success: function (data) {
 
@@ -323,7 +323,7 @@ $(document).ready(function () {
     $('#mode').empty()
     $.ajax({
         type: "POST",
-        url: "../Catalogs/ListModeCatalog/",
+        url:url_ + "/Catalogs/ListModeCatalog/",
         //data: { 'carId': carId },
         success: function (data) {
 
@@ -337,7 +337,7 @@ $(document).ready(function () {
     //$('#frequency').empty()
     //$.ajax({
     //    type: "POST",
-    //    url: "../Catalogs/ListFrequencyCatalog/",
+    //    url:url_ + "/Catalogs/ListFrequencyCatalog/",
     //    //data: { 'carId': carId },
     //    success: function (data) {
 
@@ -351,7 +351,7 @@ $(document).ready(function () {
     $('#input_type').empty()
     $.ajax({
         type: "POST",
-        url: "../Catalogs/ListInputTypeCatalog/",
+        url:url_ + "/Catalogs/ListInputTypeCatalog/",
         //data: { 'carId': carId },
         success: function (data) {
 
@@ -365,7 +365,7 @@ $(document).ready(function () {
     $('#annual_calculation').empty()
     $.ajax({
         type: "POST",
-        url: "../Catalogs/ListAnualCalculationCatalog/",
+        url:url_ + "/Catalogs/ListAnualCalculationCatalog/",
         //data: { 'carId': carId },
         success: function (data) {
 
