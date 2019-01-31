@@ -1,0 +1,83 @@
+﻿
+    Layout = null;
+}
+<html>
+<head>
+    <title>Catálogo de Preguntas de CheckList</title>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/DataTables/css/jquery.dataTables.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/select.dataTables.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/buttons.dataTables.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/responsive.dataTables.css" rel="stylesheet" />
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <script src="~/scripts/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/scripts/DataTables/jquery.dataTables.js"></script>
+    <script src="~/scripts/DataTables/dataTables.buttons.js"></script>
+    <script src="~/scripts/DataTables/dataTables.select.js"></script>
+    <script src="~/scripts/DataTables/dataTables.responsive.js"></script>
+    <script src="~/scripts/DataTablesEditor/dataTables.altEditor.js"></script>
+
+    <script src="~/Scripts/localconfig.js"></script>
+    <script src="~/scripts/Catalog/CatalogQuestionCheckList.js"></script>
+</head>
+<body>
+
+    <h2>Catálogo de Preguntas de CheckList</h2>
+
+    <table id="DataTableCatalog" class="table, display"  width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Orden</th>
+                <th>Name</th>
+                <th>Check List</th>
+                <th>Language</th>
+            </tr>
+        </thead>
+    </table>
+
+
+    <div class="modal fade" id="altEditor-modal" tabindex="-1" role="dialog" style="display: none; padding-left: 17px;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Registro</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="altEditor-form" name="altEditor-form" role="form">
+                        <input class="primarykey" id="id" name="id" placeholder="" value="" type="hidden">
+                        <div class="form-group">
+                            <div class="col-sm-3 col-md-3 col-lg-3 text-right" style="padding-top:7px;"><label for="order_view">Orden despliegue:</label></div>
+                            <div class="col-sm-9 col-md-9 col-lg-9"><input id="order_view" name="order_view" placeholder="order_view" style="overflow:hidden" class="form-control form-control-sm" value="" type="text"></div>
+                            <div style="clear:both;"></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-3 col-md-3 col-lg-3 text-right" style="padding-top:7px;"><label for="Name">Name:</label></div>
+                            <div class="col-sm-9 col-md-9 col-lg-9"><input id="Name" name="Name" placeholder="Name" style="overflow:hidden" class="form-control form-control-sm" value="" type="text"></div>
+                            <div style="clear:both;"></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-3 col-md-3 col-lg-3 text-right" style="padding-top:7px;"><label for="language">Language:</label></div>
+                            <select class="language" id="language" required data-validation="required" data-validation-if-checked-value="yes"></select>
+                            <div style="clear:both;"></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-3 col-md-3 col-lg-3 text-right" style="padding-top:7px;"><label for="checklist">Check List:</label></div>
+                            <select class="checklist" id="checklist" required data-validation="required" data-validation-if-checked-value="yes"></select>
+                            <div style="clear:both;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer"><button type="button" data-content="remove" class="btn btn-default" data-dismiss="modal">Cerrar</button><button type="button" data-content="remove" class="btn btn-primary" id="editRowBtn">Guardar Cambios</button></div>
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+</html>
