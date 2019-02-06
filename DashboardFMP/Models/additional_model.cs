@@ -72,7 +72,7 @@ namespace DashboardFMP.Models
     {
         public int country_id { get; set; }
         public int indicator_id { get; set; }
-        public int year_ { get; set; }
+        public int year_select { get; set; }
         public bool? active { get; set; }
         public bool? visible { get; set; }
 

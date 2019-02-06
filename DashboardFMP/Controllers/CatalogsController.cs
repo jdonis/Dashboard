@@ -440,11 +440,14 @@ namespace DashboardFMP.Controllers
             try
             {
                 country_indicator country_indicator__;
+                var dummy_year = incoming[0].year_select;
+                //var prueba = db.CatYears.Where(z => z.id == dummy_);
+                var year_name = Convert.ToInt32( db.CatYears.Where(z => z.id == dummy_year).FirstOrDefault().year_name);
 
                 foreach (IndicatorByCountryActive IndicatorByCountryActive_node in incoming)
                 {
-
-                    var IndicatorByCountry_ = db.country_indicator.Where(i => i.country_id == IndicatorByCountryActive_node.country_id && i.indicator_id == IndicatorByCountryActive_node.indicator_id && i.year_ind_country == IndicatorByCountryActive_node.year_).ToList();
+                    
+                    var IndicatorByCountry_ = db.country_indicator.Where(i => i.country_id == IndicatorByCountryActive_node.country_id && i.indicator_id == IndicatorByCountryActive_node.indicator_id && i.year_ind_country == year_name).ToList();
 
                     foreach(country_indicator Country_Indicator_ in IndicatorByCountry_  )
                     {

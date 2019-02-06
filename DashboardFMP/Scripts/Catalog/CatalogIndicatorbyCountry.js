@@ -54,19 +54,67 @@ $.fn.serializeToJson = function(serializer) {
 
 function ResetRecord() {
     console.log("... Reset Record");
-            $('#id').val("");
-            $('#Code_intern').val("");
-            $('#Code_short').val("");
-            $('#Name').val("");
-            $('#Short_name').val("");
-            $('#language').val("");
-            $('#Code_group_visual').val("");
-            $('#Code_intern').attr("disabled", false);
-            $('#Code_short').attr("disabled", false);
-            $('#Name').attr("disabled", false);
-            $('#Short_name').attr("disabled", false);
-            $('#language').attr("disabled", false);
-            $('#Code_group_visual').attr("disabled", false);
+            //$('#id').val("");
+            //$('#Code_intern').val("");
+            //$('#Code_short').val("");
+            //$('#Name').val("");
+            //$('#Short_name').val("");
+            //$('#language').val("");
+            //$('#Code_group_visual').val("");
+            //$('#Code_intern').attr("disabled", false);
+            //$('#Code_short').attr("disabled", false);
+            //$('#Name').attr("disabled", false);
+            //$('#Short_name').attr("disabled", false);
+            //$('#language').attr("disabled", false);
+            //$('#Code_group_visual').attr("disabled", false);
+
+    $('#table-tbody-WorkPlan').empty();
+
+    // Catalogo de Paises
+    $('#country_slc').empty()
+    $.ajax({
+        type: "POST",
+        url: url_ + "/Catalogs/ListCountriesCatalog/",
+        //data: { 'carId': carId },
+        success: function (data) {
+
+            $('#country_slc').append('<option value=""> Select </option>');
+            for (i = 0; i < data.length; i++) {
+                $('#country_slc').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+            }
+        }
+    });
+
+    // Catalogo de idiomas
+    $('#language').empty()
+    $.ajax({
+        type: "POST",
+        url: url_ + "/Catalogs/ListLanguajeCatalog/",
+        //data: { 'carId': carId },
+        success: function (data) {
+
+            $('#language').append('<option value=""> Select </option>');
+            for (i = 0; i < data.length; i++) {
+                $('#language').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+            }
+        }
+    });
+
+    // Catalogo de años
+    $('#year_slc').empty()
+    $.ajax({
+        type: "POST",
+        url: url_ + "/Catalogs/ListYearsCatalog/",
+        //data: { 'carId': carId },
+        success: function (data) {
+
+            $('#year_slc').append('<option value=""> Select </option>');
+            for (i = 0; i < data.length; i++) {
+                $('#year_slc').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+            }
+        }
+    });
+
 
 }
 
@@ -85,7 +133,7 @@ function GetRecord(id) {
 
     console.log("Edit_Record ");
     console.log(id["id"]);
-    $('#table-tbody-WorkPlan').empty();
+    
     //$('#country_slc').val(id["id"]);
 
     $('#create_cty_year').css('visibility', 'hidden');
@@ -133,6 +181,9 @@ function SaveRecord() {
     //console.log(formData_array);
     //console.log(JSON.stringify(formData_array));
     var jsonItems = JSON.stringify(formData_array);
+    console.log(formData_array);
+    console.log(jsonItems);
+    console.log("IndicatorbyCountryListGetSave");
     
     $.ajax({
         url:  url_ + "/Catalogs/IndicatorbyCountryListGetSave/",
@@ -164,7 +215,7 @@ function CreateRecord() {
     $.extend(formData, { 'language': language_id }); //Send Additional data
 
     $.ajax({
-        url:  url_ + "/Catalogs/ObjectiveCreate/",
+        url: url_ + "/Catalogs/IndicatorbyCountryListGetCreateNew/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -216,6 +267,8 @@ function CreateIndByCtyYear(id) {
     $('#year_slc').val(id["year"]);
     $('#create_cty_year').css('visibility', 'visible');
     $('#loading').hide();
+    console.log($('#country_slc').val());
+    console.log($('#year_slc').val());
     if ($('#country_slc').val() != '' && $('#year_slc').val() != '') {
 
         $.ajax({
@@ -237,7 +290,7 @@ function CreateIndByCtyYear(id) {
                             '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].indicator_group_ + '<label>' + '</td>' +
                             '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].tipo_ + '<label>' + '</td>' +
                             '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].metas_ + '<label>' + '</td>' +
-                            '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].frec_ + '<label>' + '</td>' +
+                            '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].frec_Q1 + ((data[i].frec_Q1 != "") ? ' - ' : '') + data[i].frec_Q2 + ((data[i].frec_Q2 != "") ? ' - ' : '') + data[i].frec_Q3 + ((data[i].frec_Q3 != "") ? ' - ' : '') + data[i].frec_Q4 + '<label>' + '</td>' +
                             '<td>' + '<input id="active" name="active"  value="true"' + ((data[i].indicator_selected == true) ? "checked" : "") + ' type="checkbox" size="3" ' + '>' + '</td>' +
                             '<td>' + '<input id="visible" name="visible"  value="true"' + ((data[i].indicator_visible == true) ? "checked" : "") + ' type="checkbox" size="3" ' + '>' + '</td>' +
 
