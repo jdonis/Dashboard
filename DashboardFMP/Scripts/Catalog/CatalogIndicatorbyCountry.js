@@ -14,6 +14,13 @@
     return o;
 };
 
+$.getUrlParameter = function (name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};
+
 $.fn.formtoArray = function(formArray){
     var obj = [];
     var inputs_form;
@@ -79,8 +86,8 @@ function GetRecord(id) {
     console.log("Edit_Record ");
     console.log(id["id"]);
     $('#table-tbody-WorkPlan').empty();
-    $('#country_slc').val(id["id"]);
-    $('#year_slc').val(id["year"]);
+    //$('#country_slc').val(id["id"]);
+
     $('#create_cty_year').css('visibility', 'hidden');
     $.ajax({
         type: "POST",
@@ -90,18 +97,19 @@ function GetRecord(id) {
         complete: function () { $('#loading').hide(); },
         success: function (data) {
             dataretrive = data;
-
+            $('#country_slc').val(data[i].country_id);
+            $('#year_slc').val(data[i].year_select);
             for (i = 0; i < data.length; i++) {
                 var tr = "  "
                 $('#table-WorkPlan').find('tbody').append('<tr id="indicator" name="indicator">' +
                         '<td style = "display:none">' + '<input id="indicator_id" name="indicator_id"  value="' + data[i].indicator_id + '" type="hidden" ' + '>' +
                             '<input id="country_id" name="country_id"  value="' + data[i].country_id + '" type="hidden" ' + '>' +
-                            '<input id="year_" name="year_"  value="' + data[i].year_ + '" type="hidden" ' + '>' + '</td>' +
+                            '<input id="year_select" name="year_select"  value="' + data[i].year_select + '" type="hidden" ' + '>' + '</td>' +
                         '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].objective_ + '<label>' + '</td>' +
                         '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].indicator_group_ + '<label>' + '</td>' +
                         '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].tipo_ + '<label>' + '</td>' +
                         '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].metas_ + '<label>' + '</td>' +
-                        '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].frec_ + '<label>' + '</td>' +
+                        '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].frec_Q1 + ((data[i].frec_Q1 != "") ? ' - ' : '') + data[i].frec_Q2 + ((data[i].frec_Q2 != "") ? ' - ' : '') + data[i].frec_Q3 + ((data[i].frec_Q3 != "") ? ' - ' : '') + data[i].frec_Q4 + '<label>' + '</td>' +
                         '<td>' + '<input id="active" name="active"  value="true"' + ((data[i].indicator_selected == true) ? "checked" : "") + ' type="checkbox" size="3" ' + '>' + '</td>' +
                         '<td>' + '<input id="visible" name="visible"  value="true"' + ((data[i].indicator_visible == true) ? "checked" : "") + ' type="checkbox" size="3" ' + '>' + '</td>' +
 
@@ -260,13 +268,10 @@ function DisableRecord() {
 
 $(document).ready(function () {
 
-    //$(function () {
-    //    $("#tabs").tabs();
-    //});
-    console.log( url_ + url_ + "/Catalogs/IndicatorbyCountryListDataTables/");
+
     var table = $('#DataTableCatalog').DataTable({
         "ajax": {
-            "url":  url_ + "/Catalogs/IndicatorbyCountryListDataTables/",
+            "url": url_ + "/Catalogs/IndicatorbyCountryListDataTables/" + "?country=" + $.getUrlParameter('country') + "&year_slt=" + $.getUrlParameter('year_slt'),
             "dataSrc": ""
         },
         "columns": [

@@ -262,18 +262,29 @@ namespace DashboardFMP.Controllers
             return View();
         }
 
-        public ActionResult IndicatorbyCountryListDataTables()
+        public ActionResult IndicatorbyCountryListDataTables(string country, int? year_slt)
         {
             try
             {
 
-                var list_country_indicators = db.country_info;
+                var country_id = (country != "" && country != null) ? db.countries.Where(z => z.code == country).FirstOrDefault().id : 0;
+                var year_id = (year_slt != null) ? db.CatYears.Where(z => z.year_name == year_slt).FirstOrDefault().id : 0;
+                //var list_country_indicators = db.country_info;
                 var list_country = db.country_info;
+
+
 
                 var subquery = db.country_indicator
                                 .Where(z => z.country.country_info.FirstOrDefault().group != true)
-                                .GroupBy(x => new { x.country, x.year_ind_country })
+                                .GroupBy(x => new { x.country_id, x.country, x.year_ind_country })
                                 .Select(group => new { Peo = group.Key, Count = group.Count() });
+
+                if (country_id > 0)
+                    subquery = subquery.Where(z => z.Peo.country_id == country_id);
+
+
+                if (year_id > 0)
+                    subquery = subquery.Where(z => z.Peo.year_ind_country == year_slt);
 
                 var jsondata = (from object_db in subquery
                                 select new
@@ -323,6 +334,8 @@ namespace DashboardFMP.Controllers
                     return Json("La combinación NO existe, utilice la opción de Agregar antes para crear los indicadores por país");
                 }
 
+                var year_select = db.CatYears.Where(z => z.year_name == year_param);
+
                 var list_indicator_by_country_get = db.indicators.OrderBy(z => z.objective.orden).ThenBy(y => y.indicatorgroup.orden).ThenBy(x => x.orden);
 
                 var jsondata = (from object_db in list_indicator_by_country_get
@@ -330,20 +343,26 @@ namespace DashboardFMP.Controllers
                                 {
                                     indicator_id = object_db.id,
                                     country_id = countryid_param,
-                                    year_ = year_param,
+                                    year_select = year_select.FirstOrDefault().id,
                                     objective_ = object_db.objective.objective_info.FirstOrDefault().name,
                                     indicator_group_ = object_db.indicatorgroup.code + " -- " + object_db.indicatorgroup.indicator_group_info.FirstOrDefault().name,
                                     tipo_ = object_db.indicator_info.FirstOrDefault().indicator.inputtype,
                                     metas_ = object_db.indicator_info.FirstOrDefault().name,
                                     indicator_selected = db.country_indicator.Where(z => z.indicator_id == object_db.id && z.country_id == countryid && z.year_ind_country == year_).Any() ? true : false,
                                     indicator_visible = db.country_indicator.Where(z => z.indicator_id == object_db.id && z.country_id == countryid && z.year_ind_country == year_ && z.visible == true).Any() ? true : false,
-                                    frec_ = object_db.indicator_info.FirstOrDefault().indicator.frequency,
+                                    frec_Q1 = object_db.indicator_info.FirstOrDefault().indicator.Q1 == true ? "Q1" : "",
+                                    frec_Q2 = object_db.indicator_info.FirstOrDefault().indicator.Q2 == true ? "Q2" : "",
+                                    frec_Q3 = object_db.indicator_info.FirstOrDefault().indicator.Q3 == true ? "Q3" : "",
+                                    frec_Q4 = object_db.indicator_info.FirstOrDefault().indicator.Q4 == true ? "Q4" : "",
                                     format_ = object_db.indicator_info.FirstOrDefault().indicator.mode,
                                     order_by_objective = object_db.indicator_info.FirstOrDefault().indicator.objective.orden,
                                     order_by_indicatorgroup = object_db.indicatorgroup.orden,
                                     order_by_indicator = object_db.indicator_info.FirstOrDefault().indicator.orden
                                 }
-                                ).ToArray();
+                                )
+                                //.OrderBy(x => x.order_by_objective)
+                                //.ThenBy(z =>z.order_by_indicatorgroup)
+                                .ToArray();
 
 
 
