@@ -318,16 +318,18 @@ namespace DashboardFMP.Controllers
                 if (countryid < 1 || languageid < 1 || year_ < 1) return null;
 
 
-                var list_country_indicators_unique = db.country_indicator.GroupBy(x => new { x.country_id, x.indicator_id, x.year_ind_country })
-                                                       .Select(y => new ConsolidatedIndicatorCountry()
-                                                       {
-                                                           country_id = y.Key.country_id,
-                                                           indicator_id = y.Key.indicator_id,
-                                                           year_ind_country = y.Key.year_ind_country,
-                                                           children_1 = y.ToList()
-                                                       }
-                                                       )
-                                                       .Where(z => z.country_id == countryid && z.year_ind_country == year_).ToList();
+                //var list_country_indicators_unique = db.country_indicator.GroupBy(x => new { x.country_id, x.indicator_id, x.year_ind_country })
+                //                                       .Select(y => new ConsolidatedIndicatorCountry()
+                //                                       {
+                //                                           country_id = y.Key.country_id,
+                //                                           indicator_id = y.Key.indicator_id,
+                //                                           year_ind_country = y.Key.year_ind_country,
+                //                                           children_1 = y.ToList()
+                //                                       }
+                //                                       )
+                //                                       .Where(z => z.country_id == countryid && z.year_ind_country == year_).ToList();
+
+                var list_country_indicators_unique = db.country_indicator.Where(z => z.country_id == countryid && z.year_ind_country == year_);
 
                 if (!list_country_indicators_unique.Any())
                 {
@@ -348,8 +350,10 @@ namespace DashboardFMP.Controllers
                                     indicator_group_ = object_db.indicatorgroup.code + " -- " + object_db.indicatorgroup.indicator_group_info.FirstOrDefault().name,
                                     tipo_ = object_db.indicator_info.FirstOrDefault().indicator.inputtype,
                                     metas_ = object_db.indicator_info.FirstOrDefault().name,
-                                    indicator_selected = db.country_indicator.Where(z => z.indicator_id == object_db.id && z.country_id == countryid && z.year_ind_country == year_).Any() ? true : false,
-                                    indicator_visible = db.country_indicator.Where(z => z.indicator_id == object_db.id && z.country_id == countryid && z.year_ind_country == year_ && z.visible == true).Any() ? true : false,
+                                    //indicator_selected = db.country_indicator.Where(z => z.indicator_id == object_db.id && z.country_id == countryid && z.year_ind_country == year_).Any() ? true : false,
+                                    //indicator_visible = db.country_indicator.Where(z => z.indicator_id == object_db.id && z.country_id == countryid && z.year_ind_country == year_ && z.visible == true).Any() ? true : false,
+                                    indicator_selected = list_country_indicators_unique.Where(z => z.indicator_id == object_db.id && z.country_id == countryid && z.year_ind_country == year_ && z.active == true).Any() ? true : false,
+                                    indicator_visible = list_country_indicators_unique.Where(z => z.indicator_id == object_db.id && z.country_id == countryid && z.year_ind_country == year_ && z.visible == true).Any() ? true : false,
                                     frec_Q1 = object_db.indicator_info.FirstOrDefault().indicator.Q1 == true ? "Q1" : "",
                                     frec_Q2 = object_db.indicator_info.FirstOrDefault().indicator.Q2 == true ? "Q2" : "",
                                     frec_Q3 = object_db.indicator_info.FirstOrDefault().indicator.Q3 == true ? "Q3" : "",
@@ -359,10 +363,7 @@ namespace DashboardFMP.Controllers
                                     order_by_indicatorgroup = object_db.indicatorgroup.orden,
                                     order_by_indicator = object_db.indicator_info.FirstOrDefault().indicator.orden
                                 }
-                                )
-                                //.OrderBy(x => x.order_by_objective)
-                                //.ThenBy(z =>z.order_by_indicatorgroup)
-                                .ToArray();
+                                ).ToArray();
 
 
 
@@ -381,25 +382,28 @@ namespace DashboardFMP.Controllers
             {
                 var countryid = countryid_param > 0 ? countryid_param : 0;
                 var languageid = language_param != "" ? db.languages.Where(z => z.code == language_param.Trim().ToUpper()).FirstOrDefault().id : 0;
-                var year_ = year_param > 0 ? year_param : 0;
+                var year_ = year_param > 0 ? db.CatYears.Where(z => z.id == year_param).FirstOrDefault().year_name : 0;
 
                 if (countryid < 1 || languageid < 1 || year_ < 1) return null;
 
 
-                var list_country_indicators_unique = db.country_indicator.GroupBy(x => new { x.country_id, x.indicator_id, x.year_ind_country })
-                                                       .Select(y => new ConsolidatedIndicatorCountry()
-                                                       {
-                                                           country_id = y.Key.country_id,
-                                                           indicator_id = y.Key.indicator_id,
-                                                           year_ind_country = y.Key.year_ind_country,
-                                                           children_1 = y.ToList()
-                                                       }
-                                                       )
-                                                       .Where(z => z.country_id == countryid && z.year_ind_country == year_).ToList();
+                //var list_country_indicators_unique = db.country_indicator.GroupBy(x => new { x.country_id, x.indicator_id, x.year_ind_country })
+                //                                       .Select(y => new ConsolidatedIndicatorCountry()
+                //                                       {
+                //                                           country_id = y.Key.country_id,
+                //                                           indicator_id = y.Key.indicator_id,
+                //                                           year_ind_country = y.Key.year_ind_country,
+                //                                           children_1 = y.ToList()
+                //                                       }
+                //                                       )
+                //                                       .Where(z => z.country_id == countryid && z.year_ind_country == year_).ToList();
 
-                if (!list_country_indicators_unique.Any())
+                var list_country_indicators_unique = db.country_indicator.Where(z => z.country_id == countryid && z.year_ind_country == year_);
+
+                if (list_country_indicators_unique.Any())
                 {
-                    return Json("La combinación NO existe, utilice la opción de Agregar antes para crear los indicadores por país");
+                    //return "La combinación ya existe, utilice la opción de Editar modificar los indicadores del país";
+                    return Content("<div class='alert alert-success'><a class='close' data-dismiss='alert'> & times;</ a >< strong style = 'width:12px' > Thanks!</ strong > updated successfully </ div > ");
                 }
 
                 var list_indicator_by_country_get = db.indicators.OrderBy(z => z.objective.orden).ThenBy(y => y.indicatorgroup.orden).ThenBy(x => x.orden);
@@ -409,14 +413,17 @@ namespace DashboardFMP.Controllers
                                 {
                                     indicator_id = object_db.id,
                                     country_id = countryid_param,
-                                    year_ = year_param,
+                                    year_select = year_param,
                                     objective_ = object_db.objective.objective_info.FirstOrDefault().name,
                                     indicator_group_ = object_db.indicatorgroup.code + " -- " + object_db.indicatorgroup.indicator_group_info.FirstOrDefault().name,
                                     tipo_ = object_db.indicator_info.FirstOrDefault().indicator.inputtype,
                                     metas_ = object_db.indicator_info.FirstOrDefault().name,
                                     indicator_selected = false,
                                     indicator_visible = false,
-                                    frec_ = object_db.indicator_info.FirstOrDefault().indicator.frequency,
+                                    frec_Q1 = object_db.indicator_info.FirstOrDefault().indicator.Q1 == true ? "Q1" : "",
+                                    frec_Q2 = object_db.indicator_info.FirstOrDefault().indicator.Q2 == true ? "Q2" : "",
+                                    frec_Q3 = object_db.indicator_info.FirstOrDefault().indicator.Q3 == true ? "Q3" : "",
+                                    frec_Q4 = object_db.indicator_info.FirstOrDefault().indicator.Q4 == true ? "Q4" : "",
                                     format_ = object_db.indicator_info.FirstOrDefault().indicator.mode,
                                     order_by_objective = object_db.indicator_info.FirstOrDefault().indicator.objective.orden,
                                     order_by_indicatorgroup = object_db.indicatorgroup.orden,
@@ -446,35 +453,22 @@ namespace DashboardFMP.Controllers
 
                 foreach (IndicatorByCountryActive IndicatorByCountryActive_node in incoming)
                 {
-                    
-                    var IndicatorByCountry_ = db.country_indicator.Where(i => i.country_id == IndicatorByCountryActive_node.country_id && i.indicator_id == IndicatorByCountryActive_node.indicator_id && i.year_ind_country == year_name).ToList();
 
-                    foreach(country_indicator Country_Indicator_ in IndicatorByCountry_  )
-                    {
+                    db.country_indicator.Where(i => i.country_id == IndicatorByCountryActive_node.country_id && i.indicator_id == IndicatorByCountryActive_node.indicator_id && i.year_ind_country == year_name).ToList()
+                    .ForEach(a =>
+                   {
+                        a.visible = IndicatorByCountryActive_node.visible == true ? IndicatorByCountryActive_node.visible : false;
+                       a.active = IndicatorByCountryActive_node.active == true ? IndicatorByCountryActive_node.active : false;
 
-                        country_indicator__ = db.country_indicator.Find(Country_Indicator_.id);
-                        db.Entry(country_indicator__).State = EntityState.Modified;
-
-                        country_indicator__.visible =  IndicatorByCountryActive_node.visible == true ? IndicatorByCountryActive_node.visible : false;
-                        country_indicator__.active = IndicatorByCountryActive_node.active == true ? IndicatorByCountryActive_node.active : false;
-
-                        db.SaveChanges();
-
-                        //Country_Indicator_.visible = IndicatorByCountryActive_node.visible;
-                        //Country_Indicator_.active = IndicatorByCountryActive_node.active;
-                    }
-
-                    
+                    });
 
                 }
+                db.SaveChanges();
 
-
-                    var jsondata = new List<Object>();
-
+                var jsondata = new List<Object>();
 
                 return Json("Success");
 
-                //return Json(jsondata, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -483,61 +477,95 @@ namespace DashboardFMP.Controllers
             return null;
         }
 
-        public ActionResult IndicatorbyCountryListGetCreateNew(int countryid_param, string language_param, int year_param)
+        public ActionResult IndicatorbyCountryListGetCreateNew(List<IndicatorByCountryActive> incoming)
         {
             try
             {
-                var countryid = countryid_param > 0 ? countryid_param : 0;
-                var languageid = language_param != "" ? db.languages.Where(z => z.code == language_param.Trim().ToUpper()).FirstOrDefault().id : 0;
-                var year_ = year_param > 0 ? year_param : 0;
-                var jsondata_app = new List<Object>();
+                country_indicator country_indicator__;
+                var dummy_year = incoming[0].year_select;
+                var dummy_country = incoming[0].country_id;
+                var year_name = Convert.ToInt32(db.CatYears.Where(z => z.id == dummy_year).FirstOrDefault().year_name);
 
-                if (countryid < 1 || languageid < 1 || year_ < 1) return null;
+                if (dummy_country < 1 ||  year_name < 1) return null;
 
-                var list_country_indicators_unique = db.country_indicator.GroupBy(x => new { x.country_id, x.indicator_id, x.year_ind_country })
-                                                        .Select(y => new ConsolidatedIndicatorCountry()
-                                                        {
-                                                            country_id = y.Key.country_id,
-                                                            indicator_id = y.Key.indicator_id,
-                                                            year_ind_country = y.Key.year_ind_country,
-                                                            children_1 = y.ToList()
-                                                        }
-                                                        )
-                                                        .Where(z => z.country_id == countryid && z.year_ind_country == year_).ToList();
+                //var list_country_indicators_unique = db.country_indicator.GroupBy(x => new { x.country_id, x.indicator_id, x.year_ind_country })
+                //                                        .Select(y => new ConsolidatedIndicatorCountry()
+                //                                        {
+                //                                            country_id = y.Key.country_id,
+                //                                            indicator_id = y.Key.indicator_id,
+                //                                            year_ind_country = y.Key.year_ind_country,
+                //                                            children_1 = y.ToList()
+                //                                        }
+                //                                        )
+                //                                        .Where(z => z.country_id == dummy_country && z.year_ind_country == year_name).ToList();
+
+                var list_country_indicators_unique = db.country_indicator.Where(z => z.country_id == dummy_country && z.year_ind_country == year_name);
 
                 if (list_country_indicators_unique.Any())
                 {
                     return Json("La combinación ya existe, utilice la opción de editar");
                 }
 
-                var list_indicator_by_country_create = db.indicators.OrderBy(z => z.objective.orden).ThenBy(y => y.indicatorgroup.orden).ThenBy(x => x.orden);
+                // Creación de indicadores
 
-                var jsondata = (from object_db in list_indicator_by_country_create
-                                select new
-                                {
-                                    indicator_id = object_db.id,
-                                    country_id = countryid_param,
-                                    year_ = year_param,
-                                    objective_ = object_db.objective.objective_info.FirstOrDefault().name,
-                                    indicator_group_ = object_db.indicatorgroup.code + " -- " + object_db.indicatorgroup.indicator_group_info.FirstOrDefault().name,
-                                    tipo_ = object_db.indicator_info.FirstOrDefault().indicator.inputtype,
-                                    metas_ = object_db.indicator_info.FirstOrDefault().name,
-                                    indicator_selected = db.country_indicator.Where(z => z.indicator_id == object_db.id && z.country_id == countryid && z.year_ind_country == year_ ).Any() ? true : false,
-                                    frec_ = object_db.indicator_info.FirstOrDefault().indicator.frequency,
-                                    format_ = object_db.indicator_info.FirstOrDefault().indicator.mode,
-                                    order_by_objective = object_db.indicator_info.FirstOrDefault().indicator.objective.orden,
-                                    order_by_indicatorgroup = object_db.indicatorgroup.orden,
-                                    order_by_indicator = object_db.indicator_info.FirstOrDefault().indicator.orden
-                                }        
-                                ).ToArray();
-
-                jsondata_app.Add(new
+                foreach (IndicatorByCountryActive incoming_node in incoming)
                 {
-                    indicator_by_country = jsondata,
-                    check_list_ = 0
-                });
 
-                return Json(jsondata, JsonRequestBehavior.AllowGet);
+                        db.country_indicator.Add(new country_indicator
+                        {
+                            indicator_id = incoming_node.indicator_id,
+                            country_id = incoming_node.country_id,
+                            year_ind_country = year_name,
+                            value = null,
+                            quarter = 1,
+                            target = null, // falta averiguar que target es para cada indicador
+                            inputyear = null,
+                            active = incoming_node.active,
+                            visible = incoming_node.visible
+                        });
+                        db.country_indicator.Add(new country_indicator
+                        {
+                            indicator_id = incoming_node.indicator_id,
+                            country_id = incoming_node.country_id,
+                            year_ind_country = year_name,
+                            value = null,
+                            quarter = 2,
+                            target = null, // falta averiguar que target es para cada indicador
+                            inputyear = null,
+                            active = incoming_node.active,
+                            visible = incoming_node.visible
+                        });
+                        db.country_indicator.Add(new country_indicator
+                        {
+                            indicator_id = incoming_node.indicator_id,
+                            country_id = incoming_node.country_id,
+                            year_ind_country = year_name,
+                            value = null,
+                            quarter = 3,
+                            target = null, // falta averiguar que target es para cada indicador
+                            inputyear = null,
+                            active = incoming_node.active,
+                            visible = incoming_node.visible
+                        });
+                        db.country_indicator.Add(new country_indicator
+                        {
+                            indicator_id = incoming_node.indicator_id,
+                            country_id = incoming_node.country_id,
+                            year_ind_country = year_name,
+                            value = null,
+                            quarter = 4,
+                            target = null, // falta averiguar que target es para cada indicador
+                            inputyear = null,
+                            active = incoming_node.active,
+                            visible = incoming_node.visible
+                        });
+                    //db.SaveChanges();
+                }
+
+                db.SaveChanges();
+
+                return Json("Success");
+                //return Json(jsondata, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

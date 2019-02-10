@@ -150,27 +150,10 @@
                     //if (!data) return e.preventDefault() // stops modal from being shown
                 });
                 $("#altEditor-modal").modal("show");
-
-
-            //l += "<form name='altEditor-form' role='form'>", l += "<input type='hidden' class='primarykey' id='" + a[0].title + "' name='" + a[0].title + "' placeholder='" + a[0].title + "' value='" + d.data()[0][a[0].title] + "'>";
-            //for (var e in a) 0 != e && (l += "<div class='form-group'><label for='" + a[e].title + "'>" + a[e].title + " : </label><input type='hidden' id='" + a[e].title + "' name='" + a[e].title + "' placeholder='" + a[e].title + "' style='overflow:hidden' class='form-control' value='" + d.data()[0][a[e].title] + "' >" + d.data()[0][a[e].title] + "</input></div>");
-            //l += "</form>", t("#altEditor-modal").on("show.bs.modal", function() {
-            //    t("#altEditor-modal").find(".modal-title").html("Eliminar Registro"), t("#altEditor-modal").find(".modal-body").html("<pre>" + l + "</pre>"), t("#altEditor-modal").find(".modal-footer").html("<button type='button' data-content='remove' class='btn btn-default' data-dismiss='modal'>Cerrar</button><button type='button' data-content='remove' class='btn btn-danger' id='deleteRowBtn'>Eliminar</button>")
-            //}), t("#altEditor-modal").modal("show"), t("#altEditor-modal input.primarykey+div input").focus()
         },
         _deleteRow: function() {
             var o = this,
                 a = this.s.dt;
-            //t("#altEditor-modal .modal-body .alert").remove();
-            //var e = {},
-            //    d = t('form[name="altEditor-form"] input.primarykey').attr("name");
-            //t('form[name="altEditor-form"] input').each(function(o) {
-            //    e[t(this).attr("name")] = t(this).val()
-            //});
-            //var l = a.row({
-            //    selected: !0
-            //}).index();
-            //t(o.s.dt.context[0].nTable).trigger("savedata", ["delete", d, e, l]), a.draw()
 
                 DeleteRecord();
                 ResetRecord();
@@ -201,6 +184,7 @@
                 e = t('form[name="altEditor-form"] input.primarykey').attr("name");
 
             if (validate() == true) {
+                console.log("_addRowData")
                 CreateRecord();
                 ResetRecord();
                 $("#altEditor-modal").modal("hide");

@@ -79,8 +79,6 @@ function GetRecord(id) {
     console.log("Edit_Record ");
     console.log(id);
     $('#table-tbody-WorkPlan').empty();
-    $('#country_slc').val(id["id"]);
-    $('#year_slc').val(id["year"]);
     $.ajax({
         type: "POST",
         url: url_ + "/FMP/ListIndicatorbyCountry/",
@@ -90,6 +88,10 @@ function GetRecord(id) {
         success: function (data) {
             dataretrive = data;
             //console.log(data);
+            if (data.length > 0) {
+                $('#country_slc').val(data[0].country_id);
+                $('#year_slc').val(id["year"]);
+            }
 
             for (i = 0; i < data.length; i++) {
                 var tr = "  ";

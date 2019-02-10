@@ -111,6 +111,7 @@ namespace DashboardFMP.Controllers
                 var countryid = countryid_param > 0 ? countryid_param : 0 ;
                 var languageid = language_param != ""  ? db.languages.Where(z => z.code == language_param.Trim().ToUpper()).FirstOrDefault().id : 0  ;
                 var year_ = year_param > 0 ? year_param : 0;
+                var year_id = db.CatYears.Where(d => d.year_name == year_param).FirstOrDefault().id;
                 var jsondata_app = new List<Object>();
 
                 if (countryid < 1 || languageid < 1 || year_ < 1) return null;
@@ -135,6 +136,7 @@ namespace DashboardFMP.Controllers
                                     indicator_id = object_db.indicator_id,
                                     country_id = object_db.country_id,
                                     year_ = object_db.year_ind_country,
+                                    year_id = year_id,
                                     objective_ = object_db.children_1.FirstOrDefault().indicator.objective.objective_info.FirstOrDefault().name,
                                     indicator_group_ = object_db.children_1.FirstOrDefault().indicator.indicatorgroup.code + " -- " + object_db.children_1.FirstOrDefault().indicator.indicatorgroup.indicator_group_info.FirstOrDefault().name,
                                     tipo_ = object_db.children_1.FirstOrDefault().indicator.inputtype,
