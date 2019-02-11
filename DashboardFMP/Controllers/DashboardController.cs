@@ -9,16 +9,6 @@ namespace DashboardFMP.Controllers
 {
     public class DashboardController : Controller
     {
-        //private partial class indicator_by_country_class
-        //{
-
-        //    public string code { get; set; }
-        //    public int quarter { get; set; }
-        //    public int count_ { get; set; }
-        //    public decimal sum_value { get; set; }
-        //    public decimal sum_target { get; set; }
-
-        //}
 
         private DefaultConnection db = new DefaultConnection();
         // GET: Dashboard
@@ -27,77 +17,77 @@ namespace DashboardFMP.Controllers
             return View();
         }
 
-        // GET: Dashboard/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+        //// GET: Dashboard/Details/5
+        //public ActionResult Details(int id)
+        //{
+        //    return View();
+        //}
 
-        // GET: Dashboard/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+        //// GET: Dashboard/Create
+        //public ActionResult Create()
+        //{
+        //    return View();
+        //}
 
-        // POST: Dashboard/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
+        //// POST: Dashboard/Create
+        //[HttpPost]
+        //public ActionResult Create(FormCollection collection)
+        //{
+        //    try
+        //    {
+        //        // TODO: Add insert logic here
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //        return RedirectToAction("Index");
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
 
-        // GET: Dashboard/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+        //// GET: Dashboard/Edit/5
+        //public ActionResult Edit(int id)
+        //{
+        //    return View();
+        //}
 
-        // POST: Dashboard/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
+        //// POST: Dashboard/Edit/5
+        //[HttpPost]
+        //public ActionResult Edit(int id, FormCollection collection)
+        //{
+        //    try
+        //    {
+        //        // TODO: Add update logic here
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //        return RedirectToAction("Index");
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
 
-        // GET: Dashboard/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+        //// GET: Dashboard/Delete/5
+        //public ActionResult Delete(int id)
+        //{
+        //    return View();
+        //}
 
-        // POST: Dashboard/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
+        //// POST: Dashboard/Delete/5
+        //[HttpPost]
+        //public ActionResult Delete(int id, FormCollection collection)
+        //{
+        //    try
+        //    {
+        //        // TODO: Add delete logic here
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //        return RedirectToAction("Index");
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
 
         public ActionResult config()
         {
@@ -330,12 +320,13 @@ namespace DashboardFMP.Controllers
         {
             try
             {
-                var Language_ = "ES";
+                var Language_ = Request.QueryString["language"] != "" ? Request.QueryString["language"] : "ES";
+                var year_select = Request.QueryString["year"] != "" ? Convert.ToInt32(Request.QueryString["year"]) : DateTime.Now.Year;
 
                 // Variables
                 IQueryable<country> country_ = db.countries.OrderBy(z => z.code);
                 IQueryable<indicator> indicator_ = db.indicators;
-                IQueryable<country_indicator> country_indicador_ = db.country_indicator.OrderBy(z => z.country.code).ThenBy(y => y.indicator_id).ThenBy(x => x.quarter);
+                IQueryable<country_indicator> country_indicador_ = db.country_indicator.Where(z => z.year_ind_country == year_select).OrderBy(z => z.country.code).ThenBy(y => y.indicator_id).ThenBy(x => x.quarter);
 
 
                 var jsondata = new List<Object>();
@@ -356,9 +347,9 @@ namespace DashboardFMP.Controllers
                     var item_data_groups = new Dictionary<string, Object>();
                     var item_data_Groups_quarters = new Dictionary<string, decimal>();
 
-                    var indicator_by_country = country_indicador_.Where(x => x.country_id == item_country.id).OrderBy(z => z.indicator.indicator_info.FirstOrDefault().code).ThenBy(x => x.quarter);
-                    var indicator_by_country_list = country_indicador_.Where(x => x.country_id == item_country.id && x.target != null).Select(y => y.indicator_id);
-                    var group_indicator_by_country = country_indicador_.Where(x => x.country_id == item_country.id && indicator_by_country_list.Contains(x.indicator_id)).OrderBy(z => z.indicator.indicatorgroup.code).ThenBy(y => y.indicator_id).ThenBy(x => x.quarter);
+                    var indicator_by_country = country_indicador_.Where(x => x.country_id == item_country.id ).OrderBy(z => z.indicator.indicator_info.FirstOrDefault().code).ThenBy(x => x.quarter);
+                    var indicator_by_country_list = country_indicador_.Where(x => x.country_id == item_country.id  && x.target != null).Select(y => y.indicator_id);
+                    var group_indicator_by_country = country_indicador_.Where(x => x.country_id == item_country.id  && indicator_by_country_list.Contains(x.indicator_id)).OrderBy(z => z.indicator.indicatorgroup.code).ThenBy(y => y.indicator_id).ThenBy(x => x.quarter);
 
                     var item_name = "";
                     var item_name_target = "";
@@ -593,12 +584,14 @@ namespace DashboardFMP.Controllers
         {
             try
             {
-                var Language_ = "ES";
+                //var Language_ = "ES";
+                var Language_ = Request.QueryString["language"] != "" ? Request.QueryString["language"] : "ES";
+                var year_select = Request.QueryString["year"] != "" ? Convert.ToInt32(Request.QueryString["year"]) : DateTime.Now.Year;
 
                 // Variables
                 IQueryable<country> country_ = db.countries.OrderBy(z => z.code);
                 IQueryable<indicator> indicator_ = db.indicators;
-                IQueryable<country_indicator> country_indicador_ = db.country_indicator.OrderBy(z => z.country.code).ThenBy(y => y.indicator_id).ThenBy(x => x.quarter);
+                IQueryable<country_indicator> country_indicador_ = db.country_indicator.Where(z => z.year_ind_country == year_select).OrderBy(z => z.country.code).ThenBy(y => y.indicator_id).ThenBy(x => x.quarter);
 
 
                 var jsondata = new List<Object>();
@@ -616,10 +609,11 @@ namespace DashboardFMP.Controllers
                     var item_data_groups = new Dictionary<string, Object>();
                     var item_data_Groups_quarters = new Dictionary<string, decimal>();
 
-                    var indicator_by_country = country_indicador_.GroupBy(y => new { y.indicator.indicator_info.FirstOrDefault().code, y.indicator.mode, y.quarter })
-                    .Select(g => new { g.FirstOrDefault().indicator.indicator_info.FirstOrDefault().code, g.FirstOrDefault().quarter, g.FirstOrDefault().indicator.mode,
+                    var indicator_by_country = country_indicador_
+                        .GroupBy(y => new { y.indicator.indicator_info.FirstOrDefault().code, y.indicator.mode, y.quarter })
+                        .Select(g => new { g.FirstOrDefault().indicator.indicator_info.FirstOrDefault().code, g.FirstOrDefault().quarter, g.FirstOrDefault().indicator.mode,
                                        count_ = g.Count(), sum_value = g.Sum(c => c.value), sum_target = g.Sum(d => d.target) })
-                    .OrderBy(z => z.code).ThenBy(x => x.quarter);
+                        .OrderBy(z => z.code).ThenBy(x => x.quarter);
 
                     var indicator_by_country_list = country_indicador_.Where(x => x.target != null).Select(y => y.indicator_id);
                     

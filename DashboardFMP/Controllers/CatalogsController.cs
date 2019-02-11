@@ -564,7 +564,26 @@ namespace DashboardFMP.Controllers
 
                 db.SaveChanges();
 
-                return Json("Success");
+                // Incluir los checklist para cada indicador que se creo.
+
+                //foreach (indicator indicator_checklist in db.indicators.Where(z => z.inputtype == "checklist"))
+                //{
+                //    db.question_value.Add(new question_value
+                //    {
+                //        country_indicator_country_id = incoming_node.indicator_id,
+                //        country_indicator_indicator_id = incoming_node.country_id,
+                //        year_ind_country = year_name,
+                //        value = null,
+                //        quarter = 1,
+                //        target = null, // falta averiguar que target es para cada indicador
+                //        inputyear = null,
+                //        active = incoming_node.active,
+                //        visible = incoming_node.visible
+                //    });
+                //}
+
+
+                    return Json("Success");
                 //return Json(jsondata, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)

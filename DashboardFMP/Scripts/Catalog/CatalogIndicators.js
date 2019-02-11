@@ -193,7 +193,9 @@ function CreateRecord() {
         dataType: 'json',
         data: decodeURIComponent($.param(formData)),
         success: function (data) {
+            console.log("Ajax CreateRecord");
             $('#DataTableCatalog').DataTable().ajax.reload();
+            console.log("Ajax reload");
             alert(data);
         },
         error: function (jqXHR, textStatus, errorThrown) {
