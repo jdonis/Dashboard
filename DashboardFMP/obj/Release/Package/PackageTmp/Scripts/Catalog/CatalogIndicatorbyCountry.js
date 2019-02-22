@@ -14,6 +14,13 @@
     return o;
 };
 
+$.getUrlParameter = function (name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};
+
 $.fn.formtoArray = function(formArray){
     var obj = [];
     var inputs_form;
@@ -47,19 +54,54 @@ $.fn.serializeToJson = function(serializer) {
 
 function ResetRecord() {
     console.log("... Reset Record");
-            $('#id').val("");
-            $('#Code_intern').val("");
-            $('#Code_short').val("");
-            $('#Name').val("");
-            $('#Short_name').val("");
-            $('#language').val("");
-            $('#Code_group_visual').val("");
-            $('#Code_intern').attr("disabled", false);
-            $('#Code_short').attr("disabled", false);
-            $('#Name').attr("disabled", false);
-            $('#Short_name').attr("disabled", false);
-            $('#language').attr("disabled", false);
-            $('#Code_group_visual').attr("disabled", false);
+
+    $('#table-tbody-WorkPlan').empty();
+
+    // Catalogo de Paises
+    $('#country_slc').empty()
+    $.ajax({
+        type: "POST",
+        url: url_ + "/Catalogs/ListCountriesCatalog/",
+        //data: { 'carId': carId },
+        success: function (data) {
+
+            $('#country_slc').append('<option value=""> Select </option>');
+            for (i = 0; i < data.length; i++) {
+                $('#country_slc').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+            }
+        }
+    });
+
+    // Catalogo de idiomas
+    $('#language').empty()
+    $.ajax({
+        type: "POST",
+        url: url_ + "/Catalogs/ListLanguajeCatalog/",
+        //data: { 'carId': carId },
+        success: function (data) {
+
+            $('#language').append('<option value=""> Select </option>');
+            for (i = 0; i < data.length; i++) {
+                $('#language').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+            }
+        }
+    });
+
+    // Catalogo de años
+    $('#year_slc').empty()
+    $.ajax({
+        type: "POST",
+        url: url_ + "/Catalogs/ListYearsCatalog/",
+        //data: { 'carId': carId },
+        success: function (data) {
+
+            $('#year_slc').append('<option value=""> Select </option>');
+            for (i = 0; i < data.length; i++) {
+                $('#year_slc').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+            }
+        }
+    });
+
 
 }
 
@@ -78,30 +120,37 @@ function GetRecord(id) {
 
     console.log("Edit_Record ");
     console.log(id["id"]);
-    $('#table-tbody-WorkPlan').empty();
-    $('#country_slc').val(id["id"]);
-    $('#year_slc').val(id["year"]);
+    
+    //$('#country_slc').val(id["id"]);
+
     $('#create_cty_year').css('visibility', 'hidden');
     $.ajax({
         type: "POST",
-        url: "../Catalogs/IndicatorbyCountryListGet/",
+        url:  url_ + "/Catalogs/IndicatorbyCountryListGet/",
         data: { 'countryid_param': id["id"], 'language_param': 'ES', 'year_param': id["year"] },
         beforeSend: function () { $('#loading').show(); },
         complete: function () { $('#loading').hide(); },
         success: function (data) {
             dataretrive = data;
-
+            $('#country_slc').val(data[i].country_id);
+            $('#year_slc').val(data[i].year_select);
             for (i = 0; i < data.length; i++) {
                 var tr = "  "
                 $('#table-WorkPlan').find('tbody').append('<tr id="indicator" name="indicator">' +
                         '<td style = "display:none">' + '<input id="indicator_id" name="indicator_id"  value="' + data[i].indicator_id + '" type="hidden" ' + '>' +
                             '<input id="country_id" name="country_id"  value="' + data[i].country_id + '" type="hidden" ' + '>' +
-                            '<input id="year_" name="year_"  value="' + data[i].year_ + '" type="hidden" ' + '>' + '</td>' +
+                            '<input id="year_select" name="year_select"  value="' + data[i].year_select + '" type="hidden" ' + '>' + '</td>' +
                         '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].objective_ + '<label>' + '</td>' +
                         '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].indicator_group_ + '<label>' + '</td>' +
                         '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].tipo_ + '<label>' + '</td>' +
                         '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].metas_ + '<label>' + '</td>' +
-                        '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].frec_ + '<label>' + '</td>' +
+                        '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].frec_Q1 + ((data[i].frec_Q1 != "") ? ' - ' : '') + data[i].frec_Q2 + ((data[i].frec_Q2 != "") ? ' - ' : '') + data[i].frec_Q3 + ((data[i].frec_Q3 != "") ? ' - ' : '') + data[i].frec_Q4 + '<label>' + '</td>' +
+                        '<td>' 
+                            + '<input id="target_Q1" name="target_Q1"  value="' + data[i].target_Q1 + ' type="text" size="5" ' + '>'
+                            + '<input id="target_Q2" name="target_Q2"  value="' + data[i].target_Q2 + ' type="text" size="5" ' + '>'
+                            + '<input id="target_Q3" name="target_Q3"  value="' + data[i].target_Q3 + ' type="text" size="5" ' + '>'
+                            + '<input id="target_Q4" name="target_Q4"  value="' + data[i].target_Q4 + ' type="text" size="5" ' + '>'
+                        + '</td>' +
                         '<td>' + '<input id="active" name="active"  value="true"' + ((data[i].indicator_selected == true) ? "checked" : "") + ' type="checkbox" size="3" ' + '>' + '</td>' +
                         '<td>' + '<input id="visible" name="visible"  value="true"' + ((data[i].indicator_visible == true) ? "checked" : "") + ' type="checkbox" size="3" ' + '>' + '</td>' +
 
@@ -122,13 +171,13 @@ function GetRecord(id) {
 function SaveRecord() {
     var language_id = $("#language").val();
     var formData_array = $('#table-WorkPlan').formtoArray('table-WorkPlan');
-    //console.log(formData_array);
-    //console.log(JSON.stringify(formData_array));
     var jsonItems = JSON.stringify(formData_array);
+
     
     $.ajax({
-        url: "../Catalogs/IndicatorbyCountryListGetSave/",
+        url:  url_ + "/Catalogs/IndicatorbyCountryListGetSave/",
         cache: false,
+        async: true,
         type: 'POST',
         dataType: 'json',
         contentType: "application/json",
@@ -146,21 +195,24 @@ function SaveRecord() {
 
     $('#language').attr('disabled', false);
     $('#country_slc').attr('disabled', false);
+    $('#year_slc').attr('disabled', false);
     $('#table-tbody-WorkPlan').empty();
 
 }
 
 function CreateRecord() {
     var language_id = $("#language").val();
-    var formData = $('#altEditor-form').serializeObject();
-    $.extend(formData, { 'language': language_id }); //Send Additional data
+    var formData_array = $('#table-WorkPlan').formtoArray('table-WorkPlan');
+    var jsonItems = JSON.stringify(formData_array);
 
     $.ajax({
-        url: "../Catalogs/ObjectiveCreate/",
+        url: url_ + "/Catalogs/IndicatorbyCountryListGetCreateNew/",
         cache: false,
+        async: true,
         type: 'POST',
         dataType: 'json',
-        data: decodeURIComponent($.param(formData)),
+        contentType: "application/json",
+        data: jsonItems,
         success: function (data) {
             $('#DataTableCatalog').DataTable().ajax.reload();
             alert(data);
@@ -171,6 +223,9 @@ function CreateRecord() {
     });
 
     $('#language').attr('disabled', false);
+    $('#country_slc').attr('disabled', false);
+    $('#year_slc').attr('disabled', false);
+    $('#table-tbody-WorkPlan').empty();
 
 }
 
@@ -180,7 +235,7 @@ function DeleteRecord() {
     $.extend(formData, { 'language': language_id }); //Send Additional data
 
     $.ajax({
-        url: "../Catalogs/ObjectiveDelete/",
+        url:  url_ + "/Catalogs/ObjectiveDelete/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -199,42 +254,57 @@ function DeleteRecord() {
 }
 
 
-function CreateIndByCtyYear(id) {
+function CreateIndByCtyYear() {
 
     //console.log("Edit_Record ");
     //console.log(id["id"]);
     $('#table-tbody-WorkPlan').empty();
-    $('#country_slc').val(id["id"]);
-    $('#year_slc').val(id["year"]);
+    //$('#country_slc').val(id["id"]);
+    //$('#year_slc').val(id["year"]);
     $('#create_cty_year').css('visibility', 'visible');
-    $('#loading').hide();
+    $('#loading').show();
+    //console.log($('#country_slc').val());
+    //console.log($('#year_slc').val());
     if ($('#country_slc').val() != '' && $('#year_slc').val() != '') {
 
         $.ajax({
             type: "POST",
-            url: "../Catalogs/IndicatorbyCountryListGetByActivation/",
-            data: { 'countryid_param': id["id"], 'language_param': 'ES', 'year_param': id["year"]},
+            url:  url_ + "/Catalogs/IndicatorbyCountryListGetByActivation/",
+            data: { 'countryid_param': $('#country_slc').val(), 'language_param': 'ES', 'year_param': $('#year_slc').val() },
             beforeSend: function () { $('#loading').show(); },
             complete: function () { $('#loading').hide(); },
-            success: function (data) {
+            success: function (data, status, xhr) {
                 dataretrive = data;
+                console.log(xhr);
+                var ct = xhr.getResponseHeader("content-type") || "";
+                console.log(ct);
+                if (ct.indexOf('html') > -1) {
+                    alert(data);
+                } else if (ct.indexOf('json') > -1) {
+                    for (i = 0; i < data.length; i++) {
+                        var tr = "  "
+                        $('#table-WorkPlan').find('tbody').append('<tr id="indicator" name="indicator">' +
+                                '<td style = "display:none">' + '<input id="indicator_id" name="indicator_id"  value="' + data[i].indicator_id + '" type="hidden" ' + '>' +
+                                    '<input id="country_id" name="country_id"  value="' + data[i].country_id + '" type="hidden" ' + '>' +
+                                    '<input id="year_select" name="year_select"  value="' + data[i].year_select + '" type="hidden" ' + '>' + '</td>' +
+                                '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].objective_ + '<label>' + '</td>' +
+                                '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].indicator_group_ + '<label>' + '</td>' +
+                                '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].tipo_ + '<label>' + '</td>' +
+                                '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].metas_ + '<label>' + '</td>' +
+                                '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].frec_Q1 + ((data[i].frec_Q1 != "") ? ' - ' : '') + data[i].frec_Q2 + ((data[i].frec_Q2 != "") ? ' - ' : '') + data[i].frec_Q3 + ((data[i].frec_Q3 != "") ? ' - ' : '') + data[i].frec_Q4 + '<label>' + '</td>' +
+                                '<td>'
+                                    + '<input id="target_Q1" name="target_Q1"  value="' + data[i].target_Q1 + '" type="text" size="3" ' + '>'
+                                    + '<input id="target_Q2" name="target_Q2"  value="' + data[i].target_Q2 + '" type="text" size="3" ' + '>'
+                                    + '<input id="target_Q3" name="target_Q3"  value="' + data[i].target_Q3 + '" type="text" size="3" ' + '>'
+                                    + '<input id="target_Q4" name="target_Q4"  value="' + data[i].target_Q4 + '" type="text" size="3" ' + '>'
+                                + '</td>' +
+                                '<td>' + '<input id="active" name="active"  value="true"' + ((data[i].indicator_selected == true) ? "checked" : "") + ' type="checkbox" size="3" ' + '>' + '</td>' +
+                                '<td>' + '<input id="visible" name="visible"  value="true"' + ((data[i].indicator_visible == true) ? "checked" : "") + ' type="checkbox" size="3" ' + '>' + '</td>' +
 
-                for (i = 0; i < data.length; i++) {
-                    var tr = "  "
-                    $('#table-WorkPlan').find('tbody').append('<tr id="indicator" name="indicator">' +
-                            '<td style = "display:none">' + '<input id="indicator_id" name="indicator_id"  value="' + data[i].indicator_id + '" type="hidden" ' + '>' +
-                                '<input id="country_id" name="country_id"  value="' + data[i].country_id + '" type="hidden" ' + '>' +
-                                '<input id="year_" name="year_"  value="' + data[i].year_ + '" type="hidden" ' + '>' + '</td>' +
-                            '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].objective_ + '<label>' + '</td>' +
-                            '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].indicator_group_ + '<label>' + '</td>' +
-                            '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].tipo_ + '<label>' + '</td>' +
-                            '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].metas_ + '<label>' + '</td>' +
-                            '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].frec_ + '<label>' + '</td>' +
-                            '<td>' + '<input id="active" name="active"  value="true"' + ((data[i].indicator_selected == true) ? "checked" : "") + ' type="checkbox" size="3" ' + '>' + '</td>' +
-                            '<td>' + '<input id="visible" name="visible"  value="true"' + ((data[i].indicator_visible == true) ? "checked" : "") + ' type="checkbox" size="3" ' + '>' + '</td>' +
-
-                            + '</tr>');
+                                + '</tr>');
+                    }
                 }
+
             }
         });
 
@@ -247,7 +317,7 @@ function CreateIndByCtyYear(id) {
     $('#language').attr('disabled', false);
     $('#country_slc').attr('disabled', false);
     $('#year_slc').attr('disabled', false);
-    //$('#create_cty_year').css('visibility', 'hidden');
+    $('#create_cty_year').css('visibility', 'hidden');
 
 }
 
@@ -260,13 +330,10 @@ function DisableRecord() {
 
 $(document).ready(function () {
 
-    //$(function () {
-    //    $("#tabs").tabs();
-    //});
 
     var table = $('#DataTableCatalog').DataTable({
         "ajax": {
-            "url": "../Catalogs/IndicatorbyCountryListDataTables/",
+            "url": url_ + "/Catalogs/IndicatorbyCountryListDataTables/" + "?country=" + $.getUrlParameter('country') + "&year_slt=" + $.getUrlParameter('year_slt'),
             "dataSrc": ""
         },
         "columns": [
@@ -312,7 +379,7 @@ $(document).ready(function () {
     $('#country_slc').empty()
     $.ajax({
         type: "POST",
-        url: "../Catalogs/ListCountriesCatalog/",
+        url:  url_ + "/Catalogs/ListCountriesCatalog/",
         //data: { 'carId': carId },
         success: function (data) {
 
@@ -327,7 +394,7 @@ $(document).ready(function () {
     $('#language').empty()
     $.ajax({
         type: "POST",
-        url: "../Catalogs/ListLanguajeCatalog/",
+        url:  url_ + "/Catalogs/ListLanguajeCatalog/",
         //data: { 'carId': carId },
         success: function (data) {
 
@@ -342,7 +409,7 @@ $(document).ready(function () {
     $('#year_slc').empty()
     $.ajax({
         type: "POST",
-        url: "../Catalogs/ListYearsCatalog/",
+        url:  url_ + "/Catalogs/ListYearsCatalog/",
         //data: { 'carId': carId },
         success: function (data) {
 
@@ -352,6 +419,24 @@ $(document).ready(function () {
             }
         }
     });
+
+    $('#altEditor-modal').on('hidden.bs.modal', function (e) {
+        $('#language').attr('disabled', false);
+        $('#country_slc').attr('disabled', false);
+        $('#year_slc').attr('disabled', false);
+        
+        $('#create_cty_year').css('visibility', 'visible');
+        $('#table-tbody-WorkPlan').empty();
+        //$('#table-WorkPlan').clearSelection();
+        //$('#DataTableCatalog').DataTable().fnDraw();
+        //$("#DataTableCatalog tbody tr").removeClass('selected');
+        $('#DataTableCatalog').DataTable().rows().deselect();
+
+        //var table = $('#myTable').DataTable();
+
+        //table.cell({ page: 'current' }).deselect();
+    });
+
 
 
 });

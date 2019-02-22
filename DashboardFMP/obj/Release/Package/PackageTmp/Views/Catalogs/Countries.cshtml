@@ -1,9 +1,6 @@
 ﻿@{
     Layout = null;
 }
-
-<!DOCTYPE html>
-
 <html>
 <head>
     <title>Catálogo de paises</title>
@@ -23,6 +20,7 @@
     <script src="~/scripts/DataTables/dataTables.responsive.js"></script>
     <script src="~/scripts/DataTablesEditor/dataTables.altEditor.js"></script>
 
+    <script src="~/Scripts/localconfig.js"></script>
     <script src="~/scripts/Catalog/CatalogCountries.js"></script>
 </head>
 <body>
@@ -52,7 +50,7 @@
                     <h4 class="modal-title">Registro</h4>
                 </div>
                 <div class="modal-body">
-                        <form name="altEditor-form" id="altEditor-form" role="form">
+                        <div name="altEditor-form" id="altEditor-form" role="form">
                                 <input  id="id" name="id" placeholder="id" value="" type="hidden">
                                 <div class="form-group">
                                     <div class="col-sm-3 col-md-3 col-lg-3 text-right" style="padding-top:7px;">
@@ -97,7 +95,7 @@
                                     </div>
                                     <div style="clear:both;"></div>
                                 </div>
-                        </form>
+                        </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-content="remove" class="btn btn-default" data-dismiss="modal">Cerrar</button>

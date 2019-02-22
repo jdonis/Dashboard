@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -23,15 +24,16 @@ namespace DashboardFMP.Controllers
             // Hay que agregar el parametro de idioma
             try
             {
-                var list_countries = db.countries;
+                var list_countries = db.country_info;
                 var jsondata = (from countries_db in list_countries
                                 select new
                                 {
-                                    id = countries_db.id,
-                                    code = countries_db.code,
-                                    name = countries_db.country_info.Where(x => x.language_id == 1).FirstOrDefault().name 
+                                    id = countries_db.country.id,
+                                    code = countries_db.country.code,
+                                    name = countries_db.country.country_info.Where(x => x.language_id == 1).FirstOrDefault().name, 
+                                    group_ = countries_db.@group
 
-                                }).ToArray();
+                                }).Where(z => z.group_ != true).OrderBy(y => y.name).ToArray();
 
                 return Json(jsondata, JsonRequestBehavior.AllowGet);
 
@@ -317,18 +319,6 @@ namespace DashboardFMP.Controllers
 
                 if (countryid < 1 || languageid < 1 || year_ < 1) return null;
 
-
-                //var list_country_indicators_unique = db.country_indicator.GroupBy(x => new { x.country_id, x.indicator_id, x.year_ind_country })
-                //                                       .Select(y => new ConsolidatedIndicatorCountry()
-                //                                       {
-                //                                           country_id = y.Key.country_id,
-                //                                           indicator_id = y.Key.indicator_id,
-                //                                           year_ind_country = y.Key.year_ind_country,
-                //                                           children_1 = y.ToList()
-                //                                       }
-                //                                       )
-                //                                       .Where(z => z.country_id == countryid && z.year_ind_country == year_).ToList();
-
                 var list_country_indicators_unique = db.country_indicator.Where(z => z.country_id == countryid && z.year_ind_country == year_);
 
                 if (!list_country_indicators_unique.Any())
@@ -339,6 +329,7 @@ namespace DashboardFMP.Controllers
                 var year_select = db.CatYears.Where(z => z.year_name == year_param);
 
                 var list_indicator_by_country_get = db.indicators.OrderBy(z => z.objective.orden).ThenBy(y => y.indicatorgroup.orden).ThenBy(x => x.orden);
+                var specifier = "000.##";
 
                 var jsondata = (from object_db in list_indicator_by_country_get
                                 select new
@@ -358,11 +349,36 @@ namespace DashboardFMP.Controllers
                                     frec_Q2 = object_db.indicator_info.FirstOrDefault().indicator.Q2 == true ? "Q2" : "",
                                     frec_Q3 = object_db.indicator_info.FirstOrDefault().indicator.Q3 == true ? "Q3" : "",
                                     frec_Q4 = object_db.indicator_info.FirstOrDefault().indicator.Q4 == true ? "Q4" : "",
+                                    target_Q1 = list_country_indicators_unique.Where(z => z.quarter == 1 && z.indicator_id == object_db.id).FirstOrDefault().target,
+                                    target_Q2 = list_country_indicators_unique.Where(z => z.quarter == 2 && z.indicator_id == object_db.id).FirstOrDefault().target,
+                                    target_Q3 = list_country_indicators_unique.Where(z => z.quarter == 3 && z.indicator_id == object_db.id).FirstOrDefault().target,
+                                    target_Q4 = list_country_indicators_unique.Where(z => z.quarter == 4 && z.indicator_id == object_db.id).FirstOrDefault().target,
+
                                     format_ = object_db.indicator_info.FirstOrDefault().indicator.mode,
                                     order_by_objective = object_db.indicator_info.FirstOrDefault().indicator.objective.orden,
                                     order_by_indicatorgroup = object_db.indicatorgroup.orden,
                                     order_by_indicator = object_db.indicator_info.FirstOrDefault().indicator.orden
-                                }
+                                }).AsEnumerable()
+                                   .Select(x => new
+                                   {
+                                       indicator_id = x.indicator_id,
+                                       country_id = x.country_id,
+                                       year_select = x.year_select,
+                                       objective_ = x.objective_,
+                                       indicator_group_ = x.indicator_group_,
+                                       tipo_ = x.tipo_,
+                                       metas_ = x.metas_,
+                                       indicator_selected = x.indicator_selected,
+                                       indicator_visible = x.indicator_visible,
+                                       frec_Q1 = x.frec_Q1,
+                                       frec_Q2 = x.frec_Q2,
+                                       frec_Q3 = x.frec_Q3,
+                                       frec_Q4 = x.frec_Q4,
+                                       target_Q1 = x.target_Q1 == null ? "" : String.Format("{0:0.00}", x.target_Q1) ,
+                                       target_Q2 = x.target_Q2 == null ? "" : String.Format("{0:0.00}", x.target_Q2),
+                                       target_Q3 = x.target_Q3 == null ? "" : String.Format("{0:0.00}", x.target_Q3),
+                                       target_Q4 = x.target_Q4 == null ? "" : String.Format("{0:0.00}", x.target_Q4),
+                                   }
                                 ).ToArray();
 
 
@@ -386,24 +402,12 @@ namespace DashboardFMP.Controllers
 
                 if (countryid < 1 || languageid < 1 || year_ < 1) return null;
 
-
-                //var list_country_indicators_unique = db.country_indicator.GroupBy(x => new { x.country_id, x.indicator_id, x.year_ind_country })
-                //                                       .Select(y => new ConsolidatedIndicatorCountry()
-                //                                       {
-                //                                           country_id = y.Key.country_id,
-                //                                           indicator_id = y.Key.indicator_id,
-                //                                           year_ind_country = y.Key.year_ind_country,
-                //                                           children_1 = y.ToList()
-                //                                       }
-                //                                       )
-                //                                       .Where(z => z.country_id == countryid && z.year_ind_country == year_).ToList();
-
                 var list_country_indicators_unique = db.country_indicator.Where(z => z.country_id == countryid && z.year_ind_country == year_);
 
                 if (list_country_indicators_unique.Any())
                 {
                     //return "La combinación ya existe, utilice la opción de Editar modificar los indicadores del país";
-                    return Content("<div class='alert alert-success'><a class='close' data-dismiss='alert'> & times;</ a >< strong style = 'width:12px' > Thanks!</ strong > updated successfully </ div > ");
+                    return Content("La combinación ya existe, utilice la opción de editar");
                 }
 
                 var list_indicator_by_country_get = db.indicators.OrderBy(z => z.objective.orden).ThenBy(y => y.indicatorgroup.orden).ThenBy(x => x.orden);
@@ -424,6 +428,10 @@ namespace DashboardFMP.Controllers
                                     frec_Q2 = object_db.indicator_info.FirstOrDefault().indicator.Q2 == true ? "Q2" : "",
                                     frec_Q3 = object_db.indicator_info.FirstOrDefault().indicator.Q3 == true ? "Q3" : "",
                                     frec_Q4 = object_db.indicator_info.FirstOrDefault().indicator.Q4 == true ? "Q4" : "",
+                                    target_Q1 = "",
+                                    target_Q2 =  "",
+                                    target_Q3 =  "",
+                                    target_Q4 =  "",
                                     format_ = object_db.indicator_info.FirstOrDefault().indicator.mode,
                                     order_by_objective = object_db.indicator_info.FirstOrDefault().indicator.objective.orden,
                                     order_by_indicatorgroup = object_db.indicatorgroup.orden,
@@ -457,10 +465,15 @@ namespace DashboardFMP.Controllers
                     db.country_indicator.Where(i => i.country_id == IndicatorByCountryActive_node.country_id && i.indicator_id == IndicatorByCountryActive_node.indicator_id && i.year_ind_country == year_name).ToList()
                     .ForEach(a =>
                    {
+                       a.target = (a.quarter == 1) ? IndicatorByCountryActive_node.target_Q1 : (a.quarter == 2) ? IndicatorByCountryActive_node.target_Q2 : (a.quarter == 3) ? IndicatorByCountryActive_node.target_Q3 : IndicatorByCountryActive_node.target_Q4;
                         a.visible = IndicatorByCountryActive_node.visible == true ? IndicatorByCountryActive_node.visible : false;
                        a.active = IndicatorByCountryActive_node.active == true ? IndicatorByCountryActive_node.active : false;
 
                     });
+
+
+
+
 
                 }
                 db.SaveChanges();
@@ -488,17 +501,6 @@ namespace DashboardFMP.Controllers
 
                 if (dummy_country < 1 ||  year_name < 1) return null;
 
-                //var list_country_indicators_unique = db.country_indicator.GroupBy(x => new { x.country_id, x.indicator_id, x.year_ind_country })
-                //                                        .Select(y => new ConsolidatedIndicatorCountry()
-                //                                        {
-                //                                            country_id = y.Key.country_id,
-                //                                            indicator_id = y.Key.indicator_id,
-                //                                            year_ind_country = y.Key.year_ind_country,
-                //                                            children_1 = y.ToList()
-                //                                        }
-                //                                        )
-                //                                        .Where(z => z.country_id == dummy_country && z.year_ind_country == year_name).ToList();
-
                 var list_country_indicators_unique = db.country_indicator.Where(z => z.country_id == dummy_country && z.year_ind_country == year_name);
 
                 if (list_country_indicators_unique.Any())
@@ -518,8 +520,8 @@ namespace DashboardFMP.Controllers
                             year_ind_country = year_name,
                             value = null,
                             quarter = 1,
-                            target = null, // falta averiguar que target es para cada indicador
-                            inputyear = null,
+                            target = incoming_node.target_Q1 == null ? null : incoming_node.target_Q1, 
+                            inputyear = DateTime.Now,
                             active = incoming_node.active,
                             visible = incoming_node.visible
                         });
@@ -530,8 +532,8 @@ namespace DashboardFMP.Controllers
                             year_ind_country = year_name,
                             value = null,
                             quarter = 2,
-                            target = null, // falta averiguar que target es para cada indicador
-                            inputyear = null,
+                            target = incoming_node.target_Q2 == null ? null : incoming_node.target_Q2,
+                            inputyear = DateTime.Now,
                             active = incoming_node.active,
                             visible = incoming_node.visible
                         });
@@ -542,8 +544,8 @@ namespace DashboardFMP.Controllers
                             year_ind_country = year_name,
                             value = null,
                             quarter = 3,
-                            target = null, // falta averiguar que target es para cada indicador
-                            inputyear = null,
+                            target = incoming_node.target_Q3 == null ? null : incoming_node.target_Q3,
+                            inputyear = DateTime.Now,
                             active = incoming_node.active,
                             visible = incoming_node.visible
                         });
@@ -554,11 +556,40 @@ namespace DashboardFMP.Controllers
                             year_ind_country = year_name,
                             value = null,
                             quarter = 4,
-                            target = null, // falta averiguar que target es para cada indicador
-                            inputyear = null,
+                            target = incoming_node.target_Q4 == null ? null : incoming_node.target_Q4,
+                            inputyear = DateTime.Now,
                             active = incoming_node.active,
                             visible = incoming_node.visible
                         });
+
+                    if (incoming_node.inputtype == "checklist")
+                    {
+                        var list_indicator_checklist_number = db.indicators.Where(z => z.id == incoming_node.indicator_id);
+                        //var list_question_value = db.checklistquestions.Where(z => z.checklist_id == list_indicator_checklist_number.FirstOrDefault().checklist_id);
+
+                        
+
+                    db.checklistquestions.Where(z => z.checklist_id == list_indicator_checklist_number.FirstOrDefault().checklist_id).ToList()
+                    .ForEach(a =>
+                    {
+                        db.question_value.Add(new question_value
+                        {
+                            country_indicator_country_id = incoming_node.country_id,
+                            country_indicator_indicator_id = incoming_node.indicator_id,
+                            year_ind_country = year_name,
+                            checklistquestion_id = a.id,
+                            Q1target = null,
+                            Q2target = null,
+                            Q3target = null,
+                            Q4target = null,
+                            Q1value = null,
+                            Q2value = null,
+                            Q3value = null,
+                            Q4value = null
+                        });
+                        db.SaveChanges();
+                    });
+                    }
                     //db.SaveChanges();
                 }
 
@@ -653,6 +684,7 @@ namespace DashboardFMP.Controllers
                                     ind_num_visible = indicator_db.ind_num_visible,
                                     language_id = indicator_db.language_id,
                                     group_id = indicator_db.indicator.indicatorgroup_id,
+                                    checklist_id = indicator_db.indicator.checklist_id,
                                     mode = indicator_db.indicator.mode,
                                     frequency = indicator_db.indicator.frequency,
                                     Q1 = indicator_db.indicator.Q1,
@@ -708,6 +740,8 @@ namespace DashboardFMP.Controllers
                 indicator_.indicator.Q3 = frm["frequency_Q3"] == "3" ? true : false;
                 indicator_.indicator.Q4 = frm["frequency_Q4"] == "4" ? true : false;
                 indicator_.indicator.anual_calculation_id = Convert.ToInt32(frm["annual_calculation"]);
+                if (frm["checklist"] != "" )
+                    indicator_.indicator.checklist_id = Convert.ToInt32(frm["checklist"]);
 
                 db.SaveChanges();
 
@@ -730,6 +764,7 @@ namespace DashboardFMP.Controllers
                 //objective objective_orig;
                 var id_language = (frm["language"] == "") ? 0 : Convert.ToInt32(frm["language"]);
                 var id_indicator = 0;
+                var clave = "";
 
                 if (id_indicator == 0)
                 {
@@ -739,10 +774,19 @@ namespace DashboardFMP.Controllers
                     indicator_.mode = frm["mode"];
                     indicator_.frequency = frm["frequency"];
                     indicator_.inputtype = frm["input_type"];
+                    indicator_.Q1 = frm["frequency_Q1"] == "1" ? true : false;
+                    indicator_.Q2 = frm["frequency_Q2"] == "2" ? true : false;
+                    indicator_.Q3 = frm["frequency_Q3"] == "3" ? true : false;
+                    indicator_.Q4 = frm["frequency_Q4"] == "4" ? true : false;
+                    indicator_.anual_calculation_id = Convert.ToInt32(frm["annual_calculation"]);
+                    if (frm["checklist"] != "")
+                        indicator_.checklist_id = Convert.ToInt32(frm["checklist"]);
 
                     db.Entry(indicator_).State = EntityState.Added;
                     db.SaveChanges();
                     id_indicator = indicator_.id;
+                    //clave = db.indicators.Where(z => z.id== id_indicator).FirstOrDefault().clave.ToString("N");
+                    //clave = indicator_.clave;
                 }
                 else
                 {
@@ -750,6 +794,10 @@ namespace DashboardFMP.Controllers
                 }
 
                 indicator_info_ = new indicator_info();
+                indicator_info_.indicator_id = id_indicator;
+                indicator_info_.language_id = id_language;
+                //indicator_info_.code = indicator_.clave;
+                indicator_info_.ind_num_visible = frm["ind_num_visible"];
                 indicator_info_.name = frm["name"];
                 indicator_info_.short_ = frm["short_"];
 
@@ -770,17 +818,17 @@ namespace DashboardFMP.Controllers
             try
             {
                 var id_language = (frm["language"] == "") ? 0 : Convert.ToInt32(frm["language"]);
-                var id_objective = (frm["id"] == "") ? 0 : Convert.ToInt32(frm["id"]);
-                var objectives_length = db.objective_info.Where(z => z.objective_id == id_objective).Count();
+                var id_indicator = (frm["id"] == "") ? 0 : Convert.ToInt32(frm["id"]);
+                var objectives_length = db.indicator_info.Where(z => z.indicator_id == id_indicator).Count();
 
-                var catalog = db.objective_info.Find(id_objective, id_language);
-                db.objective_info.Remove(catalog);
+                var catalog = db.indicator_info.Find(id_language, id_indicator);
+                db.indicator_info.Remove(catalog);
                 db.SaveChanges();
 
-                if (objectives_length > 1)
+                if (objectives_length > 0)
                 {
-                    var catalog_objective = db.objectives.Find(id_objective);
-                    db.objectives.Remove(catalog_objective);
+                    var catalog_indicator = db.indicators.Find(id_indicator);
+                    db.indicators.Remove(catalog_indicator);
                     db.SaveChanges();
                 }
 
@@ -1411,6 +1459,26 @@ namespace DashboardFMP.Controllers
             catch (Exception e)
             {
                 ViewBag.Message = e.Message;
+            }
+            return null;
+        }
+
+        public ActionResult CountryDelete(FormCollection frm)
+        {
+            try
+            {
+
+                var id_country = (frm["country"] == "") ? 0 : Convert.ToInt32(frm["country"]);
+                var catalog = db.countries.Find(id_country);
+                db.countries.Remove(catalog);
+                db.SaveChanges();
+                return Json("Registro eliminado");
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+
+                return Json(e.Message);
             }
             return null;
         }

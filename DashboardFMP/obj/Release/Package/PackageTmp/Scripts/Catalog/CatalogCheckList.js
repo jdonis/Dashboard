@@ -43,7 +43,7 @@ function GetRecord(id) {
     console.log("Edit_Record " + id);
     $.ajax({
         type: "POST",
-        url: "../Catalogs/CheckListGet/",
+        url: url_ + "/Catalogs/CheckListGet/",
         data: { 'ID': id["id"] },
         success: function (data) {
             console.log("Response Edit_record");
@@ -68,7 +68,7 @@ function SaveRecord() {
     console.log(formData);
 
     $.ajax({
-        url: "../Catalogs/CheckListSave/",
+        url: url_ + "/Catalogs/CheckListSave/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -90,7 +90,7 @@ function CreateRecord() {
     var formData = $('#altEditor-form').serializeObject();
 
     $.ajax({
-        url: "../Catalogs/CheckListCreate/",
+        url: url_ + "/Catalogs/CheckListCreate/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -114,7 +114,7 @@ function DeleteRecord() {
     $.extend(formData, { 'id': id }); //Send Additional data
 
     $.ajax({
-        url: "../Catalogs/CheckListDelete/",
+        url: url_ + "/Catalogs/CheckListDelete/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -145,7 +145,7 @@ $(document).ready(function () {
 
     var table = $('#DataTableCatalog').DataTable({
         "ajax": {
-            "url": "../Catalogs/CheckListListDataTables/",
+            "url": url_ + "/Catalogs/CheckListListDataTables/",
             "dataSrc": ""
         },
         "columns": [

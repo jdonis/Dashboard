@@ -79,17 +79,19 @@ function GetRecord(id) {
     console.log("Edit_Record ");
     console.log(id);
     $('#table-tbody-WorkPlan').empty();
-    $('#country_slc').val(id["id"]);
-    $('#year_slc').val(id["year"]);
     $.ajax({
         type: "POST",
-        url: "../FMP/ListIndicatorbyCountry/",
+        url: url_ + "/FMP/ListIndicatorbyCountry/",
         data: { 'countryid_param': id["id"], 'language_param': 'ES', 'year_param': id["year"] },
         beforeSend: function () { $('#loading').show(); },
         complete: function () { $('#loading').hide(); },
         success: function (data) {
             dataretrive = data;
             //console.log(data);
+            if (data.length > 0) {
+                $('#country_slc').val(data[0].country_id);
+                $('#year_slc').val(id["year"]);
+            }
 
             for (i = 0; i < data.length; i++) {
                 var tr = "  ";
@@ -157,7 +159,7 @@ function SaveRecord() {
     var jsonItems = JSON.stringify(formData_array);
     
     $.ajax({
-        url: "../FMP/IndicatorbyCountrySave/",
+        url: url_ + "/FMP/IndicatorbyCountrySave/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -184,7 +186,7 @@ function CreateRecord() {
     $.extend(formData, { 'language': language_id }); //Send Additional data
 
     $.ajax({
-        url: "../Catalogs/ObjectiveCreate/",
+        url: url_ + "/Catalogs/ObjectiveCreate/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -208,7 +210,7 @@ function DeleteRecord() {
     $.extend(formData, { 'language': language_id }); //Send Additional data
 
     $.ajax({
-        url: "../Catalogs/ObjectiveDelete/",
+        url: url_ + "/Catalogs/ObjectiveDelete/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -246,7 +248,7 @@ $(document).ready(function () {
 
     var table = $('#DataTableCatalog').DataTable({
         "ajax": {
-            "url": "../FMP/FMPListDataTables/",
+            "url": url_ + "/FMP/FMPListDataTables/",
             "dataSrc": ""
         },
         "columns": [
@@ -292,7 +294,7 @@ $(document).ready(function () {
     $('#country_slc').empty()
     $.ajax({
         type: "POST",
-        url: "../Catalogs/ListCountriesCatalog/",
+        url: url_ + "/Catalogs/ListCountriesCatalog/",
         //data: { 'carId': carId },
         success: function (data) {
 
@@ -307,7 +309,7 @@ $(document).ready(function () {
     $('#language').empty()
     $.ajax({
         type: "POST",
-        url: "../Catalogs/ListLanguajeCatalog/",
+        url: url_ + "/Catalogs/ListLanguajeCatalog/",
         //data: { 'carId': carId },
         success: function (data) {
 
@@ -322,7 +324,7 @@ $(document).ready(function () {
     $('#year_slc').empty()
     $.ajax({
         type: "POST",
-        url: "../Catalogs/ListYearsCatalog/",
+        url: url_ + "/Catalogs/ListYearsCatalog/",
         //data: { 'carId': carId },
         success: function (data) {
 

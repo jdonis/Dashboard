@@ -1,9 +1,6 @@
 ﻿@{
     Layout = null;
 }
-
-<!DOCTYPE html>
-
 <html>
 <head>
     <title>Información de los indicadores por país</title>
@@ -25,7 +22,7 @@
     <link href="~/Content/jquery-ui.css" rel="stylesheet" />
     <script src="~/scripts/jquery-ui.js"></script>
 
-
+    <script src="~/Scripts/localconfig.js"></script>
     <script src="~/scripts/Catalog/FMP.js"></script>
 </head>
 <body>
@@ -60,7 +57,7 @@
                     <h4 class="modal-title">Ingreso de información indicadores</h4>
                 </div>
                 <div class="modal-body">
-                    <form id="altEditor-form" name="altEditor-form" role="form">
+                    <div id="altEditor-form" name="altEditor-form" role="form">
                         <div id="tabs">
                             <ul>
                                 <li><a href="#tab-WorkPlan">Work Plan</a></li>
@@ -204,7 +201,7 @@
                             </div>
                         </div>
 
-                    </form>
+                    </div>
                 </div>
                 <div class="modal-footer"><button type="button" data-content="remove" class="btn btn-default" data-dismiss="modal">Cerrar</button><button type="button" data-content="remove" class="btn btn-primary" id="editRowBtn">Guardar Cambios</button></div>
             </div>

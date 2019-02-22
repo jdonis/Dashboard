@@ -1,12 +1,9 @@
 ﻿@{
     Layout = null;
 }
-
-<!DOCTYPE html>
-
 <html>
 <head>
-    <title>Catálogo de objetivos</title>
+    <title>Catálogo de Preguntas de CheckList</title>
     <meta name="viewport" content="width=device-width" />
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />
@@ -23,11 +20,12 @@
     <script src="~/scripts/DataTables/dataTables.responsive.js"></script>
     <script src="~/scripts/DataTablesEditor/dataTables.altEditor.js"></script>
 
+    <script src="~/Scripts/localconfig.js"></script>
     <script src="~/scripts/Catalog/CatalogQuestionCheckList.js"></script>
 </head>
 <body>
 
-    <h2>Catálogo de objetivos</h2>
+    <h2>Catálogo de Preguntas de CheckList</h2>
 
     <table id="DataTableCatalog" class="table, display"  width="100%" cellspacing="0">
         <thead>
@@ -50,7 +48,7 @@
                     <h4 class="modal-title">Registro</h4>
                 </div>
                 <div class="modal-body">
-                    <form id="altEditor-form" name="altEditor-form" role="form">
+                    <div id="altEditor-form" name="altEditor-form" role="form">
                         <input class="primarykey" id="id" name="id" placeholder="" value="" type="hidden">
                         <div class="form-group">
                             <div class="col-sm-3 col-md-3 col-lg-3 text-right" style="padding-top:7px;"><label for="order_view">Orden despliegue:</label></div>
@@ -72,7 +70,7 @@
                             <select class="checklist" id="checklist" required data-validation="required" data-validation-if-checked-value="yes"></select>
                             <div style="clear:both;"></div>
                         </div>
-                    </form>
+                    </div>
                 </div>
                 <div class="modal-footer"><button type="button" data-content="remove" class="btn btn-default" data-dismiss="modal">Cerrar</button><button type="button" data-content="remove" class="btn btn-primary" id="editRowBtn">Guardar Cambios</button></div>
             </div>

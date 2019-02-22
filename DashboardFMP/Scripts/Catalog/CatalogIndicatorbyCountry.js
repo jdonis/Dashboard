@@ -145,6 +145,12 @@ function GetRecord(id) {
                         '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].tipo_ + '<label>' + '</td>' +
                         '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].metas_ + '<label>' + '</td>' +
                         '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].frec_Q1 + ((data[i].frec_Q1 != "") ? ' - ' : '') + data[i].frec_Q2 + ((data[i].frec_Q2 != "") ? ' - ' : '') + data[i].frec_Q3 + ((data[i].frec_Q3 != "") ? ' - ' : '') + data[i].frec_Q4 + '<label>' + '</td>' +
+                        '<td>' 
+                            + '<input id="target_Q1" name="target_Q1" placeholder="Q1"  value="' + data[i].target_Q1 + '" type="text" size="3" ' + '>'
+                            + '<input id="target_Q2" name="target_Q2" placeholder="Q2" value="' + data[i].target_Q2 + '" type="text" size="3" ' + '>'
+                            + '<input id="target_Q3" name="target_Q3" placeholder="Q3" value="' + data[i].target_Q3 + '" type="text" size="3" ' + '>'
+                            + '<input id="target_Q4" name="target_Q4" placeholder="Q4" value="' + data[i].target_Q4 + '" type="text" size="3" ' + '>'
+                        + '</td>' +
                         '<td>' + '<input id="active" name="active"  value="true"' + ((data[i].indicator_selected == true) ? "checked" : "") + ' type="checkbox" size="3" ' + '>' + '</td>' +
                         '<td>' + '<input id="visible" name="visible"  value="true"' + ((data[i].indicator_visible == true) ? "checked" : "") + ' type="checkbox" size="3" ' + '>' + '</td>' +
 
@@ -167,7 +173,8 @@ function SaveRecord() {
     var formData_array = $('#table-WorkPlan').formtoArray('table-WorkPlan');
     var jsonItems = JSON.stringify(formData_array);
 
-    
+    console.log(formData_array);
+    console.log(jsonItems);
     $.ajax({
         url:  url_ + "/Catalogs/IndicatorbyCountryListGetSave/",
         cache: false,
@@ -250,15 +257,9 @@ function DeleteRecord() {
 
 function CreateIndByCtyYear() {
 
-    //console.log("Edit_Record ");
-    //console.log(id["id"]);
     $('#table-tbody-WorkPlan').empty();
-    //$('#country_slc').val(id["id"]);
-    //$('#year_slc').val(id["year"]);
     $('#create_cty_year').css('visibility', 'visible');
     $('#loading').show();
-    //console.log($('#country_slc').val());
-    //console.log($('#year_slc').val());
     if ($('#country_slc').val() != '' && $('#year_slc').val() != '') {
 
         $.ajax({
@@ -274,18 +275,28 @@ function CreateIndByCtyYear() {
                 console.log(ct);
                 if (ct.indexOf('html') > -1) {
                     alert(data);
+                    $('#country_slc').val("");
+                    $('#year_slc').val("");
+                    $('#create_cty_year').css('visibility', 'visible');
                 } else if (ct.indexOf('json') > -1) {
                     for (i = 0; i < data.length; i++) {
                         var tr = "  "
                         $('#table-WorkPlan').find('tbody').append('<tr id="indicator" name="indicator">' +
                                 '<td style = "display:none">' + '<input id="indicator_id" name="indicator_id"  value="' + data[i].indicator_id + '" type="hidden" ' + '>' +
                                     '<input id="country_id" name="country_id"  value="' + data[i].country_id + '" type="hidden" ' + '>' +
+                                    '<input id="inputtype" name="inputtype"  value="' + data[i].tipo_ + '" type="hidden" ' + '>' +
                                     '<input id="year_select" name="year_select"  value="' + data[i].year_select + '" type="hidden" ' + '>' + '</td>' +
                                 '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].objective_ + '<label>' + '</td>' +
                                 '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].indicator_group_ + '<label>' + '</td>' +
                                 '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].tipo_ + '<label>' + '</td>' +
                                 '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].metas_ + '<label>' + '</td>' +
                                 '<td>' + '<label for="ind_' + data[i].indicator_id + '">' + data[i].frec_Q1 + ((data[i].frec_Q1 != "") ? ' - ' : '') + data[i].frec_Q2 + ((data[i].frec_Q2 != "") ? ' - ' : '') + data[i].frec_Q3 + ((data[i].frec_Q3 != "") ? ' - ' : '') + data[i].frec_Q4 + '<label>' + '</td>' +
+                                '<td>'
+                                    + '<input id="target_Q1" name="target_Q1" placeholder="Q1" value="' + data[i].target_Q1 + '" type="text" size="3" ' + '>'
+                                    + '<input id="target_Q2" name="target_Q2" placeholder="Q2" value="' + data[i].target_Q2 + '" type="text" size="3" ' + '>'
+                                    + '<input id="target_Q3" name="target_Q3" placeholder="Q3" value="' + data[i].target_Q3 + '" type="text" size="3" ' + '>'
+                                    + '<input id="target_Q4" name="target_Q4" placeholder="Q4" value="' + data[i].target_Q4 + '" type="text" size="3" ' + '>'
+                                + '</td>' +
                                 '<td>' + '<input id="active" name="active"  value="true"' + ((data[i].indicator_selected == true) ? "checked" : "") + ' type="checkbox" size="3" ' + '>' + '</td>' +
                                 '<td>' + '<input id="visible" name="visible"  value="true"' + ((data[i].indicator_visible == true) ? "checked" : "") + ' type="checkbox" size="3" ' + '>' + '</td>' +
 

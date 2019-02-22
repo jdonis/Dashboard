@@ -52,7 +52,7 @@ function GetRecord(id) {
     console.log("Edit_Record " + id);
     $.ajax({
         type: "POST",
-        url: "../Catalogs/ObjectiveGet/",
+        url: url_ + "/Catalogs/ObjectiveGet/",
         data: { 'ID': id },
         success: function (data) {
             console.log("Response Edit_record");
@@ -82,7 +82,7 @@ function SaveRecord() {
     console.log(formData);
 
     $.ajax({
-        url: "../Catalogs/ObjectiveSave/",
+        url: url_ + "/Catalogs/ObjectiveSave/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -106,7 +106,7 @@ function CreateRecord() {
     $.extend(formData, { 'language': language_id }); //Send Additional data
 
     $.ajax({
-        url: "../Catalogs/ObjectiveCreate/",
+        url: url_ + "/Catalogs/ObjectiveCreate/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -130,7 +130,7 @@ function DeleteRecord() {
     $.extend(formData, { 'language': language_id }); //Send Additional data
 
     $.ajax({
-        url: "../Catalogs/ObjectiveDelete/",
+        url: url_ + "/Catalogs/ObjectiveDelete/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -163,7 +163,7 @@ $(document).ready(function () {
 
     $.ajax({
         type: "POST",
-        url: "../FMP/ListIndicatorbyCountry/",
+        url: url_ + "/FMP/ListIndicatorbyCountry/",
         data: { 'countryid_param': 3, 'language_param': 'ES', 'year_param': 2017 },
         beforeSend: function () { $('#loading').show(); },
         complete: function () { $('#loading').hide(); },
@@ -195,7 +195,7 @@ $(document).ready(function () {
     $('#language').empty()
     $.ajax({
         type: "POST",
-        url: "../Catalogs/ListLanguajeCatalog/",
+        url: url_ + "/Catalogs/ListLanguajeCatalog/",
         //data: { 'carId': carId },
         success: function (data) {
 

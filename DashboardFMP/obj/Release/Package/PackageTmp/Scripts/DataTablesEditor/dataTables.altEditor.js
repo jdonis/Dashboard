@@ -89,19 +89,7 @@
                 l = "";
 
             ResetRecord();
-            //GetRecord(d.data()[0]["id"]);
             GetRecord(d.data()[0]);
-            //l += "<form name='altEditor-form' role='form'>", l += "<input type='hidden' class='primarykey' id='" + a[0].title + "' name='" + a[0].title + "' placeholder='" + a[0].title + "' value='" + d.data()[0][a[0].title] + "'>";
-            //for (var i in a) 0 != i && (l += "<div class='form-group'><div class='col-sm-3 col-md-3 col-lg-3 text-right' style='padding-top:7px;'><label for='" + a[i].title + "'>" + a[i].title + ":</label></div><div class='col-sm-9 col-md-9 col-lg-9'><input type='text' id='" + a[i].title + "' name='" + a[i].title + "' placeholder='" + a[i].title + "' style='overflow:hidden' class='form-control form-control-sm' value='" + d.data()[0][a[i].title] + "'></div><div style='clear:both;'></div></div>");
-            //l += "</form>", t("#altEditor-modal").on("show.bs.modal", function() {
-            //    t("#altEditor-modal").find(".modal-title").html("Editar Registro"), t("#altEditor-modal").find(".modal-body").html("<pre>" + l + "</pre>"), t("#altEditor-modal").find(".modal-footer").html("<button type='button' data-content='remove' class='btn btn-default' data-dismiss='modal'>Cerrar</button><button type='button' data-content='remove' class='btn btn-primary' id='editRowBtn'>Guardar Cambios</button>")
-            //}), t("#altEditor-modal").modal("show"), t("#altEditor-modal input.primarykey+div input").focus()
-
-            //$("#altEditor-modal").modal("show"); $("#altEditor-modal input.primarykey+div input").focus()
-
-            //$('#altEditor-modal').on('shown.bs.modal', function () {
-            //    console.log("show modal")
-            //});
 
             $("#altEditor-modal").find(".modal-title").html("Editar Registro");
             $('#addRowBtn').text("Editar Registro");
@@ -110,7 +98,7 @@
 
             $('#altEditor-modal .modal-body .alert').remove();
             $('#altEditor-modal').on('show.bs.modal', function (e) {
-                console.log("show modal")
+                console.log("show modal _openEditModal")
                 //if (!data) return e.preventDefault() // stops modal from being shown
             });
             $("#altEditor-modal").modal("show");
@@ -158,31 +146,14 @@
 
                 $('#altEditor-modal .modal-body .alert').remove();
                 $('#altEditor-modal').on('show.bs.modal', function (e) {
-                    console.log("show modal")
+                    console.log("show modal _openDeleteModal")
                     //if (!data) return e.preventDefault() // stops modal from being shown
                 });
                 $("#altEditor-modal").modal("show");
-
-
-            //l += "<form name='altEditor-form' role='form'>", l += "<input type='hidden' class='primarykey' id='" + a[0].title + "' name='" + a[0].title + "' placeholder='" + a[0].title + "' value='" + d.data()[0][a[0].title] + "'>";
-            //for (var e in a) 0 != e && (l += "<div class='form-group'><label for='" + a[e].title + "'>" + a[e].title + " : </label><input type='hidden' id='" + a[e].title + "' name='" + a[e].title + "' placeholder='" + a[e].title + "' style='overflow:hidden' class='form-control' value='" + d.data()[0][a[e].title] + "' >" + d.data()[0][a[e].title] + "</input></div>");
-            //l += "</form>", t("#altEditor-modal").on("show.bs.modal", function() {
-            //    t("#altEditor-modal").find(".modal-title").html("Eliminar Registro"), t("#altEditor-modal").find(".modal-body").html("<pre>" + l + "</pre>"), t("#altEditor-modal").find(".modal-footer").html("<button type='button' data-content='remove' class='btn btn-default' data-dismiss='modal'>Cerrar</button><button type='button' data-content='remove' class='btn btn-danger' id='deleteRowBtn'>Eliminar</button>")
-            //}), t("#altEditor-modal").modal("show"), t("#altEditor-modal input.primarykey+div input").focus()
         },
         _deleteRow: function() {
             var o = this,
                 a = this.s.dt;
-            //t("#altEditor-modal .modal-body .alert").remove();
-            //var e = {},
-            //    d = t('form[name="altEditor-form"] input.primarykey').attr("name");
-            //t('form[name="altEditor-form"] input').each(function(o) {
-            //    e[t(this).attr("name")] = t(this).val()
-            //});
-            //var l = a.row({
-            //    selected: !0
-            //}).index();
-            //t(o.s.dt.context[0].nTable).trigger("savedata", ["delete", d, e, l]), a.draw()
 
                 DeleteRecord();
                 ResetRecord();
@@ -194,17 +165,10 @@
             });
 
             ResetRecord();
-            //var d = "";
 
-            //d += "<form name='altEditor-form' role='form'>", d += "<input type='hidden' class='primarykey' id='" + a[0].title + "' name='" + a[0].title + "' placeholder='" + a[0].title + "' value=''>";
-            //for (var l in a) 0 != l && (d += "<div class='form-group'><div class='col-sm-3 col-md-3 col-lg-3 text-right' style='padding-top:7px;'><label for='" + a[l].title + "'>" + a[l].title + ":</label></div><div class='col-sm-9 col-md-9 col-lg-9'><input type='text' id='" + a[l].title + "' name='" + a[l].title + "' placeholder='" + a[l].title + "' style='overflow:hidden' class='form-control form-control-sm' value=''></div><div style='clear:both;'></div></div>");
-            //d += "</form>", t("#altEditor-modal").on("show.bs.modal", function() {
-            //    t("#altEditor-modal").find(".modal-title").html("Agregar Registro"), t("#altEditor-modal").find(".modal-body").html("<pre>" + d + "</pre>"), t("#altEditor-modal").find(".modal-footer").html("<button type='button' data-content='remove' class='btn btn-default' data-dismiss='modal'>Cerrar</button><button type='button' data-content='remove' class='btn btn-primary' id='addRowBtn'>Agregar Registro</button>")
-            //}), t("#altEditor-modal").modal("show"), t("#altEditor-modal input.primarykey+div input").focus()
             $('#altEditor-modal .modal-body .alert').remove();
             $('#altEditor-modal').on('show.bs.modal', function (e) {
-                console.log("show modal");
-                //if (!data) return e.preventDefault() // stops modal from being shown
+                console.log("show modal _openAddModal");
             });
             $("#altEditor-modal").find(".modal-title").html("Agregar Registro");
             $('#editRowBtn').text("Agregar Registro");
@@ -218,10 +182,9 @@
             var o = this,
                 a = (this.s.dt, {}),
                 e = t('form[name="altEditor-form"] input.primarykey').attr("name");
-            //t('form[name="altEditor-form"] input').each(function(o) {
-            //    a[t(this).attr("name")] = t(this).val()
-            //}), t("#altEditor-modal .modal-body .alert").remove(), t(o.s.dt.context[0].nTable).trigger("savedata", ["add", e, a, null])
+
             if (validate() == true) {
+                console.log("_addRowData")
                 CreateRecord();
                 ResetRecord();
                 $("#altEditor-modal").modal("hide");

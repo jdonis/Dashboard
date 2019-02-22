@@ -128,6 +128,7 @@ namespace DashboardFMP.Controllers
                                                         )
                                                         .Where(z => z.country_id == countryid && z.year_ind_country == year_).ToList();
 
+                //var country_indicator_ = db.country_indicator.Where(z => z.country_id == countryid && z.year_ind_country == year_).ToList();
 
                 var jsondata = (from object_db in list_country_indicators_unique
                                 select new
@@ -141,15 +142,19 @@ namespace DashboardFMP.Controllers
                                     indicator_group_ = object_db.children_1.FirstOrDefault().indicator.indicatorgroup.code + " -- " + object_db.children_1.FirstOrDefault().indicator.indicatorgroup.indicator_group_info.FirstOrDefault().name,
                                     tipo_ = object_db.children_1.FirstOrDefault().indicator.inputtype,
                                     metas_ = object_db.children_1.FirstOrDefault().indicator.indicator_info.FirstOrDefault().name,
-                                    Q1_target_ = db.country_indicator.Where(z => z.indicator_id == object_db.indicator_id && z.country_id == object_db.country_id && z.year_ind_country == year_  && z.quarter == 1).FirstOrDefault().target ?? 0,
-                                    Q1_ = db.country_indicator.Where(z => z.indicator_id == object_db.indicator_id && z.country_id == object_db.country_id && z.year_ind_country == year_ && z.quarter == 1).FirstOrDefault().value,
-                                    Q2_target_ = db.country_indicator.Where(z => z.indicator_id == object_db.indicator_id && z.country_id == object_db.country_id && z.year_ind_country == year_ && z.quarter == 2).FirstOrDefault().target,
-                                    Q2_ = db.country_indicator.Where(z => z.indicator_id == object_db.indicator_id && z.country_id == object_db.country_id && z.year_ind_country == year_ && z.quarter == 2).FirstOrDefault().value,
-                                    Q3_target_ = db.country_indicator.Where(z => z.indicator_id == object_db.indicator_id && z.country_id == object_db.country_id && z.year_ind_country == year_ && z.quarter == 3).FirstOrDefault().target,
-                                    Q3_ = db.country_indicator.Where(z => z.indicator_id == object_db.indicator_id && z.country_id == object_db.country_id && z.year_ind_country == year_ && z.quarter == 3).FirstOrDefault().value,
-                                    Q4_target_ = db.country_indicator.Where(z => z.indicator_id == object_db.indicator_id && z.country_id == object_db.country_id && z.year_ind_country == year_ && z.quarter == 4).FirstOrDefault().target,
-                                    Q4_ = db.country_indicator.Where(z => z.indicator_id == object_db.indicator_id && z.country_id == object_db.country_id && z.year_ind_country == year_ && z.quarter == 4).FirstOrDefault().value,
+                                    Q1_target_ = object_db.children_1.Where(z => z.quarter == 1).FirstOrDefault().target,
+                                    Q1_ = object_db.children_1.Where(z => z.quarter == 1).FirstOrDefault().value,
+                                    Q2_target_ = object_db.children_1.Where(z =>  z.quarter == 2).FirstOrDefault().target,
+                                    Q2_ = object_db.children_1.Where(z =>  z.quarter == 2).FirstOrDefault().value,
+                                    Q3_target_ = object_db.children_1.Where(z =>  z.quarter == 3).FirstOrDefault().target,
+                                    Q3_ = object_db.children_1.Where(z =>  z.quarter == 3).FirstOrDefault().value,
+                                    Q4_target_ = object_db.children_1.Where(z =>  z.quarter == 4).FirstOrDefault().target,
+                                    Q4_ = object_db.children_1.Where(z => z.quarter == 4).FirstOrDefault().value,
                                     frec_ = object_db.children_1.FirstOrDefault().indicator.frequency,
+                                    frec_Q1 = object_db.children_1.FirstOrDefault().indicator.indicator_info.FirstOrDefault().indicator.Q1 == true ? "Q1" : "",
+                                    frec_Q2 = object_db.children_1.FirstOrDefault().indicator.indicator_info.FirstOrDefault().indicator.Q2 == true ? "Q2" : "",
+                                    frec_Q3 = object_db.children_1.FirstOrDefault().indicator.indicator_info.FirstOrDefault().indicator.Q3 == true ? "Q3" : "",
+                                    frec_Q4 = object_db.children_1.FirstOrDefault().indicator.indicator_info.FirstOrDefault().indicator.Q4 == true ? "Q4" : "",
                                     format_ = object_db.children_1.FirstOrDefault().indicator.mode,
                                     order_by_objective = object_db.children_1.FirstOrDefault().indicator.objective.orden,
                                     order_by_indicatorgroup = object_db.children_1.FirstOrDefault().indicator.indicatorgroup.orden,

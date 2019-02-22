@@ -52,7 +52,7 @@ function GetRecord(id) {
     console.log("Edit_Record " + id);
     $.ajax({
         type: "POST",
-        url: "../Catalogs/ObjectiveGet/",
+        url: url_ + "/Catalogs/ObjectiveGet/",
         data: { 'ID': id["id"] },
         success: function (data) {
             console.log("Response Edit_record");
@@ -77,12 +77,12 @@ function GetRecord(id) {
 
 function SaveRecord() {
     var language_id = $("#language").val();
-    var formData = $('#altEditor-form').serializeObject();
+    var formData = $('#altEditor-form').find("select, textarea, input").serializeObject();
     $.extend(formData, { 'language': language_id }); //Send Additional data
     console.log(formData);
 
     $.ajax({
-        url: "../Catalogs/ObjectiveSave/",
+        url: url_ + "/Catalogs/ObjectiveSave/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -102,11 +102,11 @@ function SaveRecord() {
 
 function CreateRecord() {
     var language_id = $("#language").val();
-    var formData = $('#altEditor-form').serializeObject();
+    var formData = $('#altEditor-form').find("select, textarea, input").serializeObject();
     $.extend(formData, { 'language': language_id }); //Send Additional data
 
     $.ajax({
-        url: "../Catalogs/ObjectiveCreate/",
+        url: url_ + "/Catalogs/ObjectiveCreate/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -126,11 +126,11 @@ function CreateRecord() {
 
 function DeleteRecord() {
     var language_id = $("#language").val();
-    var formData = $('#altEditor-form').serializeObject();
+    var formData = $('#altEditor-form').find("select, textarea, input").serializeObject();
     $.extend(formData, { 'language': language_id }); //Send Additional data
 
     $.ajax({
-        url: "../Catalogs/ObjectiveDelete/",
+        url: url_ + "/Catalogs/ObjectiveDelete/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -161,7 +161,7 @@ $(document).ready(function () {
 
     var table = $('#DataTableCatalog').DataTable({
         "ajax": {
-            "url": "../Catalogs/ObjectivesListDataTables/",
+            "url": url_ + "/Catalogs/ObjectivesListDataTables/",
             "dataSrc": ""
         },
         "columns": [
@@ -207,7 +207,7 @@ $(document).ready(function () {
     $('#language').empty()
     $.ajax({
         type: "POST",
-        url: "../Catalogs/ListLanguajeCatalog/",
+        url: url_ + "/Catalogs/ListLanguajeCatalog/",
         //data: { 'carId': carId },
         success: function (data) {
 

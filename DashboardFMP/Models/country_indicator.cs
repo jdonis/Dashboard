@@ -30,7 +30,7 @@ namespace DashboardFMP.Models
         public int year_ind_country { get; set; }
         public Nullable<decimal> value { get; set; }
         public int quarter { get; set; }
-        public Nullable<decimal> target { get; set; }
+        public decimal? target { get; set; }
         public Nullable<System.DateTime> inputyear { get; set; }
         public bool? active { get; set; }
         public bool? visible { get; set; }

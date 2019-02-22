@@ -118,6 +118,41 @@ function CreateRecord() {
 
 }
 
+function DeleteRecord() {
+    var id = $("#id").val();
+    var formData = $('#altEditor-form').find("select, textarea, input").serializeObject();
+    $.extend(formData, { 'country': id }); //Send Additional data
+
+    $.ajax({
+        url: url_ + "/Catalogs/CountryDelete/",
+        cache: false,
+        type: 'POST',
+        dataType: 'json',
+        data: decodeURIComponent($.param(formData)),
+        success: function (data) {
+            $('#Countries').DataTable().ajax.reload();
+            alert(data);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("AJAX error: " + textStatus + ' : ' + errorThrown);
+        }
+    });
+
+    $('#languaje').attr('disabled', false);
+
+}
+
+function DisableRecord() {
+
+    $('#Name').attr("disabled", true);
+    $('#Description').attr("disabled", true);
+    $('#Group').attr("disabled", true);
+    $('#Code').attr("disabled", true);
+    $('#languaje').attr("disabled", true);
+
+
+}
+
 $(document).ready(function () {
 
     //$.validate({

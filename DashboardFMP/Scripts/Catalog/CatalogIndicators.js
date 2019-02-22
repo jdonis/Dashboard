@@ -19,7 +19,7 @@ $.fn.serializeObject = function () {
 function ResetRecord(lenguage_id_) {
 
     lenguage_id = (lenguage_id_ > 0) ? lenguage_id_ : 1;
-
+    console.log("Reset Record");
     $('#input_type').empty()
     $.ajax({
         type: "POST",
@@ -77,6 +77,20 @@ function ResetRecord(lenguage_id_) {
         }
     });
 
+    $('#checklist').empty()
+    $.ajax({
+        type: "POST",
+        url: url_ + "/Catalogs/ListChecklistCatalog/",
+        //data: { 'carId': carId },
+        success: function (data) {
+
+            $('#checklist').append('<option value=""> Select </option>');
+            for (i = 0; i < data.length; i++) {
+                $('#checklist').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+            }
+        }
+    });
+
 
             $('#id').val("");
             $('#objective').val("");
@@ -109,8 +123,9 @@ function validate() {
     if ($("#group").val() == "") { msg += " Ingrese el Grupo" + "\n"; $("#group").focus() };
     if ($("#language").val() == "") { msg += " Ingrese el Idioma" + "\n"; $("#language").focus() };
     if ($("#mode").val() == "") { msg += " Ingrese el Mode" + "\n"; $("#mode").focus() };
-    //if ($("#frequency").val() == "") { msg += " Ingrese la Frecuencia" + "\n"; $("#frequency").focus() };
+    if ($("#annual_calculation").val() == "") { msg += " Ingrese la Frecuencia anual de calculo del indicador" + "\n"; $("#annual_calculation").focus() };
     if ($("#input_type").val() == "") { msg += " Ingrese el Input Type" + "\n"; $("#input_type").focus() };
+    if ($("#input_type").val() == "checklist" && $("#checklist").val() == "") { msg += " Ingrese el Check List al que pertenece el indicador" + "\n"; $("#checklist").focus() };
 
 
     if (msg !== "") { alert(msg); return false; }
@@ -138,11 +153,13 @@ function GetRecord(id) {
             $('#language').val(data[0].language_id);
             $('#mode').val(data[0].mode);
             $('#annual_calculation').val(data[0].anual_calculation_id);
-            $('#input_type').val(data[0].inputtype);
+            $('#input_type').val(data[0].inputtype).trigger('change');
+            $('#checklist').val(data[0].checklist_id);
             $('#frequency_Q1').prop('checked', data[0].Q1);
             $('#frequency_Q2').prop('checked', data[0].Q2);
             $('#frequency_Q3').prop('checked', data[0].Q3);
             $('#frequency_Q4').prop('checked', data[0].Q4);
+
 
             
 
@@ -155,11 +172,24 @@ function GetRecord(id) {
 
 
 function SaveRecord() {
-    var language_id = $("#language").val(), mode = $("#mode").val(), frequency = $("#frequency").val(), input_type = $("#input_type").val(), annual_calculation = $("#annual_calculation").val(),  ind_num_visible = $("#ind_num_visible").val() ;
+    var language_id = $("#language").val();
+    var mode = $("#mode").val(), frequency = $("#frequency").val(), input_type = $("#input_type").val(), annual_calculation = $("#annual_calculation").val(), ind_num_visible = $("#ind_num_visible").val();
     var group = $("#group").val(), objective = $("#objective").val();
+    var checklist = $("#checklist").val();
     var formData = $('#altEditor-form').find("select, textarea, input").serializeObject();
-    $.extend(formData, { 'language': language_id, 'mode': mode, 'frequency': frequency, 'input_type': input_type, 'group': group, 'objective': objective, 'annual_calculation': annual_calculation, 'ind_num_visible': ind_num_visible }); //Send Additional data
-    console.log(formData);
+
+    $.extend(formData, {
+        'language': language_id,
+        'mode': mode,
+        'frequency': frequency,
+        'input_type': input_type,
+        'group': group,
+        'objective': objective, 
+        'annual_calculation': annual_calculation,
+        'ind_num_visible': ind_num_visible,
+        'checklist': checklist
+    }); //Send Additional data
+    console.log("SaveRecord");
 
     $.ajax({
         url: url_ + "/Catalogs/IndicatorSave/",
@@ -181,9 +211,26 @@ function SaveRecord() {
 }
 
 function CreateRecord() {
-    var language_id = $("#language").val(), mode = $("#mode").val(), frequency = $("#frequency").val(), input_type = $("#input_type").val(), annual_calculation = $("#annual_calculation").val();
+    var language_id = $("#language").val();
+    var mode = $("#mode").val(), frequency = $("#frequency").val(), input_type = $("#input_type").val(), annual_calculation = $("#annual_calculation").val();
+    var group = $("#group").val(), objective = $("#objective").val();
+    var checklist = $("#checklist").val();
     var formData = $('#altEditor-form').find("select, textarea, input").serializeObject();
-    $.extend(formData, { 'language': language_id, 'mode': mode, 'frequency': frequency, 'input_type': input_type, 'group': group, 'objective': objective, 'annual_calculation': annual_calculation }); //Send Additional data
+    //$.extend(formData, { 'language': language_id, 'mode': mode, 'frequency': frequency, 'input_type': input_type, 'group': group, 'objective': objective, 'annual_calculation': annual_calculation }); //Send Additional data
+    $.extend(formData, {
+        'language': language_id,
+        'mode': mode,
+        'frequency': frequency,
+        'input_type': input_type,
+        'group': group,
+        'objective': objective,
+        'annual_calculation': annual_calculation,
+        'checklist': checklist
+    }); //Send Additional data
+
+    console.log("CreateRecord");
+    console.log(formData);
+    console.log(decodeURIComponent($.param(formData)));
 
 
     $.ajax({
@@ -199,6 +246,7 @@ function CreateRecord() {
             alert(data);
         },
         error: function (jqXHR, textStatus, errorThrown) {
+            console.log("CreateRecord error");
             alert("AJAX error: " + textStatus + ' : ' + errorThrown);
         }
     });
@@ -358,6 +406,33 @@ $(document).ready(function () {
                 $('#annual_calculation').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
             }
         }
+    });
+
+    // Catalogo de checklist
+    $('#checklist').empty()
+    $.ajax({
+        type: "POST",
+        url: url_ + "/Catalogs/ListChecklistCatalog/",
+        //data: { 'carId': carId },
+        success: function (data) {
+
+            $('#checklist').append('<option value=""> Select </option>');
+            for (i = 0; i < data.length; i++) {
+                $('#checklist').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+            }
+        }
+    });
+
+    $('#input_type_div').hide();
+    $("#input_type").change(function (data) {
+        
+        console.log(this.value);
+        if (this.value == 'checklist') {
+            $('#input_type_div').show();
+        } else {
+            $('#input_type_div').hide();
+        }
+            
     });
 
 

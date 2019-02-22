@@ -45,7 +45,7 @@ function GetRecord(id) {
     console.log("Edit_Record " + id);
     $.ajax({
         type: "POST",
-        url: "../Catalogs/CountryGet/",
+        url: url_ + "/Catalogs/CountryGet/",
         data: { 'ID': id["id"] },
         success: function (data) {
             console.log("Response Edit_record");
@@ -75,7 +75,7 @@ function SaveRecord() {
     $.extend(formData, { 'language': $("#languaje option:selected").val() }); //Send Additional data  $("#languaje").val()
 
     $.ajax({
-        url: "../Catalogs/CountrySave/",
+        url: url_ + "/Catalogs/CountrySave/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -100,7 +100,7 @@ function CreateRecord() {
 
 
     $.ajax({
-        url: "../Catalogs/CountryCreate/",
+        url: url_ + "/Catalogs/CountryCreate/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -128,7 +128,7 @@ $(document).ready(function () {
 
     var table = $('#Countries').DataTable({
         "ajax": {
-            "url": "../Catalogs/CountriesListDataTables/",
+            "url": url_ + "/Catalogs/CountriesListDataTables/",
             "dataSrc": ""
         },
         "columns": [
@@ -187,7 +187,7 @@ $(document).ready(function () {
     $('#languaje').empty()
     $.ajax({
         type: "POST",
-        url: "../Catalogs/ListLanguajeCatalog/",
+        url: url_ + "/Catalogs/ListLanguajeCatalog/",
         //data: { 'carId': carId },
         success: function (data) {
 

@@ -75,6 +75,11 @@ namespace DashboardFMP.Models
         public int year_select { get; set; }
         public bool? active { get; set; }
         public bool? visible { get; set; }
+        public decimal? target_Q1 { get; set; }
+        public decimal? target_Q2 { get; set; }
+        public decimal? target_Q3 { get; set; }
+        public decimal? target_Q4 { get; set; }
+        public string inputtype { get; set; }
 
     }
 

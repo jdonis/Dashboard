@@ -19,11 +19,25 @@ $.fn.serializeObject = function () {
 function ResetRecord(lenguage_id_) {
 
     lenguage_id = (lenguage_id_ > 0) ? lenguage_id_ : 1;
+    console.log("Reset Record");
+    $('#input_type').empty()
+    $.ajax({
+        type: "POST",
+        url: url_ + "/Catalogs/ListInputTypeCatalog/",
+        //data: { 'carId': carId },
+        success: function (data) {
+
+            $('#input_type').append('<option value=""> Select </option>');
+            for (i = 0; i < data.length; i++) {
+                $('#input_type').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+            }
+        }
+    });
 
     $('#group').empty()
     $.ajax({
         type: "POST",
-        url: "../Catalogs/ListGroupCatalog/",
+        url: url_ + "/Catalogs/ListGroupCatalog/",
         data: { 'language_id_': lenguage_id },
         async: false,
         success: function (data) {
@@ -38,7 +52,7 @@ function ResetRecord(lenguage_id_) {
     $('#objective').empty()
     $.ajax({
         type: "POST",
-        url: "../Catalogs/ListObjectiveCatalog/",
+        url: url_ + "/Catalogs/ListObjectiveCatalog/",
         data: { 'language_id_': lenguage_id },
         async: false,
         success: function (data) {
@@ -46,6 +60,33 @@ function ResetRecord(lenguage_id_) {
             $('#objective').append('<option value=""> Select </option>');
             for (i = 0; i < data.length; i++) {
                 $('#objective').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+            }
+        }
+    });
+
+    $('#annual_calculation').empty()
+    $.ajax({
+        type: "POST",
+        url: url_ + "/Catalogs/ListAnualCalculationCatalog/",
+        success: function (data) {
+
+            $('#annual_calculation').append('<option value=""> Select </option>');
+            for (i = 0; i < data.length; i++) {
+                $('#annual_calculation').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+            }
+        }
+    });
+
+    $('#checklist').empty()
+    $.ajax({
+        type: "POST",
+        url: url_ + "/Catalogs/ListChecklistCatalog/",
+        //data: { 'carId': carId },
+        success: function (data) {
+
+            $('#checklist').append('<option value=""> Select </option>');
+            for (i = 0; i < data.length; i++) {
+                $('#checklist').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
             }
         }
     });
@@ -59,7 +100,13 @@ function ResetRecord(lenguage_id_) {
             $('#language').val("");
             $('#mode').val("");
             $('#frequency').val("");
-            $('#input_type').val("");
+            $("#ind_num_visible").val("");
+
+            $('#frequency_Q1').empty();
+            $('#frequency_Q2').empty();
+            $('#frequency_Q3').empty();
+            $('#frequency_Q4').empty();
+            //$('#input_type').val("");
             $('#language').attr("disabled", false);
             $('#Name').attr("disabled", false);
 
@@ -76,8 +123,9 @@ function validate() {
     if ($("#group").val() == "") { msg += " Ingrese el Grupo" + "\n"; $("#group").focus() };
     if ($("#language").val() == "") { msg += " Ingrese el Idioma" + "\n"; $("#language").focus() };
     if ($("#mode").val() == "") { msg += " Ingrese el Mode" + "\n"; $("#mode").focus() };
-    if ($("#frequency").val() == "") { msg += " Ingrese la Frecuencia" + "\n"; $("#frequency").focus() };
+    if ($("#annual_calculation").val() == "") { msg += " Ingrese la Frecuencia anual de calculo del indicador" + "\n"; $("#annual_calculation").focus() };
     if ($("#input_type").val() == "") { msg += " Ingrese el Input Type" + "\n"; $("#input_type").focus() };
+    if ($("#input_type").val() == "checklist" && $("#checklist").val() == "") { msg += " Ingrese el Check List al que pertenece el indicador" + "\n"; $("#checklist").focus() };
 
 
     if (msg !== "") { alert(msg); return false; }
@@ -87,59 +135,32 @@ function validate() {
 
 function GetRecord(id) {
 
-    console.log("Edit_Record " + id);
-    console.log(id);
-
-    //$('#group').empty()
-    //$.ajax({
-    //    type: "POST",
-    //    url: "../Catalogs/ListGroupCatalog/",
-    //    data: { 'language_id_': id["language_id"] },
-    //    async: false,
-    //    success: function (data) {
-
-    //        $('#group').append('<option value=""> Select </option>');
-    //        for (i = 0; i < data.length; i++) {
-    //            $('#group').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
-    //        }
-    //    }
-    //});
-
-    //$('#objective').empty()
-    //$.ajax({
-    //    type: "POST",
-    //    url: "../Catalogs/ListObjectiveCatalog/",
-    //    data: { 'language_id_': id["language_id"] },
-    //    async: false,
-    //    success: function (data) {
-
-    //        $('#objective').append('<option value=""> Select </option>');
-    //        for (i = 0; i < data.length; i++) {
-    //            $('#objective').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
-    //        }
-    //    }
-    //});
-
-    //ResetRecord();
-
 
     $.ajax({
         type: "POST",
-        url: "../Catalogs/IndicatorGet/",
+        url: url_ + "/Catalogs/IndicatorGet/",
         data: { 'ID': id["id"] },
         success: function (data) {
-            console.log("Response Edit_record");
-            console.log(data);
+            //console.log("Response Edit_record");
+            //console.log(data);
 
             $('#id').val(id["id"]);
             $('#objective').val(data[0].objective);
             $('#group').val(data[0].group_id);
             $('#name').val(data[0].name);
-            $('#short_').val(data[0].short_name);
+            $('#short_').val(data[0].short_name); 
+            $('#ind_num_visible').val(data[0].ind_num_visible);
             $('#language').val(data[0].language_id);
             $('#mode').val(data[0].mode);
-            $('#frequency').val(data[0].frequency);
-            $('#input_type').val(data[0].inputtype);
+            $('#annual_calculation').val(data[0].anual_calculation_id);
+            $('#input_type').val(data[0].inputtype).trigger('change');
+            $('#checklist').val(data[0].checklist_id);
+            $('#frequency_Q1').prop('checked', data[0].Q1);
+            $('#frequency_Q2').prop('checked', data[0].Q2);
+            $('#frequency_Q3').prop('checked', data[0].Q3);
+            $('#frequency_Q4').prop('checked', data[0].Q4);
+
+
             
 
         }
@@ -151,14 +172,27 @@ function GetRecord(id) {
 
 
 function SaveRecord() {
-    var language_id = $("#language").val(), mode = $("#mode").val(), frequency = $("#frequency").val(), input_type = $("#input_type").val();
+    var language_id = $("#language").val();
+    var mode = $("#mode").val(), frequency = $("#frequency").val(), input_type = $("#input_type").val(), annual_calculation = $("#annual_calculation").val(), ind_num_visible = $("#ind_num_visible").val();
     var group = $("#group").val(), objective = $("#objective").val();
-    var formData = $('#altEditor-form').serializeObject();
-    $.extend(formData, { 'language': language_id, 'mode': mode, 'frequency': frequency, 'input_type': input_type, 'group': group, 'objective': objective }); //Send Additional data
-    console.log(formData);
+    var checklist = $("#checklist").val();
+    var formData = $('#altEditor-form').find("select, textarea, input").serializeObject();
+
+    $.extend(formData, {
+        'language': language_id,
+        'mode': mode,
+        'frequency': frequency,
+        'input_type': input_type,
+        'group': group,
+        'objective': objective, 
+        'annual_calculation': annual_calculation,
+        'ind_num_visible': ind_num_visible,
+        'checklist': checklist
+    }); //Send Additional data
+    console.log("SaveRecord");
 
     $.ajax({
-        url: "../Catalogs/IndicatorSave/",
+        url: url_ + "/Catalogs/IndicatorSave/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -177,53 +211,42 @@ function SaveRecord() {
 }
 
 function CreateRecord() {
-    var language_id = $("#language").val(), mode = $("#mode").val(), frequency = $("#frequency").val(), input_type = $("#input_type").val();
-    var formData = $('#altEditor-form').serializeObject();
-    $.extend(formData, { 'language': language_id, 'mode': mode, 'frequency': frequency, 'input_type': input_type, 'group': group, 'objective': objective }); //Send Additional data
+    var language_id = $("#language").val();
+    var mode = $("#mode").val(), frequency = $("#frequency").val(), input_type = $("#input_type").val(), annual_calculation = $("#annual_calculation").val();
+    var group = $("#group").val(), objective = $("#objective").val();
+    var checklist = $("#checklist").val();
+    var formData = $('#altEditor-form').find("select, textarea, input").serializeObject();
+    //$.extend(formData, { 'language': language_id, 'mode': mode, 'frequency': frequency, 'input_type': input_type, 'group': group, 'objective': objective, 'annual_calculation': annual_calculation }); //Send Additional data
+    $.extend(formData, {
+        'language': language_id,
+        'mode': mode,
+        'frequency': frequency,
+        'input_type': input_type,
+        'group': group,
+        'objective': objective,
+        'annual_calculation': annual_calculation,
+        'checklist': checklist
+    }); //Send Additional data
 
-    //$('#group').empty()
-    //$.ajax({
-    //    type: "POST",
-    //    url: "../Catalogs/ListGroupCatalog/",
-    //    data: { 'language_id_': id["language_id"] },
-    //    async: false,
-    //    success: function (data) {
+    console.log("CreateRecord");
+    console.log(formData);
+    console.log(decodeURIComponent($.param(formData)));
 
-    //        $('#group').append('<option value=""> Select </option>');
-    //        for (i = 0; i < data.length; i++) {
-    //            $('#group').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
-    //        }
-    //    }
-    //});
-
-    //$('#objective').empty()
-    //$.ajax({
-    //    type: "POST",
-    //    url: "../Catalogs/ListObjectiveCatalog/",
-    //    data: { 'language_id_': id["language_id"] },
-    //    async: false,
-    //    success: function (data) {
-
-    //        $('#objective').append('<option value=""> Select </option>');
-    //        for (i = 0; i < data.length; i++) {
-    //            $('#objective').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
-    //        }
-    //    }
-    //});
-
-    //ResetRecord();
 
     $.ajax({
-        url: "../Catalogs/IndicatorCreate/",
+        url: url_ + "/Catalogs/IndicatorCreate/",
         cache: false,
         type: 'POST',
         dataType: 'json',
         data: decodeURIComponent($.param(formData)),
         success: function (data) {
+            console.log("Ajax CreateRecord");
             $('#DataTableCatalog').DataTable().ajax.reload();
+            console.log("Ajax reload");
             alert(data);
         },
         error: function (jqXHR, textStatus, errorThrown) {
+            console.log("CreateRecord error");
             alert("AJAX error: " + textStatus + ' : ' + errorThrown);
         }
     });
@@ -234,11 +257,11 @@ function CreateRecord() {
 
 function DeleteRecord() {
     var language_id = $("#language").val();
-    var formData = $('#altEditor-form').serializeObject();
+    var formData = $('#altEditor-form').find("select, textarea, input").serializeObject();
     $.extend(formData, { 'language': language_id }); //Send Additional data
 
     $.ajax({
-        url: "../Catalogs/IndicatorDelete/",
+        url: url_ + "/Catalogs/IndicatorDelete/",
         cache: false,
         type: 'POST',
         dataType: 'json',
@@ -269,7 +292,7 @@ $(document).ready(function () {
 
     var table = $('#DataTableCatalog').DataTable({
         "ajax": {
-            "url": "../Catalogs/IndicatorListDataTables/",
+            "url": url_ + "/Catalogs/IndicatorListDataTables/",
             "dataSrc": ""
         },
         "columns": [
@@ -318,7 +341,7 @@ $(document).ready(function () {
     $('#language').empty()
     $.ajax({
         type: "POST",
-        url: "../Catalogs/ListLanguajeCatalog/",
+        url: url_ + "/Catalogs/ListLanguajeCatalog/",
         //data: { 'carId': carId },
         success: function (data) {
 
@@ -332,7 +355,7 @@ $(document).ready(function () {
     $('#mode').empty()
     $.ajax({
         type: "POST",
-        url: "../Catalogs/ListModeCatalog/",
+        url:url_ + "/Catalogs/ListModeCatalog/",
         //data: { 'carId': carId },
         success: function (data) {
 
@@ -343,24 +366,24 @@ $(document).ready(function () {
         }
     });
 
-    $('#frequency').empty()
-    $.ajax({
-        type: "POST",
-        url: "../Catalogs/ListFrequencyCatalog/",
-        //data: { 'carId': carId },
-        success: function (data) {
+    //$('#frequency').empty()
+    //$.ajax({
+    //    type: "POST",
+    //    url:url_ + "/Catalogs/ListFrequencyCatalog/",
+    //    //data: { 'carId': carId },
+    //    success: function (data) {
 
-            $('#frequency').append('<option value=""> Select </option>');
-            for (i = 0; i < data.length; i++) {
-                $('#frequency').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
-            }
-        }
-    });
+    //        $('#frequency').append('<option value=""> Select </option>');
+    //        for (i = 0; i < data.length; i++) {
+    //            $('#frequency').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+    //        }
+    //    }
+    //});
 
     $('#input_type').empty()
     $.ajax({
         type: "POST",
-        url: "../Catalogs/ListInputTypeCatalog/",
+        url:url_ + "/Catalogs/ListInputTypeCatalog/",
         //data: { 'carId': carId },
         success: function (data) {
 
@@ -369,6 +392,47 @@ $(document).ready(function () {
                 $('#input_type').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
             }
         }
+    });
+
+    $('#annual_calculation').empty()
+    $.ajax({
+        type: "POST",
+        url:url_ + "/Catalogs/ListAnualCalculationCatalog/",
+        //data: { 'carId': carId },
+        success: function (data) {
+
+            $('#annual_calculation').append('<option value=""> Select </option>');
+            for (i = 0; i < data.length; i++) {
+                $('#annual_calculation').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+            }
+        }
+    });
+
+    // Catalogo de checklist
+    $('#checklist').empty()
+    $.ajax({
+        type: "POST",
+        url: url_ + "/Catalogs/ListChecklistCatalog/",
+        //data: { 'carId': carId },
+        success: function (data) {
+
+            $('#checklist').append('<option value=""> Select </option>');
+            for (i = 0; i < data.length; i++) {
+                $('#checklist').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+            }
+        }
+    });
+
+    $('#input_type_div').hide();
+    $("#input_type").change(function (data) {
+        
+        console.log(this.value);
+        if (this.value == 'checklist') {
+            $('#input_type_div').show();
+        } else {
+            $('#input_type_div').hide();
+        }
+            
     });
 
 
