@@ -21,6 +21,7 @@ namespace DashboardFMP.Models
         public int country_indicator_indicator_id { get; set; }
         [Column(Order = 2), Key]
         public int checklistquestion_id { get; set; }
+        [Column(Order = 3), Key]
         public int year_ind_country { get; set; }
         public int? Q1value { get; set; }
         public int? Q1target { get; set; }

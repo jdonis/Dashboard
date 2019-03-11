@@ -56,15 +56,35 @@ namespace DashboardFMP.Models
 
     }
 
+    public class ArrayTotalIndicatorsSave
+    {
+        public List<IndicatorCountry> indicators { get; set; }
+        public List<CheckListbyIndicator> checklists { get; set; }
+
+    }
+
     public class IndicatorCountry
     {
         public int country_id { get; set; }
         public int indicator_id { get; set; }
         public int year_ { get; set; }
-        public int? ind_Q1_ { get; set; }
-        public int? ind_Q2_ { get; set; }
-        public int? ind_Q3_ { get; set; }
-        public int? ind_Q4_ { get; set; }
+        public decimal? ind_Q1_ { get; set; }
+        public decimal? ind_Q2_ { get; set; }
+        public decimal? ind_Q3_ { get; set; }
+        public decimal? ind_Q4_ { get; set; }
+        //public List<CheckListbyIndicator> checklists { get; set; }
+
+    }
+    public class CheckListbyIndicator
+    {
+        public int country_id { get; set; }
+        public int indicator_id { get; set; }
+        public int year_ { get; set; }
+        public int question_id { get; set; }
+        public int? chklist_Q1_ { get; set; }
+        public int? chklist_Q2_ { get; set; }
+        public int? chklist_Q3_ { get; set; }
+        public int? chklist_Q4_ { get; set; }
 
     }
 

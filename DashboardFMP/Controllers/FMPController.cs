@@ -30,14 +30,17 @@ namespace DashboardFMP.Controllers
         {
             try
             {
+                //IQueryable subquery;
 
-                var list_country_indicators = db.country_info;
-                var list_country = db.country_info;
+                //var list_country_indicators = db.country_info;
+                var list_country = db.country_info.Where(y => y.group != true).AsQueryable().Select(x => x.country_id);
 
-                var subquery = db.country_indicator
-                                .Where(z => z.country.country_info.FirstOrDefault().group != true)
+                var  subquery = db.country_indicator
+                                .Where(z => list_country.Contains(z.country_id))
                                 .GroupBy(x => new { x.country, x.year_ind_country })
+                                .AsQueryable()
                                 .Select(group => new { Peo = group.Key, Count = group.Count() });
+
 
                 var jsondata = (from object_db in subquery
                                 select new
@@ -62,38 +65,60 @@ namespace DashboardFMP.Controllers
 
 
         //[HttpPost]
-        public ActionResult IndicatorbyCountrySave(List<IndicatorCountry> incoming)
+        //public ActionResult IndicatorbyCountrySave(List<ArrayTotalIndicatorsSave> incoming)
+        public ActionResult IndicatorbyCountrySave(ArrayTotalIndicatorsSave incoming)
         {
             //IEnumerable<IndicatorCountry>
             try
             {
-                country_indicator country_indicator_;
-                var id_indicatorybycountry = 0;
 
-                foreach (IndicatorCountry IndicatorCountry in incoming)
-                {
+                var country_id_dummy = incoming.indicators[0].country_id;
+                var year_dummy = incoming.indicators[0].year_;
 
-                    for (int inc = 1; inc <= 4; inc++)
+                db.country_indicator.Where(i => i.country_id == country_id_dummy && i.year_ind_country == year_dummy).ToList()
+                    .ForEach(a =>
                     {
-                        id_indicatorybycountry = db.country_indicator.Where(z => z.indicator_id == IndicatorCountry.indicator_id 
-                                                                            && z.country_id == IndicatorCountry.country_id 
-                                                                            && z.year_ind_country == IndicatorCountry.year_ 
-                                                                            && z.quarter == inc).FirstOrDefault().id;
-                        if (id_indicatorybycountry > 0 )
+                        var indicator_value_Q1 = (incoming.indicators.Where(z => z.indicator_id == a.indicator_id).FirstOrDefault().ind_Q1_ == null) ? incoming.indicators.Where(z => z.indicator_id == a.indicator_id).FirstOrDefault().ind_Q1_ : Convert.ToDecimal( incoming.indicators.Where(z => z.indicator_id == a.indicator_id).FirstOrDefault().ind_Q1_);
+                        var indicator_value_Q2 = (incoming.indicators.Where(z => z.indicator_id == a.indicator_id).FirstOrDefault().ind_Q2_ == null) ? incoming.indicators.Where(z => z.indicator_id == a.indicator_id).FirstOrDefault().ind_Q2_ : Convert.ToDecimal(incoming.indicators.Where(z => z.indicator_id == a.indicator_id).FirstOrDefault().ind_Q2_);
+                        var indicator_value_Q3 = (incoming.indicators.Where(z => z.indicator_id == a.indicator_id).FirstOrDefault().ind_Q3_ == null) ? incoming.indicators.Where(z => z.indicator_id == a.indicator_id).FirstOrDefault().ind_Q3_ : Convert.ToDecimal(incoming.indicators.Where(z => z.indicator_id == a.indicator_id).FirstOrDefault().ind_Q3_);
+                        var indicator_value_Q4 = (incoming.indicators.Where(z => z.indicator_id == a.indicator_id).FirstOrDefault().ind_Q4_ == null) ? incoming.indicators.Where(z => z.indicator_id == a.indicator_id).FirstOrDefault().ind_Q4_ : Convert.ToDecimal(incoming.indicators.Where(z => z.indicator_id == a.indicator_id).FirstOrDefault().ind_Q4_);
+                        a.value = (a.quarter == 1) ? indicator_value_Q1
+                                    : (a.quarter == 2) ? indicator_value_Q2
+                                    : (a.quarter == 3) ? indicator_value_Q3
+                                    : indicator_value_Q4;
+                    });
+                db.SaveChanges();
+
+
+                foreach (CheckListbyIndicator CheckListIndicator in incoming.checklists)
+                {
+                    db.question_value
+                        .Where(j => j.country_indicator_country_id == CheckListIndicator.country_id
+                                                    && j.year_ind_country == CheckListIndicator.year_
+                                                    && j.country_indicator_indicator_id == CheckListIndicator.indicator_id
+                                                    && j.checklistquestion_id == CheckListIndicator.question_id)
+                        .ToList()
+                        .ForEach(a =>
                         {
-                            country_indicator_ = db.country_indicator.Find(id_indicatorybycountry);
-                            db.Entry(country_indicator_).State = EntityState.Modified;
 
-                            country_indicator_.value = (inc == 1) ? IndicatorCountry.ind_Q1_ : (inc == 2) ? IndicatorCountry.ind_Q2_ : (inc == 3) ? IndicatorCountry.ind_Q3_ : (inc == 4) ? IndicatorCountry.ind_Q4_ : 0;
-                            db.SaveChanges();
+                            var chklist_value_Q1 = (CheckListIndicator.chklist_Q1_ == null) ? CheckListIndicator.chklist_Q1_ : Convert.ToInt32(CheckListIndicator.chklist_Q1_);
+                            var chklist_value_Q2 = (CheckListIndicator.chklist_Q2_ == null) ? CheckListIndicator.chklist_Q2_ : Convert.ToInt32(CheckListIndicator.chklist_Q2_);
+                            var chklist_value_Q3 = (CheckListIndicator.chklist_Q3_ == null) ? CheckListIndicator.chklist_Q3_ : Convert.ToInt32(CheckListIndicator.chklist_Q3_);
+                            var chklist_value_Q4 = (CheckListIndicator.chklist_Q4_ == null) ? CheckListIndicator.chklist_Q4_ : Convert.ToInt32(CheckListIndicator.chklist_Q4_);
 
-                        }
-                        
-                    }
-
+                            a.Q1value = chklist_value_Q1;
+                            a.Q2value = chklist_value_Q2;
+                            a.Q3value = chklist_value_Q3;
+                            a.Q4value = chklist_value_Q4;
+                         });
+                    db.SaveChanges();
                 }
 
-                    return Json("Success");
+                //db.question_value.Where()
+
+                //db.SaveChanges();
+
+                return Json("Success");
 
             }
             catch (Exception e)
@@ -109,15 +134,18 @@ namespace DashboardFMP.Controllers
             try
             {
                 var countryid = countryid_param > 0 ? countryid_param : 0 ;
-                var languageid = language_param != ""  ? db.languages.Where(z => z.code == language_param.Trim().ToUpper()).FirstOrDefault().id : 0  ;
+                var languageid = language_param != ""  ? db.languages.Where(z => z.code == language_param.Trim().ToUpper()).FirstOrDefault().id : db.country_info.Where(z => z.country_id == countryid).Any() ? db.country_info.Where(z => z.country_id == countryid).FirstOrDefault().language_id : 1  ;
                 var year_ = year_param > 0 ? year_param : 0;
                 var year_id = db.CatYears.Where(d => d.year_name == year_param).FirstOrDefault().id;
                 var jsondata_app = new List<Object>();
 
                 if (countryid < 1 || languageid < 1 || year_ < 1) return null;
                
+                //var list_country_indicators_unique_test = db.country_indicator
+                //                                            .Where(z => z.country_id == countryid && z.year_ind_country == year_).ToList();
 
                 var list_country_indicators_unique = db.country_indicator.GroupBy( x => new { x.country_id, x.indicator_id, x.year_ind_country})
+                                                        .AsQueryable()
                                                         .Select(y => new ConsolidatedIndicatorCountry()
                                                         {
                                                             country_id = y.Key.country_id,
@@ -126,11 +154,22 @@ namespace DashboardFMP.Controllers
                                                             children_1 = y.ToList()
                                                         }
                                                         )
-                                                        .Where(z => z.country_id == countryid && z.year_ind_country == year_).ToList();
+                                                        .Where(z => z.country_id == countryid && z.year_ind_country == year_)
+                                                        .OrderBy(y => y.children_1.FirstOrDefault().indicator.objective.orden)
+                                                        .ThenBy(u => u.children_1.FirstOrDefault().indicator.indicatorgroup.orden)
+                                                        .ThenBy(w => w.children_1.FirstOrDefault().indicator.orden)
+                                                        .ToList();
+
+
 
                 //var country_indicator_ = db.country_indicator.Where(z => z.country_id == countryid && z.year_ind_country == year_).ToList();
 
-                var jsondata = (from object_db in list_country_indicators_unique
+                //foreach (ConsolidatedIndicatorCountry incoming_node in list_country_indicators_unique)
+                //{
+
+                //}
+
+                    var jsondata = (from object_db in list_country_indicators_unique
                                 select new
                                 {
                                     id = object_db.children_1.FirstOrDefault().id,
@@ -138,10 +177,10 @@ namespace DashboardFMP.Controllers
                                     country_id = object_db.country_id,
                                     year_ = object_db.year_ind_country,
                                     year_id = year_id,
-                                    objective_ = object_db.children_1.FirstOrDefault().indicator.objective.objective_info.FirstOrDefault().name,
-                                    indicator_group_ = object_db.children_1.FirstOrDefault().indicator.indicatorgroup.code + " -- " + object_db.children_1.FirstOrDefault().indicator.indicatorgroup.indicator_group_info.FirstOrDefault().name,
+                                    objective_ = object_db.children_1.FirstOrDefault().indicator.objective.objective_info.Where( y => y.language_id == languageid).FirstOrDefault().name,
+                                    indicator_group_ = object_db.children_1.FirstOrDefault().indicator.indicatorgroup.code + " -- " + object_db.children_1.FirstOrDefault().indicator.indicatorgroup.indicator_group_info.Where( x => x.language_id  == languageid).FirstOrDefault().name,
                                     tipo_ = object_db.children_1.FirstOrDefault().indicator.inputtype,
-                                    metas_ = object_db.children_1.FirstOrDefault().indicator.indicator_info.FirstOrDefault().name,
+                                    metas_ = object_db.children_1.FirstOrDefault().indicator.indicator_info.Where(u => u.language_id == languageid).FirstOrDefault().name,
                                     Q1_target_ = object_db.children_1.Where(z => z.quarter == 1).FirstOrDefault().target,
                                     Q1_ = object_db.children_1.Where(z => z.quarter == 1).FirstOrDefault().value,
                                     Q2_target_ = object_db.children_1.Where(z =>  z.quarter == 2).FirstOrDefault().target,
@@ -156,9 +195,6 @@ namespace DashboardFMP.Controllers
                                     frec_Q3 = object_db.children_1.FirstOrDefault().indicator.indicator_info.FirstOrDefault().indicator.Q3 == true ? "Q3" : "",
                                     frec_Q4 = object_db.children_1.FirstOrDefault().indicator.indicator_info.FirstOrDefault().indicator.Q4 == true ? "Q4" : "",
                                     format_ = object_db.children_1.FirstOrDefault().indicator.mode,
-                                    order_by_objective = object_db.children_1.FirstOrDefault().indicator.objective.orden,
-                                    order_by_indicatorgroup = object_db.children_1.FirstOrDefault().indicator.indicatorgroup.orden,
-                                    order_by_indicator = object_db.children_1.FirstOrDefault().indicator.orden,
                                     active = object_db.children_1.FirstOrDefault().active,
                                     visible = object_db.children_1.FirstOrDefault().visible,
                                     //CheckList = db.question_value.Where(z => z.country_indicator_country_id == object_db.country_id && z.country_indicator_indicator_id == object_db.indicator_id && z.year_ind_country == object_db.year_ind_country).ToList()
@@ -172,7 +208,11 @@ namespace DashboardFMP.Controllers
                                                        link_checklist = object_checklist.checklistquestion.checklist.code,
                                                        id_checklist = object_checklist.checklistquestion.checklist.id,
                                                        orden = object_checklist.checklistquestion.code,
-                                                       question = object_checklist.checklistquestion.checklist_question_info.FirstOrDefault().name,
+                                                       question = object_checklist.checklistquestion.checklist_question_info.Where(y => y.language_id == languageid).FirstOrDefault().name,
+                                                       country_id = object_checklist.country_indicator_country_id,
+                                                       indicator_id = object_checklist.country_indicator_indicator_id,
+                                                       question_id = object_checklist.checklistquestion_id,
+                                                       checklist_year= object_checklist.year_ind_country,
                                                        Q1_value = object_checklist.Q1value,
                                                        Q1_target = object_checklist.Q1target,
                                                        Q2_value = object_checklist.Q2value,
@@ -187,9 +227,6 @@ namespace DashboardFMP.Controllers
                                     
 
                                 })
-                                .OrderBy(z => z.order_by_objective)
-                                .ThenBy(y => y.order_by_indicatorgroup)
-                                .ThenBy(x => x.order_by_indicator)
                                 .ToArray();
 
 

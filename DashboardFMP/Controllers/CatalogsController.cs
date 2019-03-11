@@ -24,13 +24,14 @@ namespace DashboardFMP.Controllers
             // Hay que agregar el parametro de idioma
             try
             {
-                var list_countries = db.country_info;
+                var list_countries = db.country_info.AsQueryable();
                 var jsondata = (from countries_db in list_countries
                                 select new
                                 {
                                     id = countries_db.country.id,
                                     code = countries_db.country.code,
-                                    name = countries_db.country.country_info.Where(x => x.language_id == 1).FirstOrDefault().name, 
+                                    //name = countries_db.country.country_info.Where(x => x.language_id == 1).FirstOrDefault().name, 
+                                    name = countries_db.country.country_info.FirstOrDefault().name,
                                     group_ = countries_db.@group
 
                                 }).Where(z => z.group_ != true).OrderBy(y => y.name).ToArray();
@@ -50,7 +51,7 @@ namespace DashboardFMP.Controllers
 
             try
             {
-                var list_years = db.CatYears;
+                var list_years = db.CatYears.AsQueryable();
                 var jsondata = (from years_db in list_years
                                 select new
                                 {
@@ -74,7 +75,7 @@ namespace DashboardFMP.Controllers
 
             try
             {
-                var list_annualcalculation = db.CatAnnualCalculation;
+                var list_annualcalculation = db.CatAnnualCalculation.AsQueryable();
                 var jsondata = (from annualcalculation_db in list_annualcalculation
                                 select new
                                 {
@@ -98,7 +99,7 @@ namespace DashboardFMP.Controllers
             // Hay que agregar el parametro de idioma
             try
             {
-                var list_languages = db.languages;
+                var list_languages = db.languages.AsQueryable();
                 var jsondata = (from language_db in list_languages
                                             select new
                                             {
@@ -122,7 +123,7 @@ namespace DashboardFMP.Controllers
         {
             try
             {
-                var list_checklist = db.checklists;
+                var list_checklist = db.checklists.AsQueryable();
                 var jsondata = (from checklist_db in list_checklist
                                 select new
                                 {
@@ -144,7 +145,7 @@ namespace DashboardFMP.Controllers
         {
             try
             {
-                var list_modes = db.CatIndicatorMode;
+                var list_modes = db.CatIndicatorMode.AsQueryable();
                 var jsondata = (from mode_db in list_modes
                                 select new
                                 {
@@ -166,7 +167,7 @@ namespace DashboardFMP.Controllers
         {
             try
             {
-                var list_Frequencies = db.CatIndicatorFrequency;
+                var list_Frequencies = db.CatIndicatorFrequency.AsQueryable();
                 var jsondata = (from frequency_db in list_Frequencies
                                 select new
                                 {
@@ -188,7 +189,7 @@ namespace DashboardFMP.Controllers
         {
             try
             {
-                var list_input_type = db.CatIndicatorInputType;
+                var list_input_type = db.CatIndicatorInputType.AsQueryable();
                 var jsondata = (from input_type_db in list_input_type
                                 select new
                                 {
@@ -210,7 +211,7 @@ namespace DashboardFMP.Controllers
         {
             try
             {
-                var list_input_type = db.objective_info.Where(z => z.language_id == language_id_);
+                var list_input_type = db.objective_info.Where(z => z.language_id == language_id_).AsQueryable();
                 var jsondata = (from input_type_db in list_input_type
                                 select new
                                 {
@@ -232,7 +233,7 @@ namespace DashboardFMP.Controllers
         {
             try
             {
-                var list_input_type = db.indicator_group_info.Where(z => z.language_id == language_id_);
+                var list_input_type = db.indicator_group_info.Where(z => z.language_id == language_id_).AsQueryable();
                 var jsondata = (from input_type_db in list_input_type
                                 select new
                                 {
@@ -272,13 +273,13 @@ namespace DashboardFMP.Controllers
                 var country_id = (country != "" && country != null) ? db.countries.Where(z => z.code == country).FirstOrDefault().id : 0;
                 var year_id = (year_slt != null) ? db.CatYears.Where(z => z.year_name == year_slt).FirstOrDefault().id : 0;
                 //var list_country_indicators = db.country_info;
-                var list_country = db.country_info;
-
+                var list_country = db.country_info.Where(y => y.group != true).AsQueryable().Select(x => x.country_id);
 
 
                 var subquery = db.country_indicator
-                                .Where(z => z.country.country_info.FirstOrDefault().group != true)
+                                .Where(z => list_country.Contains(z.country_id))
                                 .GroupBy(x => new { x.country_id, x.country, x.year_ind_country })
+                                .AsQueryable()
                                 .Select(group => new { Peo = group.Key, Count = group.Count() });
 
                 if (country_id > 0)
@@ -314,12 +315,13 @@ namespace DashboardFMP.Controllers
             try
             {
                 var countryid = countryid_param > 0 ? countryid_param : 0;
-                var languageid = language_param != "" ? db.languages.Where(z => z.code == language_param.Trim().ToUpper()).FirstOrDefault().id : 0;
+                //var languageid = language_param != "" ? db.languages.Where(z => z.code == language_param.Trim().ToUpper()).FirstOrDefault().id : 1;
+                var languageid = language_param != "" ? db.languages.Where(z => z.code == language_param.Trim().ToUpper()).FirstOrDefault().id : db.country_info.Where(z => z.country_id == countryid).Any() ? db.country_info.Where(z => z.country_id == countryid).FirstOrDefault().language_id : 1;
                 var year_ = year_param > 0 ? year_param : 0;
 
                 if (countryid < 1 || languageid < 1 || year_ < 1) return null;
 
-                var list_country_indicators_unique = db.country_indicator.Where(z => z.country_id == countryid && z.year_ind_country == year_);
+                var list_country_indicators_unique = db.country_indicator.Where(z => z.country_id == countryid && z.year_ind_country == year_).AsQueryable();
 
                 if (!list_country_indicators_unique.Any())
                 {
@@ -328,8 +330,14 @@ namespace DashboardFMP.Controllers
 
                 var year_select = db.CatYears.Where(z => z.year_name == year_param);
 
-                var list_indicator_by_country_get = db.indicators.OrderBy(z => z.objective.orden).ThenBy(y => y.indicatorgroup.orden).ThenBy(x => x.orden);
+                var list_indicator_by_country_get = db.indicators
+                                                            .Where(z => z.indicator_info.FirstOrDefault().language_id == languageid)
+                                                            .AsQueryable()
+                                                            .OrderBy(z => z.objective.orden)
+                                                            .ThenBy(y => y.indicatorgroup.orden)
+                                                            .ThenBy(x => x.orden);
                 var specifier = "000.##";
+                //var dummy_count = list_indicator_by_country_get.Count();
 
                 var jsondata = (from object_db in list_indicator_by_country_get
                                 select new
@@ -337,8 +345,8 @@ namespace DashboardFMP.Controllers
                                     indicator_id = object_db.id,
                                     country_id = countryid_param,
                                     year_select = year_select.FirstOrDefault().id,
-                                    objective_ = object_db.objective.objective_info.FirstOrDefault().name,
-                                    indicator_group_ = object_db.indicatorgroup.code + " -- " + object_db.indicatorgroup.indicator_group_info.FirstOrDefault().name,
+                                    objective_ = object_db.objective.objective_info.Where(y => y.language_id == languageid).FirstOrDefault().name,
+                                    indicator_group_ = object_db.indicatorgroup.code + " -- " + object_db.indicatorgroup.indicator_group_info.Where(y => y.language_id== languageid).FirstOrDefault().name,
                                     tipo_ = object_db.indicator_info.FirstOrDefault().indicator.inputtype,
                                     metas_ = object_db.indicator_info.FirstOrDefault().name,
                                     //indicator_selected = db.country_indicator.Where(z => z.indicator_id == object_db.id && z.country_id == countryid && z.year_ind_country == year_).Any() ? true : false,
@@ -354,10 +362,10 @@ namespace DashboardFMP.Controllers
                                     target_Q3 = list_country_indicators_unique.Where(z => z.quarter == 3 && z.indicator_id == object_db.id).FirstOrDefault().target,
                                     target_Q4 = list_country_indicators_unique.Where(z => z.quarter == 4 && z.indicator_id == object_db.id).FirstOrDefault().target,
 
-                                    format_ = object_db.indicator_info.FirstOrDefault().indicator.mode,
-                                    order_by_objective = object_db.indicator_info.FirstOrDefault().indicator.objective.orden,
-                                    order_by_indicatorgroup = object_db.indicatorgroup.orden,
-                                    order_by_indicator = object_db.indicator_info.FirstOrDefault().indicator.orden
+                                    format_ = object_db.indicator_info.Where(y => y.language_id== languageid).FirstOrDefault().indicator.mode,
+                                    //order_by_objective = object_db.indicator_info.FirstOrDefault().indicator.objective.orden,
+                                    //order_by_indicatorgroup = object_db.indicatorgroup.orden,
+                                    //order_by_indicator = object_db.indicator_info.FirstOrDefault().indicator.orden
                                 }).AsEnumerable()
                                    .Select(x => new
                                    {
@@ -397,7 +405,8 @@ namespace DashboardFMP.Controllers
             try
             {
                 var countryid = countryid_param > 0 ? countryid_param : 0;
-                var languageid = language_param != "" ? db.languages.Where(z => z.code == language_param.Trim().ToUpper()).FirstOrDefault().id : 0;
+                //var languageid = language_param != "" ? db.languages.Where(z => z.code == language_param.Trim().ToUpper()).FirstOrDefault().id : 1;
+                var languageid = language_param != "" ? db.languages.Where(z => z.code == language_param.Trim().ToUpper()).FirstOrDefault().id : db.country_info.Where(z => z.country_id == countryid).Any() ? db.country_info.Where(z => z.country_id == countryid).FirstOrDefault().language_id : 1;
                 var year_ = year_param > 0 ? db.CatYears.Where(z => z.id == year_param).FirstOrDefault().year_name : 0;
 
                 if (countryid < 1 || languageid < 1 || year_ < 1) return null;
@@ -410,7 +419,11 @@ namespace DashboardFMP.Controllers
                     return Content("La combinación ya existe, utilice la opción de editar");
                 }
 
-                var list_indicator_by_country_get = db.indicators.OrderBy(z => z.objective.orden).ThenBy(y => y.indicatorgroup.orden).ThenBy(x => x.orden);
+                var list_indicator_by_country_get = db.indicators
+                                                       .Where(z => z.indicator_info.FirstOrDefault().language_id == languageid)
+                                                       .OrderBy(z => z.objective.orden)
+                                                       .ThenBy(y => y.indicatorgroup.orden)
+                                                       .ThenBy(x => x.orden);
 
                 var jsondata = (from object_db in list_indicator_by_country_get
                                 select new
@@ -418,8 +431,8 @@ namespace DashboardFMP.Controllers
                                     indicator_id = object_db.id,
                                     country_id = countryid_param,
                                     year_select = year_param,
-                                    objective_ = object_db.objective.objective_info.FirstOrDefault().name,
-                                    indicator_group_ = object_db.indicatorgroup.code + " -- " + object_db.indicatorgroup.indicator_group_info.FirstOrDefault().name,
+                                    objective_ = object_db.objective.objective_info.Where(y => y.language_id == languageid).FirstOrDefault().name,
+                                    indicator_group_ = object_db.indicatorgroup.code + " -- " + object_db.indicatorgroup.indicator_group_info.Where(y=>y.language_id == languageid).FirstOrDefault().name,
                                     tipo_ = object_db.indicator_info.FirstOrDefault().indicator.inputtype,
                                     metas_ = object_db.indicator_info.FirstOrDefault().name,
                                     indicator_selected = false,
@@ -432,10 +445,10 @@ namespace DashboardFMP.Controllers
                                     target_Q2 =  "",
                                     target_Q3 =  "",
                                     target_Q4 =  "",
-                                    format_ = object_db.indicator_info.FirstOrDefault().indicator.mode,
-                                    order_by_objective = object_db.indicator_info.FirstOrDefault().indicator.objective.orden,
-                                    order_by_indicatorgroup = object_db.indicatorgroup.orden,
-                                    order_by_indicator = object_db.indicator_info.FirstOrDefault().indicator.orden
+                                    format_ = object_db.indicator_info.Where(y => y.language_id==languageid).FirstOrDefault().indicator.mode,
+                                    //order_by_objective = object_db.indicator_info.FirstOrDefault().indicator.objective.orden,
+                                    //order_by_indicatorgroup = object_db.indicatorgroup.orden,
+                                    //order_by_indicator = object_db.indicator_info.FirstOrDefault().indicator.orden
                                 }
                                 ).ToArray();
 
@@ -565,30 +578,31 @@ namespace DashboardFMP.Controllers
                     if (incoming_node.inputtype == "checklist")
                     {
                         var list_indicator_checklist_number = db.indicators.Where(z => z.id == incoming_node.indicator_id);
-                        //var list_question_value = db.checklistquestions.Where(z => z.checklist_id == list_indicator_checklist_number.FirstOrDefault().checklist_id);
 
-                        
+                        var check_list_question = db.checklistquestions.Where(z => z.checklist_id == list_indicator_checklist_number.FirstOrDefault().checklist_id).ToList();
 
-                    db.checklistquestions.Where(z => z.checklist_id == list_indicator_checklist_number.FirstOrDefault().checklist_id).ToList()
-                    .ForEach(a =>
-                    {
-                        db.question_value.Add(new question_value
+
+                        foreach (checklistquestion question_ in check_list_question)
                         {
-                            country_indicator_country_id = incoming_node.country_id,
-                            country_indicator_indicator_id = incoming_node.indicator_id,
-                            year_ind_country = year_name,
-                            checklistquestion_id = a.id,
-                            Q1target = null,
-                            Q2target = null,
-                            Q3target = null,
-                            Q4target = null,
-                            Q1value = null,
-                            Q2value = null,
-                            Q3value = null,
-                            Q4value = null
-                        });
-                        db.SaveChanges();
-                    });
+                            db.question_value.Add(new question_value
+                            {
+                                country_indicator_country_id = incoming_node.country_id,
+                                country_indicator_indicator_id = incoming_node.indicator_id,
+                                year_ind_country = year_name,
+                                checklistquestion_id = question_.id,
+                                Q1target = null,
+                                Q2target = null,
+                                Q3target = null,
+                                Q4target = null,
+                                Q1value = null,
+                                Q2value = null,
+                                Q3value = null,
+                                Q4value = null
+                            });
+                        };
+
+
+                        //db.SaveChanges();
                     }
                     //db.SaveChanges();
                 }
@@ -762,7 +776,7 @@ namespace DashboardFMP.Controllers
                 indicator_info indicator_info_;
                 indicator indicator_;
                 //objective objective_orig;
-                var id_language = (frm["language"] == "") ? 0 : Convert.ToInt32(frm["language"]);
+                var id_language = (frm["language"] == "") ? 1 : Convert.ToInt32(frm["language"]);
                 var id_indicator = 0;
                 var clave = "";
 
@@ -817,7 +831,7 @@ namespace DashboardFMP.Controllers
         {
             try
             {
-                var id_language = (frm["language"] == "") ? 0 : Convert.ToInt32(frm["language"]);
+                var id_language = (frm["language"] == "") ? 1 : Convert.ToInt32(frm["language"]);
                 var id_indicator = (frm["id"] == "") ? 0 : Convert.ToInt32(frm["id"]);
                 var objectives_length = db.indicator_info.Where(z => z.indicator_id == id_indicator).Count();
 
@@ -913,7 +927,7 @@ namespace DashboardFMP.Controllers
                 // TODO: Add update logic here
                 objective_info objective_;
                 var id_objective = (frm["id"] == "") ? 0 : Convert.ToInt32(frm["id"]);
-                var id_language = (frm["language"] == "") ? 0 : Convert.ToInt32(frm["language"]);
+                var id_language = (frm["language"] == "") ? 1 : Convert.ToInt32(frm["language"]);
 
                 if (id_objective == 0)
                 {
@@ -951,7 +965,7 @@ namespace DashboardFMP.Controllers
             {
                 objective_info objective_;
                 objective objective_orig;
-                var id_language = (frm["language"] == "") ? 0 : Convert.ToInt32(frm["language"]);
+                var id_language = (frm["language"] == "") ? 1 : Convert.ToInt32(frm["language"]);
                 var id_objective = 0;
                 var cod_objective = frm["code_intern"]; ;
                 if (db.objectives.Where(z => z.code.ToUpper() == cod_objective.ToUpper()).Any())
@@ -997,7 +1011,7 @@ namespace DashboardFMP.Controllers
         {
             try
             {
-                var id_language = (frm["language"] == "") ? 0 : Convert.ToInt32(frm["language"]);
+                var id_language = (frm["language"] == "") ? 1 : Convert.ToInt32(frm["language"]);
                 var id_objective = (frm["id"] == "") ? 0 : Convert.ToInt32(frm["id"]);
                 var objectives_length = db.objective_info.Where(z => z.objective_id == id_objective).Count();
 
@@ -1233,7 +1247,7 @@ namespace DashboardFMP.Controllers
             {
                 // TODO: Add update logic here
                 language language_;
-                var id_language = (frm["id"] == "") ? 0 : Convert.ToInt32(frm["id"]);
+                var id_language = (frm["id"] == "") ? 1 : Convert.ToInt32(frm["id"]);
 
                 if (id_language == 0)
                 {
@@ -1266,7 +1280,7 @@ namespace DashboardFMP.Controllers
             try
             {
                 language language_;
-                var id_language = (frm["language"] == "") ? 0 : Convert.ToInt32(frm["language"]);
+                var id_language = (frm["language"] == "") ? 1 : Convert.ToInt32(frm["language"]);
                 var code_language = frm["code"].ToUpper();
                 var any_language_code = db.languages.Where(z => z.code.ToUpper() == code_language).Any();
 
@@ -1304,7 +1318,7 @@ namespace DashboardFMP.Controllers
             try
             {
 
-                var id_language = (frm["language"] == "") ? 0 : Convert.ToInt32(frm["language"]);
+                var id_language = (frm["language"] == "") ? 1 : Convert.ToInt32(frm["language"]);
                 var catalog = db.languages.Find(id_language);
                 db.languages.Remove(catalog);
                 db.SaveChanges();
@@ -1362,7 +1376,7 @@ namespace DashboardFMP.Controllers
             {
                 country_info country_;
                 country country_orig;
-                var id_language = (frm["language"] == "") ? 0 : Convert.ToInt32(frm["language"]);
+                var id_language = (frm["language"] == "") ? 1 : Convert.ToInt32(frm["language"]);
                 var id_country = 0;
                 var cod_country = frm["code"];
                 if (db.countries.Where(z => z.code.ToUpper() == cod_country.ToUpper()).Any())
@@ -1435,7 +1449,7 @@ namespace DashboardFMP.Controllers
                 // TODO: Add update logic here
                 country_info country_;
                 var id_country = (frm["id"] == "" ) ? 0 : Convert.ToInt32(frm["id"]);
-                var id_language = (frm["language"] == "") ? 0 : Convert.ToInt32(frm["language"]);
+                var id_language = (frm["language"] == "") ? 1 : Convert.ToInt32(frm["language"]);
 
                 if (id_country == 0)
                 {
@@ -1494,7 +1508,7 @@ namespace DashboardFMP.Controllers
             try
             {
 
-                var list_object = db.checklistquestions;
+                var list_object = db.checklistquestions.AsQueryable();
 
                 var jsondata = (from object_db in list_object
                                 select new
@@ -1554,7 +1568,7 @@ namespace DashboardFMP.Controllers
                 // TODO: Add update logic here
                 checklist_question_info checklist_question_;
                 var id_checklistquestion = (frm["id"] == "") ? 0 : Convert.ToInt32(frm["id"]);
-                var id_language = (frm["language"] == "") ? 0 : Convert.ToInt32(frm["language"]);
+                var id_language = (frm["language"] == "") ? 1 : Convert.ToInt32(frm["language"]);
                 var id_checklist = (frm["checklist"] == "") ? 0 : Convert.ToInt32(frm["checklist"]);
 
                 if (id_checklistquestion == 0)
@@ -1617,7 +1631,7 @@ namespace DashboardFMP.Controllers
             try
             {
 
-                var list_object = db.checklists;
+                var list_object = db.checklists.AsQueryable();
 
                 var jsondata = (from object_db in list_object
                                 select new

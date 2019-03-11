@@ -127,7 +127,7 @@ function GetRecord(id) {
     $.ajax({
         type: "POST",
         url:  url_ + "/Catalogs/IndicatorbyCountryListGet/",
-        data: { 'countryid_param': id["id"], 'language_param': 'ES', 'year_param': id["year"] },
+        data: { 'countryid_param': id["id"], 'language_param': '', 'year_param': id["year"] },
         beforeSend: function () { $('#loading').show(); },
         complete: function () { $('#loading').hide(); },
         success: function (data) {

@@ -79,10 +79,15 @@ function GetRecord(id) {
     console.log("Edit_Record ");
     console.log(id);
     $('#table-tbody-WorkPlan').empty();
+    $('#table-tbody-EBPchecklist').empty();
+    $('#table-tbody-CPDchecklist').empty();
+    $('#table-tbody-ANEXOIIIchecklist').empty();
+    $('#table-tbody-ICBchecklist').empty();
+    $('#table-tbody-TyLchecklist').empty();
     $.ajax({
         type: "POST",
         url: url_ + "/FMP/ListIndicatorbyCountry/",
-        data: { 'countryid_param': id["id"], 'language_param': 'ES', 'year_param': id["year"] },
+        data: { 'countryid_param': id["id"], 'language_param': '', 'year_param': id["year"] },
         beforeSend: function () { $('#loading').show(); },
         complete: function () { $('#loading').hide(); },
         success: function (data) {
@@ -97,7 +102,7 @@ function GetRecord(id) {
                 var tr = "  ";
                 var onclick_ = (data[i].tipo_ == "checklist") ? "$('#tabs').tabs({ active: " + (data[i].CheckList[0].id_checklist) + " });" : "";
                 //(data[i].tipo_ == "checklist") ?  console.log(data[i].CheckList): "";
-                $('#table-WorkPlan').find('tbody').append('<tr id="indicator" name="indicator"' + ((data[i].visible == false) ? 'style = "display:none"' : '') + '>' +
+                $('#table-WorkPlan').find('tbody').append('<tr id="indicator" name="indicator"' + ((data[i].visible != true) ? 'style = "display:none"' : '') + '>' +
                         '<td style = "display:none">' + '<input id="indicator_id" name="indicator_id"  value="' + data[i].indicator_id + '" type="hidden" ' + '>' +
                             '<input id="country_id" name="country_id"  value="' + data[i].country_id + '" type="hidden" ' + '>' +
                             '<input id="year_" name="year_"  value="' + data[i].year_ + '" type="hidden" ' + '>' + '</td>' +
@@ -110,14 +115,14 @@ function GetRecord(id) {
                          //+ ((data[i].tipo_ == "checklist") ? "<a href='#tab-" + data[i].CheckList[0].link_checklist + "checklist'>" : "")
                         '<td>'  + '<label for="ind_' + data[i].indicator_id + '">' + data[i].frec_Q1 + ((data[i].frec_Q1 != "") ? ' - ' : '') + data[i].frec_Q2 + ((data[i].frec_Q2 != "") ? ' - ' : '') + data[i].frec_Q3 + ((data[i].frec_Q3 != "") ? ' - ' : '') + data[i].frec_Q4 + '<label>' + '</td>' +
                         '<td>' + '<label for="ind_target_' + data[i].id + '">' + ((data[i].Q1_target_ == null) ? "" : data[i].Q1_target_) + '<label>' + '</td>' +
-                        '<td>' + '<input id="ind_Q1_" name="ind_Q1_"  value="' + ((data[i].Q1_ == null) ? "" : data[i].Q1_) + '" type="text" size="3" ' + ((data[i].tipo_ == "checklist" || data[i].active == false) ? "disabled = disabled" : "") + '>' + '</td>' +
+                        '<td>' + '<input id="ind_Q1_" name="ind_Q1_"  value="' + ((data[i].Q1_ == null) ? "" : data[i].Q1_) + '" type="text" size="3" ' + ((data[i].tipo_ == "checklist" || data[i].active != true) ? "disabled = disabled" : "") + '>' + '</td>' +
                         //+ 'disabled = disabled'
                         '<td>' + '<label for="ind_target_' + data[i].id + '">' + ((data[i].Q2_target_ == null) ? "" : data[i].Q2_target_) + '<label>' + '</td>' +
-                        '<td>' + '<input id="ind_Q2_" name="ind_Q2_"  value="' + ((data[i].Q2_ == null) ? "" : data[i].Q2_) + '" type="text" size="3" ' + ((data[i].tipo_ == "checklist" || data[i].active == false) ? "disabled = disabled" : "") + '>' + '</td>' +
+                        '<td>' + '<input id="ind_Q2_" name="ind_Q2_"  value="' + ((data[i].Q2_ == null) ? "" : data[i].Q2_) + '" type="text" size="3" ' + ((data[i].tipo_ == "checklist" || data[i].active != true) ? "disabled = disabled" : "") + '>' + '</td>' +
                         '<td>' + '<label for="ind_target_' + data[i].id + '">' + ((data[i].Q3_target_ == null) ? "" : data[i].Q3_target_) + '<label>' + '</td>' +
-                        '<td>' + '<input id="ind_Q3_" name="ind_Q3_"  value="' + ((data[i].Q3_ == null) ? "" : data[i].Q3_) + '" type="text" size="3"  ' + ((data[i].tipo_ == "checklist" || data[i].active == false) ? "disabled = disabled" : "") + '>' + '</td>' +
+                        '<td>' + '<input id="ind_Q3_" name="ind_Q3_"  value="' + ((data[i].Q3_ == null) ? "" : data[i].Q3_) + '" type="text" size="3"  ' + ((data[i].tipo_ == "checklist" || data[i].active != true) ? "disabled = disabled" : "") + '>' + '</td>' +
                         '<td>' + '<label for="ind_target_' + data[i].id + '">' + ((data[i].Q4_target_ == null) ? "" : data[i].Q4_target_) + '<label>' + '</td>' +
-                        '<td>' + '<input id="ind_Q4_" name="ind_Q4_"  value="' + ((data[i].Q4_ == null) ? "" : data[i].Q4_) + '" type="text" size="3" ' + ((data[i].tipo_ == "checklist" || data[i].active == false) ? "disabled = disabled" : "") + '>' + '</td>' +
+                        '<td>' + '<input id="ind_Q4_" name="ind_Q4_"  value="' + ((data[i].Q4_ == null) ? "" : data[i].Q4_) + '" type="text" size="3" ' + ((data[i].tipo_ == "checklist" || data[i].active != true) ? "disabled = disabled" : "") + '>' + '</td>' +
 
                         //'<td>' + '<a href="#edit" id="ind_'+data[i].id+'">Edit</a>  <a href="#save" style="display:none;">Save</a>' + '</td>' +
 
@@ -125,16 +130,31 @@ function GetRecord(id) {
 
                 if (data[i].tipo_ == "checklist" && data[i].CheckList != null) {
                     //console.log('#table-' + data[i].CheckList[0].link_checklist + 'checklist');
-                    $('#table-' + data[i].CheckList[0].link_checklist + 'checklist').find('indicator_EBPchecklist').append(
+                    //console.log('indicator_' + data[i].CheckList[0].link_checklist + 'checklist');
+                    $('#table-' + data[i].CheckList[0].link_checklist + 'checklist').find('indicator_'+data[i].CheckList[0].link_checklist+'checklist').append(
                         '<label>' + data[i].metas_ + '<label>');
                     for (j = 0; j < data[i].CheckList.length; j++) {
                         $('#table-' + data[i].CheckList[0].link_checklist + 'checklist').find('tbody').append('<tr id="checklist" name="checklist">' +
+                            '<td style = "display:none">' + '<input id="indicator_id" name="indicator_id"  value="' + data[i].CheckList[j].indicator_id + '" type="hidden" ' + '>' +
+                            '<input id="country_id" name="country_id"  value="' + data[i].CheckList[j].country_id + '" type="hidden" ' + '>' +
+                            '<input id="question_id" name="question_id"  value="' + data[i].CheckList[j].question_id + '" type="hidden" ' + '>' +
+                            '<input id="year_" name="year_"  value="' + data[i].CheckList[j].checklist_year + '" type="hidden" ' + '>' + '</td>' +  // Information hidden
                             '<td colspan="2">' + '<label for="chklist_' + data[i].CheckList[j].orden + '">' + data[i].CheckList[j].question + '</label>' + '</td>' +
-                            '<td>' + '<input id="chklist_' + data[i].CheckList[0].link_checklist + '_Q1_" name="chklist_' + data[i].CheckList[0].link_checklist + '_Q1_"  value="' + ((data[i].CheckList[j].Q1_value == null) ? "" : data[i].CheckList[j].Q1_value) + '" type="text" size="3" ' + ((data[i].frec_ == "EQ" || data[i].frec_ == "BQ") ? "" : "disabled = disabled") + '>' + '</td>' +
-                            '<td>' + '<input id="chklist_' + data[i].CheckList[0].link_checklist + '_Q1_" name="chklist_' + data[i].CheckList[0].link_checklist + '_Q1_"  value="' + ((data[i].CheckList[j].Q2_value == null) ? "" : data[i].CheckList[j].Q2_value) + '" type="text" size="3" ' + ((data[i].frec_ == "EQ" ) ? "" : "disabled = disabled") + '>' + '</td>' +
-                            '<td>' + '<input id="chklist_' + data[i].CheckList[0].link_checklist + '_Q1_" name="chklist_' + data[i].CheckList[0].link_checklist + '_Q1_"  value="' + ((data[i].CheckList[j].Q3_value == null) ? "" : data[i].CheckList[j].Q3_value) + '" type="text" size="3" ' + ((data[i].frec_ == "EQ" ) ? "" : "disabled = disabled") + '>' + '</td>' +
-                            '<td>' + '<input id="chklist_' + data[i].CheckList[0].link_checklist + '_Q1_" name="chklist_' + data[i].CheckList[0].link_checklist + '_Q1_"  value="' + ((data[i].CheckList[j].Q4_value == null) ? "" : data[i].CheckList[j].Q4_value) + '" type="text" size="3" ' + ((data[i].frec_ == "EQ" || data[i].frec_ == "BQ" || data[i].frec_ == "LQ") ? "" : "disabled = disabled") + '>' + '</td>' +
+                            //'<td>' + '<input id="chklist_' + data[i].CheckList[0].link_checklist + '_Q1_" name="chklist_' + data[i].CheckList[0].link_checklist + '_Q1_"  value="' + ((data[i].CheckList[j].Q1_value == null) ? "" : data[i].CheckList[j].Q1_value) + '" type="text" size="3" ' +  '>' + '</td>' +
+                            //'<td>' + '<input id="chklist_' + data[i].CheckList[0].link_checklist + '_Q2_" name="chklist_' + data[i].CheckList[0].link_checklist + '_Q2_"  value="' + ((data[i].CheckList[j].Q2_value == null) ? "" : data[i].CheckList[j].Q2_value) + '" type="text" size="3" ' +  '</td>' +
+                            //'<td>' + '<input id="chklist_' + data[i].CheckList[0].link_checklist + '_Q3_" name="chklist_' + data[i].CheckList[0].link_checklist + '_Q3_"  value="' + ((data[i].CheckList[j].Q3_value == null) ? "" : data[i].CheckList[j].Q3_value) + '" type="text" size="3" ' +  '</td>' +
+                            //'<td>' + '<input id="chklist_' + data[i].CheckList[0].link_checklist + '_Q4_" name="chklist_' + data[i].CheckList[0].link_checklist + '_Q4_"  value="' + ((data[i].CheckList[j].Q4_value == null) ? "" : data[i].CheckList[j].Q4_value) + '" type="text" size="3" ' +  '>' + '</td>' +
+                            '<td>' + '<input id="chklist_' + 'Q1_" name="chklist_' +  'Q1_"  value="' + ((data[i].CheckList[j].Q1_value == null) ? "" : data[i].CheckList[j].Q1_value) + '" type="text" size="3" ' +  '/>' + '</td>' +
+                            '<td>' + '<input id="chklist_' + 'Q2_" name="chklist_' + 'Q2_"  value="' + ((data[i].CheckList[j].Q2_value == null) ? "" : data[i].CheckList[j].Q2_value) + '" type="text" size="3" ' + '/>' + '</td>' +
+                            '<td>' + '<input id="chklist_' +  'Q3_" name="chklist_' +  'Q3_"  value="' + ((data[i].CheckList[j].Q3_value == null) ? "" : data[i].CheckList[j].Q3_value) + '" type="text" size="3" '  +  '/>' +  '</td>' +
+                            '<td>' + '<input id="chklist_' +  'Q4_" name="chklist_' +  'Q4_"  value="' + ((data[i].CheckList[j].Q4_value == null) ? "" : data[i].CheckList[j].Q4_value) + '" type="text" size="3" ' +  '/>' + '</td>' +
+
                             '</tr>');
+
+                        //((data[i].frec_ == "EQ" || data[i].frec_ == "BQ") ? "" : "disabled = disabled") +
+                        //((data[i].frec_ == "EQ" ) ? "" : "disabled = disabled") + '>' +
+                        //((data[i].frec_ == "EQ" ) ? "" : "disabled = disabled") + '>' +
+                        //((data[i].frec_ == "EQ" || data[i].frec_ == "BQ" || data[i].frec_ == "LQ") ? "" : "disabled = disabled") +
 
                     }
                 }
@@ -153,10 +173,36 @@ function GetRecord(id) {
 
 function SaveRecord() {
     var language_id = $("#language").val();
+    var Array_total = {};
+    var checklist = $.merge($.merge($.merge($.merge($('#table-EBPchecklist').formtoArray('table-EBPchecklist')
+        , $('#table-CPDchecklist').formtoArray('table-CPDchecklist'))
+        , $('#table-ANEXOIIIchecklist').formtoArray('table-ANEXOIIIchecklist'))
+        , $('#table-ICBchecklist').formtoArray('table-ICBchecklist'))
+        , $('#table-TyLchecklist').formtoArray('table-TyLchecklist'));
     var formData_array = $('#table-WorkPlan').formtoArray('table-WorkPlan');
-    //console.log(formData_array);
+    //var formEBPchecklist_array = $('#table-EBPchecklist').formtoArray('table-EBPchecklist');
+    //var formCPDchecklist_array = $('#table-CPDchecklist').formtoArray('table-CPDchecklist');
+    //var formANEXOIIIchecklist_array = $('#table-ANEXOIIIchecklist').formtoArray('table-ANEXOIIIchecklist');
+    //var formICBchecklist_array = $('#table-ICBchecklist').formtoArray('table-ICBchecklist');
+    //var formTyLchecklist_array = $('#table-TyLchecklist').formtoArray('table-TyLchecklist');
+    
+    //checklist.push($('#table-EBPchecklist').formtoArray('table-EBPchecklist'));
+    //checklist.push($('#table-CPDchecklist').formtoArray('table-CPDchecklist'));
+    //checklist.push($('#table-ANEXOIIIchecklist').formtoArray('table-ANEXOIIIchecklist'));
+    //checklist.push($('#table-ICBchecklist').formtoArray('table-ICBchecklist'));
+    //checklist.push($('#table-TyLchecklist').formtoArray('table-TyLchecklist'));
+
+
+    //formData_array["checklists"] = checklist;
+    console.log(formData_array);
+    console.log(checklist);
+    console.log(Array_total);
+    Array_total["indicators"] = formData_array;
+    Array_total["checklists"] = checklist;
+    console.log(Array_total);
     //console.log(JSON.stringify(formData_array));
-    var jsonItems = JSON.stringify(formData_array);
+    var jsonItems = JSON.stringify(Array_total);
+    console.log(jsonItems);
     
     $.ajax({
         url: url_ + "/FMP/IndicatorbyCountrySave/",
@@ -164,6 +210,7 @@ function SaveRecord() {
         type: 'POST',
         dataType: 'json',
         contentType: "application/json",
+        //data: jsonItems,
         data: jsonItems,
         success: function (data) {
             alert('Registro guardado');
