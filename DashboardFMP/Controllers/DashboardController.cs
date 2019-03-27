@@ -95,7 +95,7 @@ namespace DashboardFMP.Controllers
             {
                 //var Language_ = "ES";
                 var Language_ = (Request.QueryString["language"] != "" && Request.QueryString["language"] != null) ? Request.QueryString["language"] : "ES";
-                var year_ = Request.QueryString["year"] != "" ? Convert.ToInt32(Request.QueryString["year"]) : 2017;
+                var year_ = Request.QueryString["year"] != "" && Request.QueryString["year"] != null ? Convert.ToInt32(Request.QueryString["year"]) : DateTime.Now.Year;
 
                 // Countries
                 IQueryable<country> countries_ = db.countries;
@@ -225,28 +225,31 @@ namespace DashboardFMP.Controllers
         {
             try
             {
-                var Language_ = Request.QueryString["language"] != "" ? Request.QueryString["language"] : "ES";
-                var year_ = Request.QueryString["year"] != "" ? Convert.ToInt32(Request.QueryString["year"]) : 2017;
+                var Language_ = Request.QueryString["language"] != "" && Request.QueryString["language"] != null ? Request.QueryString["language"] : "ES";
+                var year_ = Request.QueryString["year"] != "" && Request.QueryString["year"] != null ? Convert.ToInt32(Request.QueryString["year"]) : 2017;
 
+                var code_language = db.languages.Where(k => k.code == Language_).FirstOrDefault().id;
                 // Variables
-                IQueryable<indicator_info> indicador_info = db.indicator_info;
+                IQueryable<indicator> indicador_ = db.indicators;
 
 
                 var jsondata = new List<Object>();
                 var VariablesNames_object = new Dictionary<string, Dictionary<string, Object>>();
 
-                string[] VariablesIds = indicador_info.Where(z => z.language.code == Language_).OrderBy(y => y.indicator_id).Select(x => x.code).ToArray();  // Nodo countries_list
+                //string[]
+                var    VariablesIds = indicador_.OrderBy(y => y.id).Select(x => x.clave).ToArray();  // Nodo countries_list
                 //var indicators = indicador_info.Where(z => z.language.code == Language_).OrderBy(y => y.indicator_id).Select(x => new { x.country, x.name, x.language }).ToArray(); // Nodo countries
 
-                foreach (indicator_info item_foreach in indicador_info)
+                foreach (indicator item_foreach in indicador_)
                 {
                     var item_data = new Dictionary<string, Object>();
-                    item_data.Add("name", item_foreach.name);
-                    item_data.Add("shortname", item_foreach.short_);
-                    item_data.Add("objective", item_foreach.indicator.objective.code);
-                    item_data.Add("group", item_foreach.indicator.indicatorgroup.code);
-                    item_data.Add("type", item_foreach.indicator.mode);
-                    VariablesNames_object.Add(item_foreach.code, item_data);
+                    item_data.Add("name", item_foreach.indicator_info.Where(k => k.language_id == code_language).FirstOrDefault().name);
+                    item_data.Add("shortname", item_foreach.indicator_info.Where(k => k.language_id == code_language).FirstOrDefault().short_);
+                    item_data.Add("objective", item_foreach.objective.code);
+                    item_data.Add("group", item_foreach.indicatorgroup.code);
+                    item_data.Add("type", item_foreach.mode);
+                    //item_data.Add("frequency", (item_foreach.Q1) == true ? "Q1"  );
+                    VariablesNames_object.Add(item_foreach.clave, item_data);
                 }
 
                 jsondata.Add(new
@@ -320,9 +323,9 @@ namespace DashboardFMP.Controllers
         {
             try
             {
-                var Language_ = Request.QueryString["language"] != "" ? Request.QueryString["language"] : "ES";
-                var year_select = Request.QueryString["year"] != "" ? Convert.ToInt32(Request.QueryString["year"]) : DateTime.Now.Year;
-
+                var Language_ = Request.QueryString["language"] != "" && Request.QueryString["language"] != null ? Request.QueryString["language"] : "ES";
+                var year_select = Request.QueryString["year"] != "" && Request.QueryString["year"] != null ? Convert.ToInt32(Request.QueryString["year"]) : DateTime.Now.Year;
+                
                 // Variables
                 IQueryable<country> country_ = db.countries.OrderBy(z => z.code);
                 IQueryable<indicator> indicator_ = db.indicators;
@@ -585,8 +588,8 @@ namespace DashboardFMP.Controllers
             try
             {
                 //var Language_ = "ES";
-                var Language_ = Request.QueryString["language"] != "" ? Request.QueryString["language"] : "ES";
-                var year_select = Request.QueryString["year"] != "" ? Convert.ToInt32(Request.QueryString["year"]) : DateTime.Now.Year;
+                var Language_ = Request.QueryString["language"] != "" && Request.QueryString["language"] != null ? Request.QueryString["language"] : "ES";
+                var year_select = Request.QueryString["year"] != "" && Request.QueryString["year"] != null ? Convert.ToInt32(Request.QueryString["year"]) : DateTime.Now.Year;
 
                 // Variables
                 IQueryable<country> country_ = db.countries.OrderBy(z => z.code);
@@ -876,7 +879,7 @@ namespace DashboardFMP.Controllers
             try
             {
                 var Language_ = Request.QueryString["language"] != "" && Request.QueryString["language"] != null ? Request.QueryString["language"] : "ES";
-                var year_ = Request.QueryString["year"] != "" && Request.QueryString["year"] != null ? Convert.ToInt32( Request.QueryString["year"]) : 2017;
+                var year_ = Request.QueryString["year"] != "" && Request.QueryString["year"] != null ? Convert.ToInt32( Request.QueryString["year"]) : DateTime.Now.Year;
 
                 IQueryable<country> country_ = db.countries.OrderBy(z => z.code);
                 IQueryable<country_objective> country_objective_ = db.country_objective
@@ -1037,8 +1040,8 @@ namespace DashboardFMP.Controllers
         {
             try
             {
-                var Language_ = Request.QueryString["language"] != "" ? Request.QueryString["language"] : "ES";
-                var year_ = Request.QueryString["year"] != "" && Request.QueryString["year"] != null ? Convert.ToInt32(Request.QueryString["year"]) : 2017;
+                var Language_ = Request.QueryString["language"] != "" && Request.QueryString["language"] != null ? Request.QueryString["language"] : "ES";
+                var year_ = Request.QueryString["year"] != "" && Request.QueryString["year"] != null ? Convert.ToInt32(Request.QueryString["year"]) : DateTime.Now.Year;
 
                 IQueryable<country> country_ = db.countries.OrderBy(z => z.code);
                 IQueryable<country_objective> country_objective_ = db.country_objective

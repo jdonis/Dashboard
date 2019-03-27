@@ -37,7 +37,7 @@ namespace DashboardFMP.Models
         public int? contact { get; set; }
         public string inputtype { get; set; }
         public int? orden { get; set; }
-        public Guid clave { get;}
+        public string clave { get; set; }
 
         [ForeignKey("checklist_id")]
         public virtual checklist checklist { get; set; }

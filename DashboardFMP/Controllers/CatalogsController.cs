@@ -1508,17 +1508,16 @@ namespace DashboardFMP.Controllers
             try
             {
 
-                var list_object = db.checklistquestions.AsQueryable();
+                var list_object = db.checklist_question_info.AsQueryable();
 
                 var jsondata = (from object_db in list_object
                                 select new
                                 {
-                                    id = object_db.id,
-                                    orden_despliegue = object_db.code,
-                                    name = object_db.checklist_question_info.FirstOrDefault().name,
-                                    checklist = object_db.checklist.code,
-                                    language = object_db.checklist_question_info.FirstOrDefault().language.name,
-                                    
+                                    id = object_db.checklistquestion_id,
+                                    orden_despliegue = object_db.checklistquestion.code,
+                                    name = object_db.name,
+                                    checklist = object_db.checklistquestion.checklist.code,
+                                    language = object_db.language.name,
 
                                     //code = object_db.
 

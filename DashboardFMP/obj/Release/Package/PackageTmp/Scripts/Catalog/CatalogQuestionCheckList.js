@@ -100,7 +100,7 @@ function CreateRecord() {
     $.extend(formData, { 'language': language_id }); //Send Additional data
 
     $.ajax({
-        url: url_ + "/Catalogs/ObjectiveCreate/",
+        url: url_ + "/Catalogs/CheckListQuestionCreate/",
         cache: false,
         type: 'POST',
         dataType: 'json',
