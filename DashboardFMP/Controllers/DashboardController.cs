@@ -106,8 +106,8 @@ namespace DashboardFMP.Controllers
                 var jsondata_app = new List<Object>();
                 var countries_object = new Dictionary<string, Dictionary<string, Object>>();
 
-                List<string> countries_list_object = countries_info.Where(z => z.language.code == Language_).OrderBy(y => y.country_id).Select(x => x.country.code).ToList();  // Nodo countries_list
-                var countries = countries_info.Where(z => z.language.code == Language_).OrderBy(y => y.country_id).Select(x => new { x.country, x.name, x.language }).ToArray(); // Nodo countries
+                List<string> countries_list_object = countries_info.OrderBy(y => y.country_id).Select(x => x.country.code).ToList();  // Nodo countries_list
+                var countries = countries_info.OrderBy(y => y.country_id).Select(x => new { x.country, x.name, x.language }).ToArray(); // Nodo countries
 
                 var item_data = new Dictionary<string, Object>();
 
